@@ -200,8 +200,37 @@ async function generateReminderSchedule(ctx){
 /* ═══════════════════════════════════════════════════════════════════════════
    PALETTE — WCAG AA
    ═══════════════════════════════════════════════════════════════════════════ */
-const C={pink:"#FE42B4",pinkBright:"#FE42B4",pinkLight:"#FEE8F4",pinkBorder:"#F5B8DA",blue:"#4A74FF",blueBright:"#4A74FF",blueLight:"#D5DFFF",blueBorder:"#B3C4FF",dark:"#242424",text:"#242424",textSec:"#6D7578",textTer:"#6B7075",bg:"#EEF1F2",surface:"#FFFFFF",surfaceAlt:"#F8F9FA",border:"#D1D5DB",borderLight:"#E5E7EB",green:"#0E7B5A",greenBright:"#00C48C",greenLight:"#DFFBF0",greenBorder:"#A3E4CC",red:"#FF4C4F",redLight:"#FEE2E2",amber:"#B45309",amberBright:"#FFB020",amberLight:"#FEF3C7",teal:"#0D7285",tealLight:"#E0F7FA",tealBorder:"#80CBC4"};
-const SANS=`"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif`;
+/* FDS design tokens — mapped from @finom/ui/theme/light.css */
+const C={
+  /* brand */
+  pink:"#FE42B4",pinkBright:"#FE42B4",                          /* --cl-pink-2 */
+  pinkLight:"rgb(254,232,246)",pinkBorder:"rgb(255,179,225)",    /* --cl-pink-7, --cl-pink-4 */
+  blue:"#4A74FF",blueBright:"#4A74FF",                           /* --cl-blue-2 */
+  blueLight:"rgb(236,240,255)",blueBorder:"rgb(194,208,255)",    /* --cl-blue-7, --cl-blue-4 */
+  /* base */
+  dark:"#242424",text:"#242424",                                 /* --cl-default-1 */
+  textSec:"rgba(36,47,51,0.64)",                                 /* --text-light (--cl-default-2-a) */
+  textTer:"rgba(31,46,51,0.40)",                                 /* --text-xlight (--cl-default-3-a) */
+  /* backgrounds */
+  bg:"#EEF1F2",surface:"#FFFFFF",                                /* --bg-app, --bg-content */
+  surfaceAlt:"rgba(37,78,92,0.08)",                              /* --bg-light (--cl-default-8-a) */
+  /* borders */
+  border:"rgba(37,78,92,0.12)",                                  /* --bdr-default (--cl-default-7-a) */
+  borderLight:"rgba(37,78,92,0.08)",                             /* --cl-default-8-a */
+  borderHard:"rgba(37,78,92,0.16)",                              /* --bdr-hard (--cl-default-6-a) */
+  /* status */
+  green:"#3AB15E",greenBright:"#3AB15E",                         /* --cl-green-2 */
+  greenLight:"rgb(231,245,235)",greenBorder:"rgb(176,224,191)",  /* --cl-green-7, --cl-green-4 */
+  red:"#ED393C",redLight:"rgb(255,234,234)",                     /* --cl-red-1, --cl-red-7 */
+  amber:"#D09900",amberBright:"#F2BB22",                         /* --cl-yellow-1, --cl-yellow-2 */
+  amberLight:"rgb(253,246,228)",                                 /* --cl-yellow-7 */
+  teal:"#24949B",                                                /* --cl-teal-1 */
+  tealLight:"rgb(230,246,247)",tealBorder:"rgb(174,227,230)",    /* --cl-teal-7, --cl-teal-4 */
+  orange:"#EC672E",orangeLight:"rgb(252,236,230)",               /* --cl-orange-2, --cl-orange-7 */
+  purple:"#914EDD",purpleLight:"rgb(241,233,251)",               /* --cl-purple-2, --cl-purple-7 */
+};
+/* FDS typography */
+const SANS=`"Poppins",Arial,sans-serif`;                         /* --ff-poppins */
 const MONO=`"JetBrains Mono","SF Mono","Fira Code",Consolas,monospace`;
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -214,23 +243,23 @@ const ICONS={
 };
 
 function Collapsible({icon,title,subtitle,open,onToggle,children}){
-  return(<div style={{marginBottom:8,borderRadius:12,border:`1px solid ${C.border}`,background:C.surface,overflow:"hidden"}}>
-    <button onClick={onToggle} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",width:"100%",textAlign:"left",cursor:"pointer",userSelect:"none",background:"transparent",borderBottom:open?`1px solid ${C.borderLight}`:"none",border:"none",outline:"none",fontFamily:SANS}}>
-      <div style={{width:26,height:26,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:open?C.pink:C.bg,color:open?"#fff":C.textTer,border:`1.5px solid ${open?C.pink:C.border}`}}>{icon}</div>
-      <div style={{flex:1,minWidth:0}}><div style={{fontSize:15,fontWeight:600,color:C.dark}}>{title}</div>{subtitle&&!open&&<div style={{fontSize:13,color:C.textSec,marginTop:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{subtitle}</div>}</div>
+  return(<div style={{marginBottom:12,borderRadius:16,border:`2px solid ${open?C.borderHard:C.border}`,background:C.surface,overflow:"hidden",transition:"border-color .2s"}}>
+    <button onClick={onToggle} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",width:"100%",textAlign:"left",cursor:"pointer",userSelect:"none",background:"transparent",borderBottom:open?`1px solid ${C.borderLight}`:"none",border:"none",outline:"none",fontFamily:SANS}}>
+      <div style={{width:28,height:28,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:open?C.pink:C.surfaceAlt,color:open?"#fff":C.textTer,border:`2px solid ${open?C.pink:C.border}`,transition:"all .2s"}}>{icon}</div>
+      <div style={{flex:1,minWidth:0}}><div style={{fontSize:15,fontWeight:500,color:C.dark}}>{title}</div>{subtitle&&!open&&<div style={{fontSize:13,color:C.textSec,marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{subtitle}</div>}</div>
       <svg width="14" height="14" viewBox="0 0 16 16" style={{transform:open?"rotate(180deg)":"rotate(0deg)",transition:"transform .2s",flexShrink:0}}><path d="M4 6l4 4 4-4" fill="none" stroke={C.textTer} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
     </button>
-    {open&&<div style={{padding:"14px 16px 16px"}}>{children}</div>}
+    {open&&<div style={{padding:"16px 20px 20px"}}>{children}</div>}
   </div>);
 }
 
 function Section({icon,title,subtitle,children,locked}){
-  return(<div style={{marginBottom:8,borderRadius:12,border:`1px solid ${C.border}`,background:C.surface,overflow:"hidden",opacity:locked?.4:1,pointerEvents:locked?"none":"auto",transition:"opacity .2s"}}>
-    <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderBottom:`1px solid ${C.borderLight}`,background:C.surfaceAlt}}>
-      <div style={{width:26,height:26,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:C.pink,color:"#fff",border:`1.5px solid ${C.pink}`}}>{icon}</div>
-      <div style={{flex:1}}><div style={{fontSize:15,fontWeight:600,color:C.dark}}>{title}</div>{subtitle&&<div style={{fontSize:13,color:C.textSec,marginTop:1}}>{subtitle}</div>}</div>
+  return(<div style={{marginBottom:12,borderRadius:16,border:`2px solid ${C.border}`,background:C.surface,overflow:"hidden",opacity:locked?.4:1,pointerEvents:locked?"none":"auto",transition:"opacity .2s"}}>
+    <div style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",borderBottom:`1px solid ${C.borderLight}`,background:C.surfaceAlt}}>
+      <div style={{width:28,height:28,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:C.pink,color:"#fff",border:`2px solid ${C.pink}`}}>{icon}</div>
+      <div style={{flex:1}}><div style={{fontSize:15,fontWeight:500,color:C.dark}}>{title}</div>{subtitle&&<div style={{fontSize:13,color:C.textSec,marginTop:2}}>{subtitle}</div>}</div>
     </div>
-    <div style={{padding:"14px 16px 16px"}}>{children}</div>
+    <div style={{padding:"16px 20px 20px"}}>{children}</div>
   </div>);
 }
 
@@ -239,11 +268,12 @@ function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
 function fmtDate(s){if(!s)return"—";const d=new Date(s+"T00:00:00");return d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});}
 
 function Field({label,children,half}){
-  return(<div style={{flex:half?"1 1 45%":"1 1 100%",minWidth:half?140:0}}><label style={{fontSize:11,fontWeight:600,color:C.textSec,display:"block",marginBottom:3}}>{label}</label>{children}</div>);
+  return(<div style={{flex:half?"1 1 45%":"1 1 100%",minWidth:half?140:0}}><label style={{fontSize:11,fontWeight:600,color:C.textSec,display:"block",marginBottom:4,letterSpacing:0.2}}>{label}</label>{children}</div>);
 }
-const inputStyle={width:"100%",padding:"8px 10px",border:`2px solid rgba(37,78,92,0.12)`,borderRadius:8,fontSize:13,fontFamily:SANS,background:C.surface,color:C.text};
+/* FDS Input: 40px height, 2px border, 8px radius, 14px horizontal padding */
+const inputStyle={width:"100%",padding:"10px 14px",border:`2px solid ${C.border}`,borderRadius:8,fontSize:13,fontFamily:SANS,background:C.surface,color:C.text,height:40,boxSizing:"border-box",transition:"border-color .15s ease-in-out"};
 const monoInputStyle={...inputStyle,fontFamily:MONO,fontSize:13};
-const selectStyle={...inputStyle,appearance:"none",paddingRight:28,backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%236B7075' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 10px center"};
+const selectStyle={...inputStyle,appearance:"none",paddingRight:32,backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%23737A7D' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 12px center"};
 
 function ZeroBadge({reason}){
   if(!reason)return null;
@@ -530,7 +560,7 @@ function InvoiceBuilder(){
   </>);
 
   /* ─── POST-CREATION SCREENS ─── */
-  const inputStylePost={width:"100%",padding:"10px 14px",borderRadius:12,border:`1px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:C.surface};
+  const inputStylePost={width:"100%",padding:"10px 14px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:C.surface,height:40,boxSizing:"border-box"};
   const toneColors={friendly:C.green,firm:C.amber,urgent:C.red};
   const toneBg={friendly:C.greenLight,firm:C.amberLight,urgent:C.redLight};
 
@@ -562,15 +592,15 @@ function InvoiceBuilder(){
         <div>
           <textarea value={aiPrompt} onChange={e=>setAiPrompt(e.target.value)}
             placeholder={"\"40 hours of web development for TechVentures in February\"\n\"Monthly retainer for Atelier Lumière — design services, €2,400\"\n\"Sold 500 printed brochures to Nordic Digital\""}
-            style={{width:"100%",minHeight:120,padding:"16px",borderRadius:16,border:`2px solid ${C.border}`,fontSize:15,fontFamily:SANS,color:C.text,background:"#fff",resize:"vertical",lineHeight:1.6,outline:"none"}}
-            onFocus={e=>e.target.style.borderColor=C.pink} onBlur={e=>e.target.style.borderColor=C.border} autoFocus/>
+            style={{width:"100%",minHeight:120,padding:"14px 16px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:15,fontFamily:SANS,color:C.text,background:"#fff",resize:"vertical",lineHeight:1.6,outline:"none"}}
+            onFocus={e=>e.target.style.borderColor=C.dark} onBlur={e=>e.target.style.borderColor=C.border} autoFocus/>
           <div style={{display:"flex",gap:12,marginTop:16}}>
             <button onClick={()=>aiGenerate(aiPrompt)} disabled={!aiPrompt.trim()}
-              style={{flex:1,padding:"14px 24px",borderRadius:24,border:"none",background:aiPrompt.trim()?"linear-gradient(135deg,#7C3AED,#6D28D9)":"#E5E7EB",color:aiPrompt.trim()?"#fff":"#9CA3AF",fontSize:15,fontWeight:600,cursor:aiPrompt.trim()?"pointer":"default",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8,transition:"all .2s"}}>
+              style={{flex:1,padding:"0 24px",height:48,borderRadius:24,border:"none",background:aiPrompt.trim()?C.dark:C.surfaceAlt,color:aiPrompt.trim()?"#fff":C.textTer,fontSize:15,fontWeight:500,cursor:aiPrompt.trim()?"pointer":"default",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8,transition:"all .2s"}}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>
               Generate invoice</button>
             <button onClick={()=>{setInvNum(freshInvNum());setPhase("editor");}}
-              style={{padding:"14px 24px",borderRadius:24,border:`1px solid ${C.border}`,background:"transparent",color:C.textSec,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS,whiteSpace:"nowrap"}}>
+              style={{padding:"0 24px",height:48,borderRadius:24,border:`1px solid ${C.border}`,background:"transparent",color:C.textSec,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS,whiteSpace:"nowrap"}}>
               Use blank form</button>
           </div>
           <div style={{marginTop:32}}>
@@ -580,9 +610,9 @@ function InvoiceBuilder(){
               {icon:"📧",label:"Gmail: conversation with Ivan Examplov",sub:"Web consulting, ~35 hours discussed"},
               {icon:"🔁",label:"Recurring: TechVentures GmbH — monthly retainer",sub:"€4,800/mo, last invoiced 1 Mar"},
             ].map((s,i)=>(
-              <div key={i} onClick={()=>{setAiPrompt(s.label);aiGenerate(s.label);}} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 16px",borderRadius:12,border:`1px solid ${C.borderLight}`,marginBottom:8,cursor:"pointer",transition:"all .15s",background:"#fff"}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.pink;e.currentTarget.style.background=C.pinkLight;}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor=C.borderLight;e.currentTarget.style.background="#fff";}}>
+              <div key={i} onClick={()=>{setAiPrompt(s.label);aiGenerate(s.label);}} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",borderRadius:12,border:`2px solid ${C.border}`,marginBottom:8,cursor:"pointer",transition:"all .15s",background:"#fff"}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.borderHard;e.currentTarget.style.background=C.surfaceAlt;}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}>
                 <span style={{fontSize:20}}>{s.icon}</span>
                 <div style={{flex:1,minWidth:0}}>
                   <div style={{fontSize:13,fontWeight:600,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.label}</div>
@@ -622,11 +652,11 @@ function InvoiceBuilder(){
       </div>
     );
     return(
-      <div className="phase-enter" key="list" style={{maxWidth:1200,margin:"0 auto",padding:"0 24px 40px",display:"flex",gap:24,alignItems:"flex-start"}}>
+      <div className="phase-enter" key="list" style={{maxWidth:1200,margin:"0 auto",padding:"0 32px 40px",display:"flex",gap:20,alignItems:"flex-start"}}>
         {/* LEFT SIDEBAR */}
         <div style={{flex:"0 0 300px",paddingTop:4}}>
           {/* Action buttons card */}
-          <div style={{background:"#fff",borderRadius:16,padding:"24px 16px",marginBottom:12,display:"flex",gap:0}}>
+          <div style={{background:"#fff",borderRadius:20,padding:"24px 16px",marginBottom:16,display:"flex",gap:0}}>
             <button onClick={()=>{setAiPrompt("");setPhase("ai-create");}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
               onMouseEnter={e=>e.currentTarget.querySelector("div").style.background="#fdd5ec"}
               onMouseLeave={e=>e.currentTarget.querySelector("div").style.background=C.pinkLight}>
@@ -645,7 +675,7 @@ function InvoiceBuilder(){
           </div>
 
           {/* Navigation card */}
-          <div style={{background:"#fff",borderRadius:16,overflow:"hidden",marginBottom:12}}>
+          <div style={{background:"#fff",borderRadius:20,overflow:"hidden",marginBottom:16}}>
             {sidebarItem(
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 7H4a1 1 0 00-1 1v12a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z" stroke={C.textSec} strokeWidth="1.5"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke={C.textSec} strokeWidth="1.5"/></svg>,
               "Goods & Services","Manage your products and services to use it in invoices"
@@ -658,7 +688,7 @@ function InvoiceBuilder(){
           </div>
 
           {/* Receive invoices card */}
-          <div style={{background:"#fff",borderRadius:16,padding:"20px 18px"}}>
+          <div style={{background:"#fff",borderRadius:20,padding:"24px 20px"}}>
             <div style={{fontSize:15,fontWeight:700,color:C.dark,marginBottom:8,lineHeight:1.3}}>Receive invoices and receipts by email</div>
             <div style={{fontSize:13,fontFamily:MONO,color:C.dark,marginBottom:6}}>invoices@mustermann.de</div>
             <div style={{fontSize:12,color:C.textSec,lineHeight:1.4}}>All invoices, receipts and other documents sent to this email will be added directly to Finom</div>
@@ -667,12 +697,12 @@ function InvoiceBuilder(){
 
         {/* MAIN CONTENT */}
         <div style={{flex:1,minWidth:0}}>
-          <h1 style={{fontSize:28,fontWeight:700,color:C.dark,margin:"0 0 20px",fontFamily:SANS}}>Invoices</h1>
+          <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:"0 0 20px",fontFamily:SANS}}>Invoices</h1>
 
           {/* Search bar */}
           <div style={{position:"relative",marginBottom:14}}>
             <svg style={{position:"absolute",left:14,top:"50%",transform:"translateY(-50%)"}} width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke={C.textTer} strokeWidth="1.5"/><path d="M21 21l-4.35-4.35" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/></svg>
-            <input readOnly placeholder="Search by counterparty or invoice parameters" style={{width:"100%",padding:"12px 14px 12px 42px",borderRadius:12,border:`1px solid ${C.borderLight}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",cursor:"default"}}/>
+            <input readOnly placeholder="Search by counterparty or invoice parameters" style={{width:"100%",padding:"10px 14px 10px 42px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",cursor:"default",height:40}}/>
           </div>
 
           {/* Filter chips */}
@@ -745,7 +775,7 @@ function InvoiceBuilder(){
   };
 
   const renderSendScreen=()=>(
-    <div className="phase-enter" key="send" style={{maxWidth:760,margin:"0 auto",padding:"0 24px 40px"}}>
+    <div className="phase-enter" key="send" style={{maxWidth:760,margin:"0 auto",padding:"0 32px 40px"}}>
       <div style={{marginBottom:16}}><span onClick={()=>setPhase("editor")} style={{fontSize:12,fontWeight:500,color:C.textSec,letterSpacing:.5,textTransform:"uppercase",cursor:"pointer"}}>← Back to editor</span></div>
       <div style={{background:C.greenLight,border:`1px solid ${C.greenBorder}`,borderRadius:12,padding:"16px 20px",display:"flex",alignItems:"center",gap:12,marginBottom:24}}>
         <div style={{width:32,height:32,borderRadius:16,background:C.green,display:"flex",alignItems:"center",justifyContent:"center"}}>
@@ -1088,22 +1118,24 @@ function InvoiceBuilder(){
   /* ─── RENDER ─── */
   return(
     <div style={{minHeight:"100vh",background:C.bg,fontFamily:SANS,color:C.text}}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0}::selection{background:${C.pinkLight}}input::placeholder,textarea::placeholder{color:${C.textTer}}input:focus,textarea:focus,select:focus{outline:none;border-color:${C.dark}!important;box-shadow:none}.sp{width:14px;height:14px;border:2.5px solid ${C.border};border-top-color:${C.pink};border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}button{font-family:${SANS}}textarea{resize:vertical;font-family:${SANS}}@media(max-width:1100px){.split-layout{flex-direction:column!important}.preview-wrap{position:relative!important;max-height:none!important}}.phase-enter{opacity:0;transform:translateY(12px);animation:fadeSlideIn .3s ease forwards}@keyframes fadeSlideIn{to{opacity:1;transform:translateY(0)}}@keyframes doneCardIn{0%{opacity:0;transform:scale(.85) translateY(24px)}100%{opacity:1;transform:scale(1) translateY(0)}}@keyframes doneStamp{0%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(2.8)}60%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(.92)}100%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}@keyframes doneFileAway{0%{transform:scale(1) translateY(0)}100%{transform:scale(.5) translateY(96px)}}@keyframes doneBoxIn{0%{opacity:0;transform:translateX(-50%) translateY(20px)}100%{opacity:1;transform:translateX(-50%) translateY(0)}}@keyframes doneReveal{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}`}</style>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0}::selection{background:${C.pinkLight}}input::placeholder,textarea::placeholder{color:${C.textTer}}input:hover,textarea:hover,select:hover{border-color:${C.borderHard}}input:focus,textarea:focus,select:focus{outline:none;border-color:${C.dark}!important;box-shadow:none}.sp{width:14px;height:14px;border:2.5px solid ${C.border};border-top-color:${C.pink};border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}button{font-family:${SANS};transition:all .15s ease-in-out}textarea{resize:vertical;font-family:${SANS}}@media(max-width:1100px){.split-layout{flex-direction:column!important}.preview-wrap{position:relative!important;max-height:none!important}}.phase-enter{opacity:0;transform:translateY(12px);animation:fadeSlideIn .3s ease forwards}@keyframes fadeSlideIn{to{opacity:1;transform:translateY(0)}}@keyframes doneCardIn{0%{opacity:0;transform:scale(.85) translateY(24px)}100%{opacity:1;transform:scale(1) translateY(0)}}@keyframes doneStamp{0%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(2.8)}60%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(.92)}100%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}@keyframes doneFileAway{0%{transform:scale(1) translateY(0)}100%{transform:scale(.5) translateY(96px)}}@keyframes doneBoxIn{0%{opacity:0;transform:translateX(-50%) translateY(20px)}100%{opacity:1;transform:translateX(-50%) translateY(0)}}@keyframes doneReveal{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}`}</style>
 
       {/* HEADER — app.finom.co style */}
-      <div style={{height:80,padding:"0 24px",display:"flex",alignItems:"center",position:"relative"}}>
-        <span style={{fontSize:20,fontWeight:800,color:C.dark,letterSpacing:-.5,cursor:"pointer"}}>finom</span>
-        <div style={{position:"absolute",left:"50%",transform:"translateX(-50%)",display:"flex",alignItems:"center",background:"rgba(32,32,32,0.9)",borderRadius:40,height:48,padding:"0 4px"}}>
-          <button style={{display:"flex",alignItems:"center",gap:6,padding:"0 16px",height:40,borderRadius:40,border:"none",background:"rgba(254,66,180,0.12)",color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,margin:"0 2px"}}>
+      <div style={{height:80,padding:"0 32px",display:"flex",alignItems:"center",position:"relative"}}>
+        <span style={{fontSize:22,fontWeight:800,color:C.dark,letterSpacing:-.7,cursor:"pointer"}} onClick={()=>setPhase("list")}>finom</span>
+        <div style={{position:"absolute",left:"50%",transform:"translateX(-50%)",display:"flex",alignItems:"center",background:"rgb(32,32,32,0.90)",borderRadius:28,height:48,padding:"0 4px",backdropFilter:"blur(8px)"}}>
+          <button style={{display:"flex",alignItems:"center",gap:6,padding:"0 14px",height:40,borderRadius:20,border:"none",background:"rgba(254,66,180,0.15)",color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,margin:"0 2px"}}>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/></svg>
             GO
           </button>
-          {["Home","Invoices","Accounting","Team","Cards"].map(item=><button key={item} style={{padding:"0 12px",height:40,border:"none",background:"transparent",color:item==="Invoices"?"#fff":"rgba(255,255,255,0.6)",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,borderRadius:20,whiteSpace:"nowrap"}}>{item}</button>)}
+          {["Home","Invoices","Accounting","Team","Cards"].map(item=><button key={item} onClick={()=>{if(item==="Invoices")setPhase("list");}} style={{padding:"0 14px",height:40,border:"none",background:"transparent",color:item==="Invoices"?"#fff":"rgba(255,255,255,0.55)",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,borderRadius:20,whiteSpace:"nowrap",borderBottom:item==="Invoices"?"2px solid #fff":"2px solid transparent",borderRadius:0,paddingBottom:2}}>{item}</button>)}
         </div>
         <div style={{flex:1}}/>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
-          <div style={{width:32,height:32,borderRadius:8,background:C.surfaceAlt,border:`1px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:600,color:C.textSec}}>MD</div>
-          <span style={{fontSize:13,fontWeight:500,color:C.dark,cursor:"pointer"}}>{sellerTrade||sellerName} <span style={{fontSize:10,color:C.textSec}}>▾</span></span>
+          <div style={{width:36,height:36,borderRadius:10,background:C.surfaceAlt,border:`2px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",color:C.textSec}}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/></svg>
+          </div>
+          <span style={{fontSize:14,fontWeight:500,color:C.dark,cursor:"pointer"}}>{sellerTrade||sellerName} <span style={{fontSize:10,color:C.textTer}}>▾</span></span>
         </div>
       </div>
 
@@ -1112,17 +1144,21 @@ function InvoiceBuilder(){
 
       {phase==="editor"&&(<>
       {/* PAGE TITLE BAR */}
-      <div style={{maxWidth:1440,margin:"0 auto",padding:"4px 24px 12px"}}>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:4}}>
-          <span onClick={()=>setPhase("list")} style={{fontSize:12,fontWeight:500,color:C.dark,letterSpacing:.5,textTransform:"uppercase",cursor:"pointer"}}>← Back to invoices</span>
-          <span style={{fontSize:12,fontFamily:MONO,color:C.textSec}}>{invNum}</span>
+      <div style={{maxWidth:1440,margin:"0 auto",padding:"4px 32px 12px"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+          <span onClick={()=>setPhase("list")} style={{fontSize:13,fontWeight:500,color:C.textSec,cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Back to invoices</span>
+          <span style={{fontSize:12,fontFamily:MONO,color:C.textTer}}>{invNum}</span>
         </div>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
           <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:0,fontFamily:SANS}}>New <span style={{color:C.blue}}>invoice</span></h1>
           <div style={{display:"flex",gap:8,alignItems:"center"}}>
-            <button onClick={async()=>{setSavingDraft(true);await delay(1200,2000);setSavingDraft(false);setPhase("list");}} disabled={savingDraft||creatingInvoice} style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:"rgba(37,78,92,0.08)",color:C.dark,fontSize:15,fontWeight:500,cursor:(savingDraft||creatingInvoice)?"default":"pointer",opacity:(savingDraft||creatingInvoice)?.6:1,fontFamily:SANS,display:"flex",alignItems:"center",gap:6}}>
+            {/* FDS btn-light-secondary */}
+            <button onClick={async()=>{setSavingDraft(true);await delay(1200,2000);setSavingDraft(false);setPhase("list");}} disabled={savingDraft||creatingInvoice} style={{padding:"0 24px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:C.surfaceAlt,color:C.dark,fontSize:15,fontWeight:500,cursor:(savingDraft||creatingInvoice)?"default":"pointer",opacity:(savingDraft||creatingInvoice)?.6:1,fontFamily:SANS,display:"flex",alignItems:"center",gap:6}}>
               {savingDraft?<><div className="sp" style={{width:14,height:14,borderWidth:2,borderColor:`${C.dark} transparent transparent transparent`}}/> Saving...</>:"Save draft"}
             </button>
+            {/* FDS btn-primary */}
             <button onClick={handleSendInvoice} disabled={!client||items.length===0||creatingInvoice||savingDraft} style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:(!client||items.length===0||creatingInvoice||savingDraft)?"default":"pointer",opacity:(!client||items.length===0||creatingInvoice||savingDraft)?.6:1,fontFamily:SANS,display:"flex",alignItems:"center",gap:6}}>
               {creatingInvoice?<><div className="sp" style={{width:14,height:14,borderWidth:2}}/> Creating...</>:<><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#fff" strokeWidth="2" strokeLinecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> Send invoice</>}
             </button>
@@ -1130,9 +1166,9 @@ function InvoiceBuilder(){
         </div>
       </div>
 
-      <div className="split-layout" style={{display:"flex",maxWidth:1440,margin:"0 auto 24px",background:"#fff",borderRadius:20,overflow:"hidden",minHeight:"calc(100vh - 170px)"}}>
+      <div className="split-layout" style={{display:"flex",maxWidth:1440,margin:"0 auto 32px",marginLeft:"auto",marginRight:"auto",background:"#fff",borderRadius:20,overflow:"hidden",minHeight:"calc(100vh - 170px)",boxShadow:"0 1px 3px rgba(0,0,0,.04)"}}>
         {/* ═══ LEFT PANEL ═══ */}
-        <div style={{flex:"0 0 540px",padding:"14px 14px 32px",overflowY:"auto",maxHeight:"calc(100vh - 170px)",borderRight:`1px solid ${C.border}`}}>
+        <div style={{flex:"0 0 540px",padding:"20px 16px 32px",overflowY:"auto",maxHeight:"calc(100vh - 170px)",borderRight:`1px solid ${C.border}`}}>
 
           {/* STEP 0: Branding */}
           <Collapsible icon={ICONS.branding} title="Invoice Branding" subtitle="Logo, colors, layout" open={brandingOpen} onToggle={()=>setBrandingOpen(!brandingOpen)}>
@@ -1304,7 +1340,7 @@ function InvoiceBuilder(){
         </div>
 
         {/* ═══ RIGHT — A4 PREVIEW ═══ */}
-        <div className="preview-wrap" ref={previewRef} style={{flex:1,padding:"14px 16px 32px",overflowY:"auto",maxHeight:"calc(100vh - 170px)",background:C.surfaceAlt,display:"flex",flexDirection:"column",alignItems:"center"}}>
+        <div className="preview-wrap" ref={previewRef} style={{flex:1,padding:"20px 20px 32px",overflowY:"auto",maxHeight:"calc(100vh - 170px)",background:C.surfaceAlt,display:"flex",flexDirection:"column",alignItems:"center"}}>
           <div style={{fontSize:11,fontWeight:600,color:C.textSec,textTransform:"uppercase",letterSpacing:.6,marginBottom:10,alignSelf:"flex-start"}}>Live Preview {totalPages>1&&<span style={{fontFamily:MONO,fontWeight:400}}>· {totalPages} pages</span>}</div>
 
           {/* PAGE 1 */}
