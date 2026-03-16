@@ -154,12 +154,34 @@ const LEGAL_TEXTS = {
 
 function lookupRate(category,cc){const d=VAT[cc];if(!d)return 19;for(const[rate,cats]of Object.entries(d.cats)){if(cats.some(c=>c.toLowerCase()===category.toLowerCase()))return Number(rate);}return d.std;}
 
+/* Build selectable category options for a country — excludes context-driven zero-rate entries */
+const CONTEXT_CATS=new Set(["exports","intra-eu b2b"]);
+function getCategoryOptions(cc){
+  const d=VAT[cc];if(!d)return[];
+  const opts=[];
+  for(const[rate,cats]of Object.entries(d.cats)){
+    const r=Number(rate);
+    const rl=d.rates.find(x=>x.r===r);
+    for(const cat of cats){
+      if(r===0&&CONTEXT_CATS.has(cat.toLowerCase()))continue;
+      opts.push({cat,rate:r,rateLabel:rl?`${rl.l} (${r}%)`:`${r}%`});
+    }
+  }
+  return opts;
+}
+
 const delay=(min,max)=>new Promise(r=>setTimeout(r,min+Math.random()*(max-min)));
 
 async function classify(desc,cc,buyerTag){
   await delay(1200,2200);
   const d=VAT[cc];
-  return{rate:0,confidence:"high",category:"Exempt goods",supplyType:"goods",reasoning:`Classified as VAT-exempt goods for ${d.name}`};
+  /* Mock: pick a plausible category from valid options for this country */
+  const opts=getCategoryOptions(cc);
+  const descL=desc.toLowerCase();
+  /* Try to match by keyword */
+  const match=opts.find(o=>descL.includes(o.cat.toLowerCase().split(" ")[0].toLowerCase()));
+  const picked=match||opts.find(o=>o.rate===d.std)||opts[0];
+  return{confidence:"high",category:picked.cat,supplyType:"services",reasoning:`Classified as "${picked.cat}" → ${picked.rate}% for ${d.name}`};
 }
 
 async function generateEmailDraft(ctx){
@@ -384,13 +406,15 @@ function InvoiceBuilder(){
   const isExport=buyerTag==="Export B2B"||buyerTag==="Export B2C";
   const isZero=isRC||isExport;
 
+  /* Rate is always derived: context (export/RC/exempt) overrides; otherwise category → rate */
   const resolvedItems=useMemo(()=>items.map(it=>{
     if(isEx)return{...it,effectiveRate:0,zeroReason:"exempt"};
-    if(!it.done)return{...it,effectiveRate:it.rate||0,zeroReason:null};
+    if(!it.done)return{...it,effectiveRate:0,zeroReason:null};
     if(isRC)return{...it,effectiveRate:0,zeroReason:it.supplyType==="goods"?"ics":"rc"};
     if(isExport)return{...it,effectiveRate:0,zeroReason:"export"};
-    return{...it,effectiveRate:it.rate||0,zeroReason:null};
-  }),[items,isEx,isRC,isExport]);
+    const derivedRate=it.cat?lookupRate(it.cat,sellerCC):sd.std;
+    return{...it,effectiveRate:derivedRate,zeroReason:null};
+  }),[items,isEx,isRC,isExport,sellerCC,sd]);
 
   const legalMentions=useMemo(()=>{
     const m=[];
@@ -404,33 +428,42 @@ function InvoiceBuilder(){
     return m;
   },[resolvedItems,isEx,sd]);
 
-  /* Re-classify on country change */
+  /* Re-classify on country change — categories may differ between countries */
   const prevCC=useRef(sellerCC);
   useEffect(()=>{
     if(prevCC.current===sellerCC)return;prevCC.current=sellerCC;
     const toR=items.filter(i=>i.done&&!i.loading);if(!toR.length)return;
     const bt=buyerTag||"Domestic B2B";
     const catI=toR.filter(i=>i.fromCat),freeI=toR.filter(i=>!i.fromCat);
-    if(catI.length)setItems(p=>p.map(i=>{const ci=catI.find(t=>t.id===i.id);if(!ci)return i;const nr=lookupRate(ci.cat,sellerCC);return{...i,rate:nr,origRate:nr,overridden:false};}));
-    if(freeI.length){setItems(p=>p.map(i=>freeI.find(t=>t.id===i.id)?{...i,loading:true}:i));freeI.forEach(async it=>{const r=await classify(it.desc,sellerCC,bt);setItems(p=>p.map(i=>i.id===it.id?{...i,loading:false,rate:r.rate,origRate:r.rate,conf:r.confidence,cat:r.category,supplyType:r.supplyType||"services",reason:r.reasoning,overridden:false}:i));});}
+    /* Catalogue items: check if their category exists in new country, else fall back to std */
+    if(catI.length){
+      const opts=getCategoryOptions(sellerCC);
+      const optCats=new Set(opts.map(o=>o.cat.toLowerCase()));
+      setItems(p=>p.map(i=>{const ci=catI.find(t=>t.id===i.id);if(!ci)return i;
+        const catExists=optCats.has(ci.cat.toLowerCase());
+        return catExists?i:{...i,cat:opts.find(o=>o.rate===VAT[sellerCC].std)?.cat||opts[0]?.cat||i.cat};
+      }));
+    }
+    /* Freeform items: re-classify to pick appropriate category for new country */
+    if(freeI.length){setItems(p=>p.map(i=>freeI.find(t=>t.id===i.id)?{...i,loading:true}:i));freeI.forEach(async it=>{const r=await classify(it.desc,sellerCC,bt);setItems(p=>p.map(i=>i.id===it.id?{...i,loading:false,conf:r.confidence,cat:r.category,supplyType:r.supplyType||"services",reason:r.reasoning}:i));});}
   },[sellerCC,items,buyerTag]);
 
   const addItem=useCallback(async()=>{
     if(!desc.trim())return;const d2=desc.trim();setDesc("");
     const id=Date.now();
-    setItems(p=>[...p,{id,desc:d2,qty:1,price:0,discount:0,loading:true,done:false,rate:sd.std,supplyType:"services",fromCat:false}]);
+    setItems(p=>[...p,{id,desc:d2,qty:1,price:0,discount:0,loading:true,done:false,cat:null,supplyType:"services",fromCat:false}]);
     setShowAddPanel(false);setShowFreeform(false);
     const r=await classify(d2,sellerCC,buyerTag||"Domestic B2B");
-    setItems(p=>p.map(i=>i.id===id?{...i,loading:false,done:true,rate:r.rate,origRate:r.rate,conf:r.confidence,cat:r.category,supplyType:r.supplyType||"services",reason:r.reasoning,overridden:false}:i));
+    setItems(p=>p.map(i=>i.id===id?{...i,loading:false,done:true,conf:r.confidence,cat:r.category,supplyType:r.supplyType||"services",reason:r.reasoning}:i));
   },[desc,sellerCC,buyerTag,sd]);
 
   const addFromCat=useCallback((catItem)=>{
-    const id=Date.now();const rate=lookupRate(catItem.cat,sellerCC);
-    setItems(p=>[...p,{id,desc:catItem.desc,qty:1,price:catItem.price,discount:0,loading:false,done:true,rate,origRate:rate,conf:"high",cat:catItem.cat,supplyType:catItem.supplyType,reason:"Catalogue item",overridden:false,fromCat:true}]);
+    const id=Date.now();
+    setItems(p=>[...p,{id,desc:catItem.desc,qty:1,price:catItem.price,discount:0,loading:false,done:true,conf:"high",cat:catItem.cat,supplyType:catItem.supplyType,reason:"Catalogue item",fromCat:true}]);
     setCatSearch("");setShowAddPanel(false);
   },[sellerCC]);
 
-  const updateItem=(id,field,val)=>setItems(p=>p.map(i=>i.id===id?{...i,[field]:val,...(field==="rate"?{overridden:val!==i.origRate}:{})}:i));
+  const updateItem=(id,field,val)=>setItems(p=>p.map(i=>i.id===id?{...i,[field]:val}:i));
   const removeItem=id=>setItems(p=>p.filter(i=>i.id!==id));
 
   /* ─── Post-creation transition handlers ─── */
@@ -571,7 +604,7 @@ function InvoiceBuilder(){
     const steps=["Understanding your request...","Matching client from history...","Building line items...","Classifying VAT treatment...","Setting payment terms...","Generating preview..."];
     for(const s of steps){setAiStep(s);await delay(600,1000);}
     setClient(CLIENTS[0]);setClientListOpen(false);
-    setItems([{id:Date.now(),desc:"Web development — February 2026",qty:40,price:95,unit:"hr",discount:0,rate:19,conf:"high",cat:"Professional services",supplyType:"services",reasoning:"Matched from previous invoices to TechVentures GmbH"}]);
+    setItems([{id:Date.now(),desc:"Web development — February 2026",qty:40,price:95,unit:"hr",discount:0,done:true,conf:"high",cat:"Professional services",supplyType:"services",reasoning:"Matched from previous invoices to TechVentures GmbH",fromCat:false}]);
     setPayTerms("Net 14");setDueDate(isoDate(addDays(today,14)));
     setNotes("Hours as discussed — 40h web development for the February sprint.");
     setInvNum(freshInvNum());
@@ -1237,7 +1270,10 @@ function InvoiceBuilder(){
             {isEx&&(<div style={{padding:"8px 12px",background:C.amberLight,border:`1px solid ${C.amber}30`,borderRadius:8,marginBottom:10,fontSize:13,color:C.textSec}}><strong style={{color:C.amber}}>{sd.ex.short}:</strong> No VAT on this invoice.</div>)}
             {isZero&&!isEx&&(<div style={{padding:"8px 12px",background:isRC?C.blueLight:C.greenLight,border:`1px solid ${isRC?C.blueBorder:C.greenBorder}`,borderRadius:8,marginBottom:10,fontSize:13,color:C.textSec}}><strong style={{color:isRC?C.blue:C.green}}>{isRC?"Intra-EU B2B":"Export"}:</strong> All items at 0%. {isRC?"Goods → ICS (Art. 138); Services → RC (Art. 196).":""}</div>)}
 
-            {items.map(it=>{const ri=resolvedItems.find(r=>r.id===it.id)||it;return(
+            {items.map(it=>{const ri=resolvedItems.find(r=>r.id===it.id)||it;
+              const showCategory=it.done&&!isEx&&!isZero; /* hide when category is irrelevant */
+              const catOpts=getCategoryOptions(sellerCC);
+              return(
               <div key={it.id} style={{padding:12,background:C.surfaceAlt,border:`1px solid ${C.borderLight}`,borderRadius:8,marginBottom:6}}>
                 <div style={{display:"flex",alignItems:"flex-start",gap:6,marginBottom:8}}>
                   <div style={{flex:1}}>
@@ -1247,24 +1283,38 @@ function InvoiceBuilder(){
                       {!it.fromCat&&it.done&&<AiPill/>}
                       {it.done&&it.supplyType&&isZero&&!isEx&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:500,padding:"3px 8px",borderRadius:10,background:it.supplyType==="goods"?C.tealLight:C.blueLight,color:it.supplyType==="goods"?C.teal:C.blue,border:`1px solid ${it.supplyType==="goods"?C.tealBorder:C.blueBorder}`}}>{it.supplyType==="goods"?"GOODS":"SERVICES"}</span>}
                     </div>
-                    {it.done&&(<div style={{display:"flex",alignItems:"center",gap:5,marginTop:3,flexWrap:"wrap"}}>
-                      <span style={{fontSize:11,color:C.textSec}}>{it.cat}</span>
-                      <span style={{fontSize:11,fontFamily:SANS,fontWeight:500,padding:"3px 8px",borderRadius:8,background:it.conf==="high"?C.greenLight:it.conf==="medium"?C.amberLight:C.redLight,color:it.conf==="high"?C.green:it.conf==="medium"?C.amber:C.red}}>{it.conf?.toUpperCase()}</span>
-                      {it.overridden&&<span style={{fontSize:10,fontWeight:600,color:C.amber}}>overridden</span>}
-                      {ri.zeroReason&&<ZeroBadge reason={ri.zeroReason}/>}
+                    {it.done&&ri.zeroReason&&(<div style={{display:"flex",alignItems:"center",gap:5,marginTop:3}}>
+                      <ZeroBadge reason={ri.zeroReason}/>
+                      <span style={{fontSize:11,color:C.textSec}}>0% — {ri.zeroReason==="exempt"?"small business exemption":ri.zeroReason==="ics"?"intra-community supply (Art. 138)":ri.zeroReason==="rc"?"reverse charge (Art. 196)":"export exempt"}</span>
                     </div>)}
                     {it.loading&&<div style={{display:"flex",alignItems:"center",gap:5,marginTop:4}}><div className="sp"/><span style={{fontSize:11,color:C.textSec}}>Classifying…</span><AiPill/></div>}
                   </div>
                   <button onClick={()=>removeItem(it.id)} style={{background:"transparent",border:"none",color:C.textTer,cursor:"pointer",fontSize:18,lineHeight:1,padding:"0 2px"}} aria-label="Remove">×</button>
                 </div>
-                <div style={{display:"flex",gap:6,marginBottom:8}}>
+                <div style={{display:"flex",gap:6,marginBottom:showCategory?8:0}}>
                   <div style={{flex:"0 0 56px"}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Qty</label><input type="number" min="1" value={it.qty} onChange={e=>updateItem(it.id,"qty",Math.max(1,+e.target.value||1))} style={{...monoInputStyle,textAlign:"center",padding:"7px 4px"}}/></div>
                   <div style={{flex:1}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Unit price (€)</label><input type="number" min="0" step="0.01" value={it.price||""} placeholder="0.00" onChange={e=>updateItem(it.id,"price",+e.target.value||0)} style={monoInputStyle}/></div>
                   <div style={{flex:"0 0 66px"}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Disc. %</label><input type="number" min="0" max="100" value={it.discount||""} placeholder="0" onChange={e=>updateItem(it.id,"discount",Math.min(100,+e.target.value||0))} style={{...monoInputStyle,textAlign:"center",padding:"7px 4px"}}/></div>
                 </div>
-                {it.done&&!isEx&&(<div><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:3}}>VAT Rate</label><div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
-                  {sd.rates.map(r=>{const sel=(ri.effectiveRate||0)===r.r;return(<button key={r.r} onClick={()=>!isZero&&updateItem(it.id,"rate",r.r)} style={{padding:"4px 10px",borderRadius:8,border:`1.5px solid ${sel?C.pink:C.border}`,background:sel?C.pinkLight:"transparent",cursor:isZero?"default":"pointer",fontSize:12,fontFamily:MONO,fontWeight:600,color:sel?C.pink:C.textSec,opacity:isZero&&r.r!==0?.3:1,outline:"none"}}>{r.r}%</button>);})}
-                </div></div>)}
+                {/* Category dropdown — determines VAT rate. Hidden when rate is context-driven. */}
+                {showCategory&&(<div style={{display:"flex",gap:6,alignItems:"flex-end"}}>
+                  <div style={{flex:1}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Category</label>
+                    <select value={it.cat||""} onChange={e=>updateItem(it.id,"cat",e.target.value)} style={{...selectStyle,fontSize:12}}>
+                      {!it.cat&&<option value="">—</option>}
+                      {/* Group by rate tier */}
+                      {[...new Set(catOpts.map(o=>o.rate))].sort((a,b)=>b-a).map(rate=>{
+                        const tier=catOpts.filter(o=>o.rate===rate);
+                        const rl=sd.rates.find(x=>x.r===rate);
+                        return <optgroup key={rate} label={rl?`${rl.l} — ${rate}%`:`${rate}%`}>
+                          {tier.map(o=><option key={o.cat} value={o.cat}>{o.cat}</option>)}
+                        </optgroup>;
+                      })}
+                    </select>
+                  </div>
+                  <div style={{flex:"0 0 auto",paddingBottom:2}}>
+                    <span style={{fontSize:13,fontFamily:MONO,fontWeight:600,color:C.dark,padding:"8px 12px",background:C.surface,border:`2px solid ${C.border}`,borderRadius:8,display:"inline-block",whiteSpace:"nowrap"}}>{ri.effectiveRate}%</span>
+                  </div>
+                </div>)}
               </div>);})}
 
             {/* Items=0 → catalogue inline. Items>0 → behind Add button. */}
