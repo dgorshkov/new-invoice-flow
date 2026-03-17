@@ -267,7 +267,7 @@ const ICONS={
 function Collapsible({icon,title,subtitle,open,onToggle,children}){
   return(<div style={{marginBottom:12,borderRadius:16,border:`2px solid ${open?C.borderHard:C.border}`,background:C.surface,overflow:"hidden",transition:"border-color .2s"}}>
     <button onClick={onToggle} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",width:"100%",textAlign:"left",cursor:"pointer",userSelect:"none",background:"transparent",borderBottom:open?`1px solid ${C.borderLight}`:"none",border:"none",outline:"none",fontFamily:SANS}}>
-      <div style={{width:28,height:28,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:open?C.pink:C.surfaceAlt,color:open?"#fff":C.textTer,border:`2px solid ${open?C.pink:C.border}`,transition:"all .2s"}}>{icon}</div>
+      <div style={{width:28,height:28,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:open?C.dark:C.surfaceAlt,color:open?"#fff":C.textTer,border:`2px solid ${open?C.dark:C.border}`,transition:"all .2s"}}>{icon}</div>
       <div style={{flex:1,minWidth:0}}><div style={{fontSize:15,fontWeight:500,color:C.dark}}>{title}</div>{subtitle&&!open&&<div style={{fontSize:13,color:C.textSec,marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{subtitle}</div>}</div>
       <svg width="14" height="14" viewBox="0 0 16 16" style={{transform:open?"rotate(180deg)":"rotate(0deg)",transition:"transform .2s",flexShrink:0}}><path d="M4 6l4 4 4-4" fill="none" stroke={C.textTer} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
     </button>
@@ -278,7 +278,7 @@ function Collapsible({icon,title,subtitle,open,onToggle,children}){
 function Section({icon,title,subtitle,children,locked}){
   return(<div style={{marginBottom:12,borderRadius:16,border:`2px solid ${C.border}`,background:C.surface,overflow:"hidden",opacity:locked?.4:1,pointerEvents:locked?"none":"auto",transition:"opacity .2s"}}>
     <div style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",borderBottom:`1px solid ${C.borderLight}`,background:C.surfaceAlt}}>
-      <div style={{width:28,height:28,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:C.pink,color:"#fff",border:`2px solid ${C.pink}`}}>{icon}</div>
+      <div style={{width:28,height:28,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:C.dark,color:"#fff",border:`2px solid ${C.dark}`}}>{icon}</div>
       <div style={{flex:1}}><div style={{fontSize:15,fontWeight:500,color:C.dark}}>{title}</div>{subtitle&&<div style={{fontSize:13,color:C.textSec,marginTop:2}}>{subtitle}</div>}</div>
     </div>
     <div style={{padding:"16px 20px 20px"}}>{children}</div>
@@ -552,7 +552,7 @@ function InvoiceBuilder(){
       {showFreeform?(
         <div style={{display:"flex",gap:5,marginTop:8}}>
           <input value={desc} onChange={e=>setDesc(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addItem()} placeholder="Describe a custom item…" autoFocus style={{...inputStyle,flex:1}}/>
-          <button onClick={addItem} disabled={!desc.trim()} style={{padding:"9px 14px",borderRadius:12,border:"none",background:desc.trim()?C.pink:C.borderLight,color:desc.trim()?"#fff":C.textTer,fontSize:13,fontWeight:500,cursor:desc.trim()?"pointer":"default",whiteSpace:"nowrap",fontFamily:SANS}}>+ Add</button>
+          <button onClick={addItem} disabled={!desc.trim()} style={{padding:"9px 14px",borderRadius:12,border:"none",background:desc.trim()?C.dark:C.borderLight,color:desc.trim()?"#fff":C.textTer,fontSize:13,fontWeight:500,cursor:desc.trim()?"pointer":"default",whiteSpace:"nowrap",fontFamily:SANS}}>+ Add</button>
         </div>
       ):(
         <button onClick={()=>setShowFreeform(true)} style={{marginTop:8,width:"100%",padding:"8px",borderRadius:12,border:`1.5px dashed ${C.border}`,background:"transparent",color:C.textSec,fontSize:11,fontWeight:500,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:4,outline:"none"}}>
@@ -573,7 +573,7 @@ function InvoiceBuilder(){
       <span style={{flex:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",paddingRight:4,color:C.text}}>{it.desc}{it.loading?" ⏳":""}</span>
       <span style={{width:26,textAlign:"right",fontFamily:MONO,fontSize:8.5,color:C.textSec}}>{it.qty}</span>
       <span style={{width:48,textAlign:"right",fontFamily:MONO,fontSize:8.5,color:C.text}}>{fmtAmt(it.price)}</span>
-      <span style={{width:30,textAlign:"right",fontFamily:MONO,fontSize:8.5,color:it.discount>0?C.pink:C.textTer}}>{it.discount>0?`-${it.discount}%`:"—"}</span>
+      <span style={{width:30,textAlign:"right",fontFamily:MONO,fontSize:8.5,color:it.discount>0?C.red:C.textTer}}>{it.discount>0?`-${it.discount}%`:"—"}</span>
       <span style={{width:36,textAlign:"right",fontFamily:MONO,fontSize:8.5}}><span style={{color:it.effectiveRate===0?C.green:C.textSec}}>{it.effectiveRate||0}%</span>{it.zeroReason&&<ZeroBadge reason={it.zeroReason}/>}</span>
       <span style={{width:54,textAlign:"right",fontFamily:MONO,fontSize:8.5,fontWeight:600,color:C.dark}}>{fmtAmt(lineGross)}</span>
     </div>);
@@ -691,17 +691,17 @@ function InvoiceBuilder(){
           {/* Action buttons card */}
           <div style={{background:"#fff",borderRadius:20,padding:"24px 16px",marginBottom:16,display:"flex",gap:0}}>
             <button onClick={()=>{setAiPrompt("");setPhase("ai-create");}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
-              onMouseEnter={e=>e.currentTarget.querySelector("div").style.background="#fdd5ec"}
-              onMouseLeave={e=>e.currentTarget.querySelector("div").style.background=C.pinkLight}>
-              <div style={{width:48,height:48,borderRadius:12,background:C.pinkLight,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .15s"}}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.pink} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.pink} strokeWidth="1.5"/><path d="M12 13v4m-2-2h4" stroke={C.pink} strokeWidth="1.5" strokeLinecap="round"/></svg>
+              onMouseEnter={e=>e.currentTarget.querySelector("div").style.background=C.borderLight}
+              onMouseLeave={e=>e.currentTarget.querySelector("div").style.background=C.surfaceAlt}>
+              <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .15s"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.dark} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.dark} strokeWidth="1.5"/><path d="M12 13v4m-2-2h4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/></svg>
               </div>
               <span style={{fontSize:13,fontWeight:600,color:C.dark}}>New{"\n"}invoice</span>
             </button>
             <div style={{width:1,background:C.borderLight,margin:"8px 0"}}/>
             <button onClick={()=>alert("Not available in this prototype.")} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS}}>
-              <div style={{width:48,height:48,borderRadius:12,background:C.pinkLight,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke={C.pink} strokeWidth="1.5" strokeLinecap="round"/><path d="M12 3v12m0-12l4 4m-4-4L8 7" stroke={C.pink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/><path d="M12 3v12m0-12l4 4m-4-4L8 7" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
               <span style={{fontSize:13,fontWeight:600,color:C.dark}}>Upload{"\n"}document</span>
             </button>
@@ -1151,7 +1151,7 @@ function InvoiceBuilder(){
   /* ─── RENDER ─── */
   return(
     <div style={{minHeight:"100vh",background:C.bg,fontFamily:SANS,color:C.text}}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0}::selection{background:${C.pinkLight}}input::placeholder,textarea::placeholder{color:${C.textTer}}input:hover,textarea:hover,select:hover{border-color:${C.borderHard}}input:focus,textarea:focus,select:focus{outline:none;border-color:${C.dark}!important;box-shadow:none}.sp{width:14px;height:14px;border:2.5px solid ${C.border};border-top-color:${C.pink};border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}button{font-family:${SANS};transition:all .15s ease-in-out}textarea{resize:vertical;font-family:${SANS}}@media(max-width:1100px){.split-layout{flex-direction:column!important}.preview-wrap{position:relative!important;max-height:none!important}}.phase-enter{opacity:0;transform:translateY(12px);animation:fadeSlideIn .3s ease forwards}@keyframes fadeSlideIn{to{opacity:1;transform:translateY(0)}}@keyframes doneCardIn{0%{opacity:0;transform:scale(.85) translateY(24px)}100%{opacity:1;transform:scale(1) translateY(0)}}@keyframes doneStamp{0%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(2.8)}60%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(.92)}100%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}@keyframes doneFileAway{0%{transform:scale(1) translateY(0)}100%{transform:scale(.5) translateY(96px)}}@keyframes doneBoxIn{0%{opacity:0;transform:translateX(-50%) translateY(20px)}100%{opacity:1;transform:translateX(-50%) translateY(0)}}@keyframes doneReveal{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}`}</style>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0}::selection{background:${C.blueLight}}input::placeholder,textarea::placeholder{color:${C.textTer}}input:hover,textarea:hover,select:hover{border-color:${C.borderHard}}input:focus,textarea:focus,select:focus{outline:none;border-color:${C.dark}!important;box-shadow:none}.sp{width:14px;height:14px;border:2.5px solid ${C.border};border-top-color:${C.dark};border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}button{font-family:${SANS};transition:all .15s ease-in-out}textarea{resize:vertical;font-family:${SANS}}@media(max-width:1100px){.split-layout{flex-direction:column!important}.preview-wrap{position:relative!important;max-height:none!important}}.phase-enter{opacity:0;transform:translateY(12px);animation:fadeSlideIn .3s ease forwards}@keyframes fadeSlideIn{to{opacity:1;transform:translateY(0)}}@keyframes doneCardIn{0%{opacity:0;transform:scale(.85) translateY(24px)}100%{opacity:1;transform:scale(1) translateY(0)}}@keyframes doneStamp{0%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(2.8)}60%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(.92)}100%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}@keyframes doneFileAway{0%{transform:scale(1) translateY(0)}100%{transform:scale(.5) translateY(96px)}}@keyframes doneBoxIn{0%{opacity:0;transform:translateX(-50%) translateY(20px)}100%{opacity:1;transform:translateX(-50%) translateY(0)}}@keyframes doneReveal{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}`}</style>
 
       {/* HEADER — app.finom.co style */}
       <div style={{height:80,padding:"0 32px",display:"flex",alignItems:"center",position:"relative"}}>
@@ -1222,7 +1222,7 @@ function InvoiceBuilder(){
           {/* STEP 1: Seller */}
           <Collapsible icon={ICONS.seller} title="Your Business" subtitle={`${sd.flag} ${sellerName}${isEx?` · ${sd.ex.short}`:""}`} open={sellerOpen} onToggle={()=>setSellerOpen(!sellerOpen)}>
             <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:14}}>
-              {Object.keys(VAT).map(k=>{const v=VAT[k],sel=sellerCC===k;return(<button key={k} onClick={()=>{setSellerCC(k);setExempt(false);}} style={{display:"flex",alignItems:"center",gap:4,padding:"5px 9px",background:sel?C.pinkLight:"transparent",border:`1.5px solid ${sel?C.pink:C.border}`,borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:sel?600:500,color:sel?C.pink:C.textSec,outline:"none"}}><span>{v.flag}</span>{v.name}<span style={{fontFamily:MONO,fontSize:9,color:sel?C.pink:C.textTer}}>{v.std}%</span></button>);})}
+              {Object.keys(VAT).map(k=>{const v=VAT[k],sel=sellerCC===k;return(<button key={k} onClick={()=>{setSellerCC(k);setExempt(false);}} style={{display:"flex",alignItems:"center",gap:4,padding:"5px 9px",background:sel?C.surfaceAlt:"transparent",border:`2px solid ${sel?C.dark:C.border}`,borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:sel?600:500,color:sel?C.dark:C.textSec,outline:"none"}}><span>{v.flag}</span>{v.name}<span style={{fontFamily:MONO,fontSize:9,color:sel?C.dark:C.textTer}}>{v.std}%</span></button>);})}
             </div>
             <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}}>
               <Field label="Registered name" half><input value={sellerName} onChange={e=>setSellerName(e.target.value)} style={inputStyle}/></Field>
@@ -1245,7 +1245,7 @@ function InvoiceBuilder(){
           {/* STEP 2: Client */}
           <Section icon={ICONS.client} title="Client" subtitle={client?`${FLAGS[client.country]||"🌐"} ${client.name}`:null}>
             {client&&!clientListOpen?(
-              <div style={{display:"flex",alignItems:"center",gap:9,padding:"9px 12px",background:C.pinkLight,border:`1.5px solid ${C.pink}`,borderRadius:8}}>
+              <div style={{display:"flex",alignItems:"center",gap:9,padding:"9px 12px",background:C.surfaceAlt,border:`2px solid ${C.dark}`,borderRadius:8}}>
                 <span style={{fontSize:16,flexShrink:0}}>{FLAGS[client.country]||"🌐"}</span>
                 <div style={{flex:1,minWidth:0}}><div style={{fontSize:15,fontWeight:600,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{client.name}</div><div style={{fontSize:11,color:C.textSec,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{client.addr}</div></div>
                 <span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 8px",borderRadius:10,background:client.biz?C.blueLight:C.surfaceAlt,color:client.biz?C.blue:C.textSec,border:`1px solid ${client.biz?C.blueBorder:C.border}`,whiteSpace:"nowrap"}}>{client.biz?"B2B":"B2C"}</span>
@@ -1253,7 +1253,7 @@ function InvoiceBuilder(){
               </div>
             ):(<>
               <div style={{display:"flex",flexDirection:"column",gap:5,maxHeight:300,overflowY:"auto",paddingRight:2}}>
-                {CLIENTS.map(c=>{const sel=client?.id===c.id;return(<button key={c.id} onClick={()=>{setClient(c);setClientListOpen(false);}} style={{display:"flex",alignItems:"center",gap:9,padding:"9px 12px",cursor:"pointer",textAlign:"left",background:sel?C.pinkLight:"transparent",border:`1.5px solid ${sel?C.pink:C.border}`,borderRadius:8,outline:"none",width:"100%"}}>
+                {CLIENTS.map(c=>{const sel=client?.id===c.id;return(<button key={c.id} onClick={()=>{setClient(c);setClientListOpen(false);}} style={{display:"flex",alignItems:"center",gap:9,padding:"9px 12px",cursor:"pointer",textAlign:"left",background:sel?C.surfaceAlt:"transparent",border:`2px solid ${sel?C.dark:C.border}`,borderRadius:8,outline:"none",width:"100%"}}>
                   <span style={{fontSize:16,flexShrink:0}}>{FLAGS[c.country]||"🌐"}</span>
                   <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:sel?600:500,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{c.name}</div><div style={{fontSize:11,color:C.textSec,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{c.addr}</div></div>
                   <span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 8px",borderRadius:10,background:c.biz?C.blueLight:C.surfaceAlt,color:c.biz?C.blue:C.textSec,border:`1px solid ${c.biz?C.blueBorder:C.border}`,whiteSpace:"nowrap"}}>{c.biz?"B2B":"B2C"}</span>
@@ -1324,7 +1324,7 @@ function InvoiceBuilder(){
               showAddPanel?(
                 renderCatPanel(()=>{setShowAddPanel(false);setShowFreeform(false);setCatSearch("");setDesc("");})
               ):(
-                <button onClick={()=>setShowAddPanel(true)} style={{width:"100%",padding:"10px",borderRadius:12,border:`1.5px dashed ${C.pink}40`,background:C.pinkLight+"40",color:C.pink,fontSize:13,fontWeight:500,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5,outline:"none",marginTop:4}}>
+                <button onClick={()=>setShowAddPanel(true)} style={{width:"100%",padding:"10px",borderRadius:12,border:`1.5px dashed ${C.border}`,background:C.surfaceAlt,color:C.textSec,fontSize:13,fontWeight:500,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5,outline:"none",marginTop:4}}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
                   Add item
                 </button>
@@ -1353,8 +1353,11 @@ function InvoiceBuilder(){
             <div style={{padding:"10px 12px",background:C.surfaceAlt,border:`1px solid ${C.borderLight}`,borderRadius:8,marginBottom:12}}>
               <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
                 <div style={{fontSize:11,fontWeight:600,color:C.textSec}}>Delivery / Service period</div><div style={{flex:1}}/>
-                <div style={{display:"flex",borderRadius:8,overflow:"hidden",border:`1px solid ${C.border}`}}>
-                  {[{k:"date",l:"Single date"},{k:"period",l:"Period"}].map(({k,l})=><button key={k} onClick={()=>setDeliveryType(k)} style={{padding:"4px 10px",border:"none",fontSize:11,fontWeight:deliveryType===k?600:400,cursor:"pointer",background:deliveryType===k?C.pink:"transparent",color:deliveryType===k?"#fff":C.textSec,outline:"none"}}>{l}</button>)}
+                <div style={{display:"flex",alignItems:"center",gap:8}}>
+                  <span style={{fontSize:11,color:C.textSec}}>Period</span>
+                  <button onClick={()=>setDeliveryType(deliveryType==="date"?"period":"date")} style={{width:36,height:20,borderRadius:10,border:"none",padding:2,cursor:"pointer",background:deliveryType==="period"?C.dark:C.border,display:"flex",alignItems:"center",transition:"background .2s",outline:"none"}}>
+                    <div style={{width:16,height:16,borderRadius:8,background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.15)",transition:"transform .2s",transform:deliveryType==="period"?"translateX(16px)":"translateX(0)"}}/>
+                  </button>
                 </div>
               </div>
               {deliveryType==="date"?<Field label="Delivery date"><input type="date" value={deliveryDate} onChange={e=>setDeliveryDate(e.target.value)} style={inputStyle}/></Field>:(
