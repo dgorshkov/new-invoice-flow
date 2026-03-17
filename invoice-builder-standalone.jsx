@@ -81,19 +81,43 @@ const CLIENT_HISTORY={
 
 const FLAGS={DE:"🇩🇪",FR:"🇫🇷",IT:"🇮🇹",ES:"🇪🇸",NL:"🇳🇱",BE:"🇧🇪",FI:"🇫🇮",GB:"🇬🇧",US:"🇺🇸",JP:"🇯🇵"};
 
-const MOCK_INVOICES=[
-  {id:1,invNum:"INV-2026-791",clientId:1,clientName:"TechVentures GmbH",country:"DE",amount:4522.50,cur:"EUR",issueDate:"2026-03-03",dueDate:"2026-03-17",status:"shared",month:"March"},
-  {id:9,invNum:"INV-2026-798",clientId:1,clientName:"Mustermann GmbH",country:"DE",amount:12600.00,cur:"EUR",issueDate:"2026-03-07",dueDate:"2026-04-06",status:"draft",month:"March",
-    aiSource:{type:"contract",label:"Created by AI based on the contract uploaded earlier",fileName:"Mustermann-GmbH-Contract-May2027.pdf",fileUrl:"#contract-preview"}},
-  {id:10,invNum:"INV-2026-795",clientId:2,clientName:"Ivan Examplov",country:"DE",amount:3150.00,cur:"EUR",issueDate:"2026-03-05",dueDate:"2026-04-04",status:"draft",month:"March",
-    aiSource:{type:"email",label:"Created by AI based on your Gmail conversation with Ivan Examplov",linkText:"conversation",linkUrl:"#gmail-thread"}},
-  {id:2,invNum:"INV-2026-784",clientId:4,clientName:"Virtanen Digital Oy",country:"FI",amount:1680.00,cur:"EUR",issueDate:"2026-03-01",dueDate:"2026-03-31",status:"draft",month:"March"},
-  {id:3,invNum:"INV-2026-772",clientId:2,clientName:"SolarTech Solutions SARL",country:"FR",amount:8340.00,cur:"EUR",issueDate:"2026-02-27",dueDate:"2026-03-13",status:"shared",month:"February"},
-  {id:4,invNum:"INV-2026-765",clientId:5,clientName:"Smith & Partners Ltd",country:"GB",amount:1850.00,cur:"GBP",issueDate:"2026-02-20",dueDate:"2026-03-06",status:"overdue",month:"February"},
-  {id:5,invNum:"INV-2026-758",clientId:8,clientName:"Van den Berg Consulting BV",country:"NL",amount:3200.00,cur:"EUR",issueDate:"2026-02-15",dueDate:"2026-03-01",status:"paid",month:"February"},
-  {id:6,invNum:"INV-2026-741",clientId:3,clientName:"Rossi Design Studio SRL",country:"IT",amount:960.00,cur:"EUR",issueDate:"2026-02-10",dueDate:"2026-02-24",status:"paid",month:"February"},
-  {id:7,invNum:"INV-2026-733",clientId:1,clientName:"TechVentures GmbH",country:"DE",amount:6100.00,cur:"EUR",issueDate:"2026-01-28",dueDate:"2026-02-11",status:"paid",month:"January"},
-  {id:8,invNum:"INV-2026-720",clientId:7,clientName:"García & Asociados SL",country:"ES",amount:2475.00,cur:"EUR",issueDate:"2026-01-15",dueDate:"2026-02-14",status:"paid",month:"January"},
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOCK SALES — each sale groups related artifacts (quote → invoice → credit note)
+   ═══════════════════════════════════════════════════════════════════════════ */
+const MOCK_SALES=[
+  {id:1,clientName:"TechVentures GmbH",country:"DE",cur:"EUR",artifacts:[
+    {type:"invoice",num:"INV-2026-791",amount:4522.50,date:"2026-03-03",dueDate:"2026-03-17",status:"shared"},
+  ]},
+  {id:9,clientName:"Mustermann GmbH",country:"DE",cur:"EUR",artifacts:[
+    {type:"invoice",num:"INV-2026-798",amount:12600.00,date:"2026-03-07",dueDate:"2026-04-06",status:"draft"},
+  ],aiSource:{type:"contract",label:"Created by AI based on the contract uploaded earlier",fileName:"Mustermann-GmbH-Contract-May2027.pdf",fileUrl:"#contract-preview"}},
+  {id:10,clientName:"Ivan Examplov",country:"DE",cur:"EUR",artifacts:[
+    {type:"invoice",num:"INV-2026-795",amount:3150.00,date:"2026-03-05",dueDate:"2026-04-04",status:"draft"},
+  ],aiSource:{type:"email",label:"Created by AI based on your Gmail conversation with Ivan Examplov",linkText:"conversation",linkUrl:"#gmail-thread"}},
+  {id:2,clientName:"Virtanen Digital Oy",country:"FI",cur:"EUR",artifacts:[
+    {type:"invoice",num:"INV-2026-784",amount:1680.00,date:"2026-03-01",dueDate:"2026-03-31",status:"draft"},
+  ]},
+  {id:3,clientName:"SolarTech Solutions SARL",country:"FR",cur:"EUR",artifacts:[
+    {type:"quote",num:"QT-2026-140",amount:8340.00,date:"2026-02-20",status:"accepted"},
+    {type:"invoice",num:"INV-2026-772",amount:8340.00,date:"2026-02-27",dueDate:"2026-03-13",status:"shared"},
+  ]},
+  {id:4,clientName:"Smith & Partners Ltd",country:"GB",cur:"GBP",artifacts:[
+    {type:"invoice",num:"INV-2026-765",amount:1850.00,date:"2026-02-20",dueDate:"2026-03-06",status:"overdue"},
+  ]},
+  {id:5,clientName:"Van den Berg Consulting BV",country:"NL",cur:"EUR",artifacts:[
+    {type:"invoice",num:"INV-2026-758",amount:3200.00,date:"2026-02-15",dueDate:"2026-03-01",status:"paid"},
+  ]},
+  {id:6,clientName:"Rossi Design Studio SRL",country:"IT",cur:"EUR",artifacts:[
+    {type:"quote",num:"QT-2026-098",amount:1200.00,date:"2026-01-25",status:"accepted"},
+    {type:"invoice",num:"INV-2026-741",amount:960.00,date:"2026-02-10",dueDate:"2026-02-24",status:"paid"},
+    {type:"credit_note",num:"CN-2026-012",amount:-240.00,date:"2026-02-12",status:"issued"},
+  ]},
+  {id:7,clientName:"TechVentures GmbH",country:"DE",cur:"EUR",artifacts:[
+    {type:"invoice",num:"INV-2026-733",amount:6100.00,date:"2026-01-28",dueDate:"2026-02-11",status:"paid"},
+  ]},
+  {id:8,clientName:"García & Asociados SL",country:"ES",cur:"EUR",artifacts:[
+    {type:"invoice",num:"INV-2026-720",amount:2475.00,date:"2026-01-15",dueDate:"2026-02-14",status:"paid"},
+  ]},
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -667,10 +691,13 @@ function InvoiceBuilder(){
     </div>
   );
 
+  const [expandedSales,setExpandedSales]=useState({});
+  const toggleSale=(id)=>setExpandedSales(p=>({...p,[id]:!p[id]}));
+
   const renderListScreen=()=>{
-    const statusCfg={shared:{color:C.blue,label:"Shared"},not_shared:{color:C.textTer,label:"Not shared"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"}};
-    const months=[...new Set(MOCK_INVOICES.map(i=>i.month))];
-    const fmtDate=(iso)=>{const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});};
+    const statusCfg={shared:{color:C.blue,label:"Shared"},not_shared:{color:C.textTer,label:"Not shared"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"},credit_note:{color:C.orange||C.red,label:"Issued"}};
+    const typeCfg={invoice:{icon:"INV",color:C.dark},quote:{icon:"QT",color:C.textSec},credit_note:{icon:"CN",color:C.red}};
+    const fmtDate=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});};
     const fmtAmt=(a,c)=>{const cur=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cur.sym.trim();};
     const sidebarItem=(icon,label,sub)=>(
       <div key={label} onClick={()=>alert("Not available in this prototype.")} style={{display:"flex",alignItems:"flex-start",gap:12,padding:"16px 18px",cursor:"pointer",transition:"background .15s"}}
@@ -748,55 +775,95 @@ function InvoiceBuilder(){
           {/* Sort control */}
           <div style={{display:"flex",gap:0,borderBottom:`1px solid ${C.borderLight}`,marginBottom:0}}>
             <div style={{flex:1}}/>
-            <div style={{padding:"12px 0 10px",fontSize:12,fontWeight:600,color:C.blue,letterSpacing:.3,textTransform:"uppercase",cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>By issue date <span style={{fontSize:10}}>˅</span></div>
+            <div style={{padding:"12px 0 10px",fontSize:12,fontWeight:600,color:C.blue,letterSpacing:.3,textTransform:"uppercase",cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>By date <span style={{fontSize:10}}>˅</span></div>
           </div>
 
-          {/* Invoice rows grouped by month */}
-          {months.map(month=>{
-            const inv=MOCK_INVOICES.filter(i=>i.month===month);
+          {/* Sales list */}
+          {MOCK_SALES.map((sale,idx)=>{
+            const multi=sale.artifacts.length>1;
+            const expanded=expandedSales[sale.id];
+            /* For single-artifact sales, show the artifact inline */
+            const primary=sale.artifacts.find(a=>a.type==="invoice")||sale.artifacts[0];
+            const primarySt=statusCfg[primary.status]||statusCfg.draft;
+            const saleTotal=sale.artifacts.reduce((s,a)=>s+a.amount,0);
             return(
-              <div key={month}>
-                <div style={{fontSize:18,fontWeight:700,color:C.dark,padding:"20px 0 8px"}}>{month}</div>
-                {inv.map((i,idx)=>{
-                  const st=statusCfg[i.status]||statusCfg.draft;
-                  return(
-                    <div key={i.id} onClick={()=>alert(`Opening ${i.invNum} is not available in this prototype.`)}
-                      style={{display:"flex",alignItems:"center",padding:"16px 4px",cursor:"pointer",borderBottom:idx<inv.length-1?`1px solid ${C.borderLight}`:"none",transition:"background .15s"}}
-                      onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
-                      onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
-                      {/* Left: client + inv number + AI source */}
-                      <div style={{flex:1,minWidth:0}}>
-                        <div style={{fontSize:14,fontWeight:600,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{i.clientName}</div>
-                        <div style={{fontSize:12,color:C.textTer,marginTop:3}}>{i.invNum}</div>
-                        {i.aiSource&&(
-                          <div style={{display:"flex",alignItems:"center",gap:5,marginTop:5}}>
-                            <AiPill style={{fontSize:9,padding:"1px 6px 1px 4px"}}/>
-                            <span style={{fontSize:12,color:C.textSec,lineHeight:1.3}}>
-                              {i.aiSource.type==="contract"?(<>
-                                {i.aiSource.label} — <a href={i.aiSource.fileUrl} onClick={e=>e.stopPropagation()} style={{color:C.blue,textDecoration:"none",fontWeight:500}}>{i.aiSource.fileName}</a>
-                              </>):(<>
-                                Created by AI based on your Gmail <a href={i.aiSource.linkUrl} onClick={e=>e.stopPropagation()} style={{color:C.blue,textDecoration:"none",fontWeight:500}}>{i.aiSource.linkText}</a> with {i.clientName}
-                              </>)}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      {/* Center: status + due */}
-                      <div style={{flex:"0 0 180px"}}>
-                        <div style={{display:"flex",alignItems:"center",gap:6}}>
-                          <span style={{width:8,height:8,borderRadius:4,background:st.color,flexShrink:0}}/>
-                          <span style={{fontSize:13,fontWeight:500,color:C.textSec}}>{st.label}</span>
-                        </div>
-                        {i.status!=="paid"&&i.status!=="draft"&&<div style={{fontSize:12,color:C.textTer,marginTop:2,paddingLeft:14}}>Due {fmtDate(i.dueDate)}</div>}
-                      </div>
-                      {/* Right: amount + issue date */}
-                      <div style={{flex:"0 0 130px",textAlign:"right"}}>
-                        <div style={{fontSize:14,fontWeight:600,color:C.dark}}>{fmtAmt(i.amount,i.cur)}</div>
-                        <div style={{fontSize:12,color:C.textTer,marginTop:2}}>{fmtDate(i.issueDate)}</div>
-                      </div>
+              <div key={sale.id} style={{borderBottom:idx<MOCK_SALES.length-1?`1px solid ${C.borderLight}`:"none"}}>
+                {/* Sale row */}
+                <div onClick={()=>multi?toggleSale(sale.id):alert(`Opening ${primary.num} is not available in this prototype.`)}
+                  style={{display:"flex",alignItems:"center",padding:"14px 4px",cursor:"pointer",transition:"background .15s"}}
+                  onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
+                  onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+                  {/* Expand chevron for multi-artifact sales */}
+                  <div style={{width:20,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    {multi&&<svg width="12" height="12" viewBox="0 0 16 16" style={{transform:expanded?"rotate(90deg)":"rotate(0deg)",transition:"transform .15s"}}><path d="M6 4l4 4-4 4" fill="none" stroke={C.textTer} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  </div>
+                  {/* Left: client + artifact summary */}
+                  <div style={{flex:1,minWidth:0,paddingLeft:4}}>
+                    <div style={{display:"flex",alignItems:"center",gap:6}}>
+                      <span style={{fontSize:14,fontWeight:600,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{sale.clientName}</span>
+                      {multi&&<span style={{fontSize:11,fontWeight:500,padding:"2px 7px",borderRadius:6,background:C.surfaceAlt,color:C.textSec,border:`1px solid ${C.border}`,whiteSpace:"nowrap"}}>{sale.artifacts.length} docs</span>}
                     </div>
-                  );
-                })}
+                    {!multi&&<div style={{fontSize:12,color:C.textTer,marginTop:2}}>{primary.num}</div>}
+                    {multi&&!expanded&&<div style={{fontSize:12,color:C.textTer,marginTop:2}}>{sale.artifacts.map(a=>a.num).join(" · ")}</div>}
+                    {sale.aiSource&&(
+                      <div style={{display:"flex",alignItems:"center",gap:5,marginTop:4}}>
+                        <AiPill style={{fontSize:9,padding:"1px 6px 1px 4px"}}/>
+                        <span style={{fontSize:12,color:C.textSec,lineHeight:1.3}}>
+                          {sale.aiSource.type==="contract"?(<>
+                            {sale.aiSource.label} — <a href={sale.aiSource.fileUrl} onClick={e=>e.stopPropagation()} style={{color:C.blue,textDecoration:"none",fontWeight:500}}>{sale.aiSource.fileName}</a>
+                          </>):(<>
+                            Created by AI based on your Gmail <a href={sale.aiSource.linkUrl} onClick={e=>e.stopPropagation()} style={{color:C.blue,textDecoration:"none",fontWeight:500}}>{sale.aiSource.linkText}</a> with {sale.clientName}
+                          </>)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {/* Center: status (primary artifact for single, overall for multi) */}
+                  <div style={{flex:"0 0 160px"}}>
+                    {!multi&&<>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}>
+                        <span style={{width:8,height:8,borderRadius:4,background:primarySt.color,flexShrink:0}}/>
+                        <span style={{fontSize:13,fontWeight:500,color:C.textSec}}>{primarySt.label}</span>
+                      </div>
+                      {primary.dueDate&&primary.status!=="paid"&&primary.status!=="draft"&&<div style={{fontSize:12,color:C.textTer,marginTop:2,paddingLeft:14}}>Due {fmtDate(primary.dueDate)}</div>}
+                    </>}
+                  </div>
+                  {/* Right: amount + date */}
+                  <div style={{flex:"0 0 130px",textAlign:"right"}}>
+                    <div style={{fontSize:14,fontWeight:600,color:C.dark}}>{fmtAmt(multi?saleTotal:primary.amount,sale.cur)}</div>
+                    <div style={{fontSize:12,color:C.textTer,marginTop:2}}>{fmtDate(primary.date)}</div>
+                  </div>
+                </div>
+                {/* Expanded artifacts */}
+                {multi&&expanded&&(
+                  <div style={{paddingLeft:28,paddingBottom:8}}>
+                    {sale.artifacts.map((a,ai)=>{
+                      const ast=statusCfg[a.status]||statusCfg.draft;
+                      const tc=typeCfg[a.type]||typeCfg.invoice;
+                      return(
+                        <div key={ai} onClick={e=>{e.stopPropagation();alert(`Opening ${a.num} is not available in this prototype.`);}}
+                          style={{display:"flex",alignItems:"center",padding:"8px 8px",borderRadius:8,cursor:"pointer",transition:"background .15s",marginBottom:2}}
+                          onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
+                          onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+                          <span style={{fontSize:10,fontFamily:MONO,fontWeight:600,padding:"2px 6px",borderRadius:4,background:a.type==="credit_note"?C.redLight:C.surfaceAlt,color:tc.color,border:`1px solid ${C.border}`,marginRight:10,whiteSpace:"nowrap"}}>{tc.icon}</span>
+                          <div style={{flex:1,minWidth:0}}>
+                            <span style={{fontSize:13,fontWeight:500,color:C.dark}}>{a.num}</span>
+                          </div>
+                          <div style={{flex:"0 0 140px",display:"flex",alignItems:"center",gap:6}}>
+                            <span style={{width:6,height:6,borderRadius:3,background:ast.color,flexShrink:0}}/>
+                            <span style={{fontSize:12,fontWeight:500,color:C.textSec}}>{ast.label}</span>
+                          </div>
+                          <div style={{flex:"0 0 100px",textAlign:"right"}}>
+                            <span style={{fontSize:13,fontFamily:MONO,fontWeight:500,color:a.amount<0?C.red:C.dark}}>{a.amount<0?"−":""}{fmtAmt(Math.abs(a.amount),sale.cur)}</span>
+                          </div>
+                          <div style={{flex:"0 0 70px",textAlign:"right"}}>
+                            <span style={{fontSize:12,color:C.textTer}}>{fmtDate(a.date)}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
           })}
