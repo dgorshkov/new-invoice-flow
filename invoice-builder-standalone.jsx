@@ -730,7 +730,7 @@ function InvoiceBuilder(){
 
         {/* MAIN CONTENT */}
         <div style={{flex:1,minWidth:0}}>
-          <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:"0 0 20px",fontFamily:SANS}}>Invoices</h1>
+          <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:"0 0 20px",fontFamily:SANS}}>Get Paid</h1>
 
           {/* Search bar */}
           <div style={{position:"relative",marginBottom:14}}>
@@ -745,10 +745,8 @@ function InvoiceBuilder(){
             ))}
           </div>
 
-          {/* Tabs */}
+          {/* Sort control */}
           <div style={{display:"flex",gap:0,borderBottom:`1px solid ${C.borderLight}`,marginBottom:0}}>
-            <div style={{padding:"12px 20px 10px",fontSize:15,fontWeight:700,color:C.dark,borderBottom:`3px solid ${C.dark}`,cursor:"pointer"}}>Outgoing</div>
-            <div style={{padding:"12px 20px 10px",fontSize:15,fontWeight:500,color:C.textTer,cursor:"pointer"}}>Incoming</div>
             <div style={{flex:1}}/>
             <div style={{padding:"12px 0 10px",fontSize:12,fontWeight:600,color:C.blue,letterSpacing:.3,textTransform:"uppercase",cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>By issue date <span style={{fontSize:10}}>˅</span></div>
           </div>
@@ -1161,7 +1159,7 @@ function InvoiceBuilder(){
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/></svg>
             GO
           </button>
-          {["Home","Invoices","Accounting","Team","Cards"].map(item=><button key={item} onClick={()=>{if(item==="Invoices")setPhase("list");}} style={{padding:"0 14px",height:40,border:"none",background:"transparent",color:item==="Invoices"?"#fff":"rgba(255,255,255,0.55)",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,borderRadius:20,whiteSpace:"nowrap",borderBottom:item==="Invoices"?"2px solid #fff":"2px solid transparent",borderRadius:0,paddingBottom:2}}>{item}</button>)}
+          {["Home","Get Paid","Accounting","Team","Cards"].map(item=><button key={item} onClick={()=>{if(item==="Get Paid")setPhase("list");}} style={{padding:"0 14px",height:40,border:"none",background:"transparent",color:item==="Get Paid"?"#fff":"rgba(255,255,255,0.55)",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,borderRadius:20,whiteSpace:"nowrap",borderBottom:item==="Get Paid"?"2px solid #fff":"2px solid transparent",borderRadius:0,paddingBottom:2}}>{item}</button>)}
         </div>
         <div style={{flex:1}}/>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
