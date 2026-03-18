@@ -392,6 +392,8 @@ function InvoiceBuilder(){
 
   /* Post-creation flow state */
   const[phase,setPhase]=useState("list");
+  const[detailSale,setDetailSale]=useState(null);
+  const[detailArtifact,setDetailArtifact]=useState(null);
   const[emailTo,setEmailTo]=useState("");
   const[emailSubject,setEmailSubject]=useState("");
   const[emailBody,setEmailBody]=useState("");
@@ -811,7 +813,7 @@ function InvoiceBuilder(){
                   const ast=statusCfg[a.status]||statusCfg.draft;
                   const tc=typeCfg[a.type]||typeCfg.invoice;
                   return(
-                    <div key={ai} onClick={()=>alert(`Opening ${a.num} is not available in this prototype.`)}
+                    <div key={ai} onClick={()=>{setDetailSale(sale);setDetailArtifact(a);setPhase("detail");}}
                       style={{display:"flex",alignItems:"center",padding:multi?"6px 8px":"4px 0",borderRadius:8,cursor:"pointer",transition:"background .15s",marginTop:multi&&ai===0?0:2}}
                       onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
                       onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
@@ -840,6 +842,143 @@ function InvoiceBuilder(){
       </div>
     );
   };
+
+  const renderDetailScreen=()=>{
+    if(!detailSale||!detailArtifact)return null;
+    const sale=detailSale;const art=detailArtifact;
+    const statusCfg={shared:{color:C.blue,label:"Shared"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"}};
+    const st=statusCfg[art.status]||statusCfg.draft;
+    const typeLabel={invoice:"Invoice",quote:"Quote",credit_note:"Credit Note"}[art.type]||"Document";
+    const fmtDateL=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});};
+    const fmtAmtL=(a,c)=>{const cu=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cu.sym.trim();};
+    /* Mock history events */
+    const history=[
+      {date:art.date,label:"Created",done:true},
+      ...(art.status==="shared"||art.status==="paid"?[{date:art.date,label:"Shared with client",done:true}]:[]),
+      ...(art.status==="paid"?[{date:art.dueDate||art.date,label:"Payment received",done:true}]:[]),
+      ...(art.status!=="paid"?[{date:art.dueDate||null,label:art.status==="overdue"?"Payment overdue":"Awaiting payment",done:false}]:[]),
+    ];
+    return(
+    <div className="phase-enter" key="detail" style={{maxWidth:1200,margin:"0 auto",padding:"0 32px 40px",display:"flex",gap:20,alignItems:"flex-start"}}>
+      {/* LEFT — main content */}
+      <div style={{flex:1,minWidth:0}}>
+        {/* Back link */}
+        <div style={{marginBottom:16}}>
+          <span onClick={()=>setPhase("list")} style={{fontSize:13,fontWeight:500,color:C.textSec,cursor:"pointer",display:"inline-flex",alignItems:"center",gap:4}}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Back to Get Paid
+          </span>
+        </div>
+
+        {/* Hero card */}
+        <div style={{background:"#fff",borderRadius:20,padding:"40px 40px 32px",textAlign:"center",marginBottom:16}}>
+          {/* Status badge */}
+          <div style={{display:"flex",justifyContent:"flex-end",marginBottom:8}}>
+            <div style={{display:"flex",alignItems:"center",gap:6}}>
+              <span style={{width:8,height:8,borderRadius:4,background:st.color}}/>
+              <span style={{fontSize:13,fontWeight:500,color:C.textSec}}>{st.label}</span>
+            </div>
+          </div>
+
+          {/* Title */}
+          <div style={{fontSize:28,fontWeight:700,color:C.dark,marginBottom:8}}>{typeLabel} {art.num.split("-").pop()}</div>
+
+          {/* Format badge */}
+          {art.type==="invoice"&&<div style={{display:"inline-flex",alignItems:"center",gap:4,padding:"4px 12px",borderRadius:16,background:C.surfaceAlt,color:C.textSec,fontSize:13,fontWeight:500,marginBottom:12}}>PDF (ZUGFeRD)</div>}
+
+          {/* Client + amount */}
+          <div style={{fontSize:15,color:C.textSec,marginBottom:4}}>to {sale.clientName}</div>
+          <div style={{fontSize:20,fontWeight:700,color:C.dark,marginBottom:24}}>{fmtAmtL(art.amount<0?-art.amount:art.amount,sale.cur)}</div>
+
+          {/* Action buttons */}
+          <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:28}}>
+            <button style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>Share document</button>
+            <button style={{padding:"0 24px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.dark,fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>Download</button>
+            <button style={{width:40,height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.textSec,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>···</button>
+          </div>
+
+          {/* PDF preview thumbnail */}
+          <div style={{background:C.surfaceAlt,borderRadius:12,padding:16,display:"inline-block"}}>
+            <div style={{width:200,height:280,background:"#fff",borderRadius:4,border:`1px solid ${C.border}`,boxShadow:"0 2px 8px rgba(0,0,0,.04)",padding:"16px 14px",textAlign:"left",fontSize:8,color:C.text,fontFamily:SANS}}>
+              <div style={{fontSize:6,fontWeight:800,color:C.dark,marginBottom:8}}>finom</div>
+              <div style={{display:"flex",gap:4,marginBottom:8}}>
+                <div style={{flex:1,padding:4,background:C.surfaceAlt,borderRadius:2}}>
+                  <div style={{width:"60%",height:2,background:C.border,borderRadius:1,marginBottom:2}}/>
+                  <div style={{width:"80%",height:2,background:C.borderLight,borderRadius:1}}/>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontSize:7,fontWeight:700,color:C.dark}}>{typeLabel.toUpperCase()}</div>
+                  <div style={{fontSize:5,color:C.textTer}}>{art.num}</div>
+                </div>
+              </div>
+              <div style={{height:1.5,background:C.dark,borderRadius:1,marginBottom:4}}/>
+              {[.9,.7,.6,.5].map((w,i)=><div key={i} style={{height:1.5,background:C.borderLight,borderRadius:1,marginBottom:3,width:`${w*100}%`}}/>)}
+              <div style={{marginTop:"auto",paddingTop:12,borderTop:`1px solid ${C.dark}`,display:"flex",justifyContent:"space-between"}}>
+                <span style={{fontSize:5,fontWeight:600,color:C.textSec}}>TOTAL</span>
+                <span style={{fontSize:7,fontWeight:700,color:C.dark}}>{fmtAmtL(Math.abs(art.amount),sale.cur)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Details card */}
+        <div style={{background:"#fff",borderRadius:20,padding:"32px 40px"}}>
+          <div style={{fontSize:20,fontWeight:700,color:C.dark,marginBottom:20}}>Details</div>
+          <div style={{display:"flex",gap:0,flexDirection:"column"}}>
+            {[
+              ["Issuer","Mustermann Digital GmbH"],
+              ["",[`VAT ID: ${sellerVatId}`,`IBAN: ${iban}`,`BIC: ${bic}`].join("\n")],
+              ["Customer",sale.clientName],
+              ["Issue date",fmtDateL(art.date)],
+              ...(art.dueDate?[["Due date",fmtDateL(art.dueDate)]]:[]),
+              ["Amount",fmtAmtL(Math.abs(art.amount),sale.cur)],
+              ["Document number",art.num],
+            ].map(([label,val],i)=>(
+              <div key={i} style={{display:"flex",padding:"10px 0",borderBottom:i<6?`1px solid ${C.borderLight}`:"none"}}>
+                <div style={{flex:"0 0 160px",fontSize:13,color:C.textSec}}>{label}</div>
+                <div style={{flex:1,fontSize:14,fontWeight:label?500:400,color:C.dark,whiteSpace:"pre-line"}}>{val}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT — sidebar */}
+      <div style={{flex:"0 0 320px",paddingTop:36}}>
+        {/* Link payment card */}
+        <div style={{background:"#fff",borderRadius:20,padding:"32px 24px",textAlign:"center",marginBottom:16}}>
+          <div style={{width:56,height:56,borderRadius:16,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px"}}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke={C.textSec} strokeWidth="2" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke={C.textSec} strokeWidth="2" strokeLinecap="round"/></svg>
+          </div>
+          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:8}}>Link payment</div>
+          <div style={{fontSize:13,color:C.textSec,lineHeight:1.5,marginBottom:16}}>If you already have a payment on this document, just attach it.</div>
+          <button style={{width:"100%",padding:"0 20px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>Link payment</button>
+        </div>
+
+        {/* History card */}
+        <div style={{background:"#fff",borderRadius:20,padding:"24px 24px"}}>
+          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:16}}>History</div>
+          <div style={{display:"flex",flexDirection:"column",gap:0}}>
+            {history.map((ev,i)=>{
+              const isLast=i===history.length-1;
+              return(
+                <div key={i} style={{display:"flex",gap:12,minHeight:isLast?0:36}}>
+                  <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+                    <div style={{width:10,height:10,borderRadius:5,border:`2px solid ${ev.done?C.green:C.border}`,background:ev.done?C.green:"transparent",flexShrink:0,marginTop:2}}/>
+                    {!isLast&&<div style={{flex:1,width:1.5,background:C.borderLight,marginTop:4}}/>}
+                  </div>
+                  <div style={{paddingBottom:isLast?0:8}}>
+                    <div style={{fontSize:13,fontWeight:500,color:ev.done?C.dark:C.textTer}}>{ev.label}</div>
+                    {ev.date&&<div style={{fontSize:12,color:C.textTer,marginTop:2}}>{fmtDateL(ev.date)}</div>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );};
 
   const renderSendScreen=()=>(
     <div className="phase-enter" key="send" style={{maxWidth:760,margin:"0 auto",padding:"0 32px 40px"}}>
@@ -1207,6 +1346,7 @@ function InvoiceBuilder(){
       </div>
 
       {phase==="list"&&renderListScreen()}
+      {phase==="detail"&&renderDetailScreen()}
       {phase==="ai-create"&&renderAiCreateScreen()}
 
       {phase==="editor"&&(<>
