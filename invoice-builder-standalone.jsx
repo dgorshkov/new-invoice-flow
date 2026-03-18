@@ -695,6 +695,11 @@ function InvoiceBuilder(){
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke={C.textSec} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" transform="rotate(180 12 12)"/><path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2" stroke={C.textSec} strokeWidth="1.5" strokeLinecap="round"/></svg>,
               "Import data to Finom","Simply transfer your contacts and products from other system"
             )}
+            <div style={{height:1,background:C.borderLight,margin:"0 18px"}}/>
+            {sidebarItem(
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.textSec} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.textSec} strokeWidth="1.5"/></svg>,
+              "Documents collection","Uploaded files, scans and email attachments"
+            )}
           </div>
 
           {/* Receive invoices card */}
