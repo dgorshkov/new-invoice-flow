@@ -635,64 +635,8 @@ function InvoiceBuilder(){
     setPayTerms("Net 14");setDueDate(isoDate(addDays(today,14)));
     setNotes("Hours as discussed — 40h web development for the February sprint.");
     setInvNum(freshInvNum());
-    setAiGenerating(false);setAiStep("");setPhase("editor");
+    setAiGenerating(false);setAiStep("");setShowNewSaleModal(false);setPhase("editor");
   };
-
-  const renderAiCreateScreen=()=>(
-    <div className="phase-enter" key="ai-create" style={{maxWidth:640,margin:"0 auto",padding:"40px 24px 40px"}}>
-      <div style={{marginBottom:24}}><span onClick={()=>setPhase("list")} style={{fontSize:12,fontWeight:500,color:C.textSec,letterSpacing:.5,textTransform:"uppercase",cursor:"pointer"}}>← Back to invoices</span></div>
-      <div style={{textAlign:"center",marginBottom:32}}>
-        <div style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#EDE9FE,#E0E7FF)",marginBottom:16}}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>
-        </div>
-        <h2 style={{fontSize:24,fontWeight:700,color:C.dark,margin:"0 0 8px",fontFamily:SANS}}>What are you invoicing for?</h2>
-        <p style={{fontSize:14,color:C.textSec,margin:0,lineHeight:1.5}}>Describe the work, and we'll generate a complete invoice for you to review.</p>
-      </div>
-      {!aiGenerating?(
-        <div>
-          <textarea value={aiPrompt} onChange={e=>setAiPrompt(e.target.value)}
-            placeholder={"\"40 hours of web development for TechVentures in February\"\n\"Monthly retainer for Atelier Lumière — design services, €2,400\"\n\"Sold 500 printed brochures to Nordic Digital\""}
-            style={{width:"100%",minHeight:120,padding:"14px 16px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:15,fontFamily:SANS,color:C.text,background:"#fff",resize:"vertical",lineHeight:1.6,outline:"none"}}
-            onFocus={e=>e.target.style.borderColor=C.dark} onBlur={e=>e.target.style.borderColor=C.border} autoFocus/>
-          <div style={{display:"flex",gap:12,marginTop:16}}>
-            <button onClick={()=>aiGenerate(aiPrompt)} disabled={!aiPrompt.trim()}
-              style={{flex:1,padding:"0 24px",height:48,borderRadius:24,border:"none",background:aiPrompt.trim()?C.dark:C.surfaceAlt,color:aiPrompt.trim()?"#fff":C.textTer,fontSize:15,fontWeight:500,cursor:aiPrompt.trim()?"pointer":"default",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8,transition:"all .2s"}}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>
-              Generate invoice</button>
-            <button onClick={()=>{setInvNum(freshInvNum());setPhase("editor");}}
-              style={{padding:"0 24px",height:48,borderRadius:24,border:`1px solid ${C.border}`,background:"transparent",color:C.textSec,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS,whiteSpace:"nowrap"}}>
-              Use blank form</button>
-          </div>
-          <div style={{marginTop:32}}>
-            <div style={{fontSize:12,fontWeight:600,color:C.textTer,textTransform:"uppercase",letterSpacing:.5,marginBottom:12}}>Or start from recent context</div>
-            {[
-              {icon:"📄",label:"Contract: Mustermann-GmbH-Contract-May2027.pdf",sub:"6 milestones, next: €12,600 due March 2026"},
-              {icon:"📧",label:"Gmail: conversation with Ivan Examplov",sub:"Web consulting, ~35 hours discussed"},
-              {icon:"🔁",label:"Recurring: TechVentures GmbH — monthly retainer",sub:"€4,800/mo, last invoiced 1 Mar"},
-            ].map((s,i)=>(
-              <div key={i} onClick={()=>{setAiPrompt(s.label);aiGenerate(s.label);}} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",borderRadius:12,border:`2px solid ${C.border}`,marginBottom:8,cursor:"pointer",transition:"all .15s",background:"#fff"}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.borderHard;e.currentTarget.style.background=C.surfaceAlt;}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}>
-                <span style={{fontSize:20}}>{s.icon}</span>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontSize:13,fontWeight:600,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.label}</div>
-                  <div style={{fontSize:12,color:C.textSec,marginTop:2}}>{s.sub}</div>
-                </div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/></svg>
-              </div>
-            ))}
-          </div>
-        </div>
-      ):(
-        <div style={{textAlign:"center",padding:"40px 0"}}>
-          <div style={{display:"inline-block",width:48,height:48,borderRadius:24,border:`3px solid ${C.borderLight}`,borderTopColor:"#6D28D9",animation:"spin 1s linear infinite",marginBottom:20}}/>
-          <div style={{fontSize:16,fontWeight:600,color:C.dark,marginBottom:8}}>{aiStep}</div>
-          <div style={{fontSize:13,color:C.textSec}}>Building your invoice from: "{aiPrompt}"</div>
-          <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-        </div>
-      )}
-    </div>
-  );
 
   /* sales are always expanded — no toggle needed */
 
@@ -719,7 +663,7 @@ function InvoiceBuilder(){
         <div style={{flex:"0 0 300px",paddingTop:4}}>
           {/* Action buttons card */}
           <div style={{background:"#fff",borderRadius:20,padding:"24px 16px",marginBottom:16,display:"flex",gap:0}}>
-            <button onClick={()=>{setAiPrompt("");setPhase("ai-create");}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
+            <button onClick={()=>{setAiPrompt("");setShowNewSaleModal(true);}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
               onMouseEnter={e=>e.currentTarget.querySelector("div").style.background=C.borderLight}
               onMouseLeave={e=>e.currentTarget.querySelector("div").style.background=C.surfaceAlt}>
               <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .15s"}}>
@@ -1373,7 +1317,6 @@ function InvoiceBuilder(){
 
       {phase==="list"&&renderListScreen()}
       {phase==="detail"&&renderDetailScreen()}
-      {phase==="ai-create"&&renderAiCreateScreen()}
 
       {phase==="editor"&&(<>
       {/* PAGE TITLE BAR */}
@@ -1665,42 +1608,61 @@ function InvoiceBuilder(){
       {/* ═══ NEW SALE MODAL ═══ */}
       {showNewSaleModal&&(<>
         {/* Backdrop */}
-        <div onClick={()=>setShowNewSaleModal(false)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.35)",zIndex:100,backdropFilter:"blur(2px)"}}/>
+        <div onClick={()=>{if(!aiGenerating)setShowNewSaleModal(false);}} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.35)",zIndex:100,backdropFilter:"blur(2px)"}}/>
         {/* Modal */}
-        <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",zIndex:101,width:520,maxHeight:"85vh",overflowY:"auto",background:"#fff",borderRadius:20,padding:"32px 32px 28px",boxShadow:"0 16px 48px rgba(0,0,0,.12)"}}>
+        <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",zIndex:101,width:560,maxHeight:"90vh",overflowY:"auto",background:"#fff",borderRadius:20,padding:"32px 32px 28px",boxShadow:"0 16px 48px rgba(0,0,0,.12)"}}>
           {/* Close button */}
-          <button onClick={()=>setShowNewSaleModal(false)} style={{position:"absolute",top:16,right:16,width:32,height:32,borderRadius:16,border:"none",background:C.surfaceAlt,color:C.textSec,fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+          {!aiGenerating&&<button onClick={()=>setShowNewSaleModal(false)} style={{position:"absolute",top:16,right:16,width:32,height:32,borderRadius:16,border:"none",background:C.surfaceAlt,color:C.textSec,fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>}
 
-          <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>Start a new sale</div>
-          <div style={{fontSize:14,color:C.textSec,marginBottom:24,lineHeight:1.5}}>How would you like to get started?</div>
+          {aiGenerating?(
+            /* AI generating spinner */
+            <div style={{textAlign:"center",padding:"40px 0"}}>
+              <div style={{display:"inline-block",width:48,height:48,borderRadius:24,border:`3px solid ${C.borderLight}`,borderTopColor:C.dark,animation:"spin 1s linear infinite",marginBottom:20}}/>
+              <div style={{fontSize:16,fontWeight:600,color:C.dark,marginBottom:8}}>{aiStep}</div>
+              <div style={{fontSize:13,color:C.textSec}}>Building your invoice from: "{aiPrompt}"</div>
+            </div>
+          ):(
+            <>
+            {/* AI freetext area */}
+            <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>New sale</div>
+            <div style={{fontSize:14,color:C.textSec,marginBottom:20,lineHeight:1.5}}>Describe what you need — or pick a document type below.</div>
 
-          {/* Option cards */}
-          <div style={{display:"flex",flexDirection:"column",gap:8}}>
-            {[
-              {key:"invoice",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.dark} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.dark} strokeWidth="1.5"/><path d="M8 13h8M8 17h8M8 9h2" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/></svg>,
-                title:"Invoice",desc:"Create a standard invoice and send it to your client."},
-              {key:"quote",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.dark} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.dark} strokeWidth="1.5"/><path d="M9 15l2 2 4-4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-                title:"Quote",desc:"Send a quote first — convert it to an invoice once accepted."},
-              {key:"payment-link",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/></svg>,
-                title:"Payment link",desc:"Share a quick link for small sales — no formal document needed."},
-              {key:"from-contract",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke={C.dark} strokeWidth="1.5"/><path d="M2 12h20" stroke={C.dark} strokeWidth="1.5"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" stroke={C.dark} strokeWidth="1.5"/></svg>,
-                title:"From a contract",desc:"Generate an invoice from an uploaded contract or agreement."},
-              {key:"ai",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>,
-                title:"Describe it",desc:"Tell us what you're selling and we'll set everything up for you."},
-            ].map(opt=>(
-              <button key={opt.key} onClick={()=>{setShowNewSaleModal(false);if(opt.key==="ai"){setAiPrompt("");setPhase("ai-create");}else if(opt.key==="invoice"){setInvNum(freshInvNum());setPhase("editor");}else{alert("Not available in this prototype.");}}}
-                style={{display:"flex",alignItems:"flex-start",gap:16,padding:"18px 20px",borderRadius:12,border:`2px solid ${C.border}`,background:"#fff",cursor:"pointer",textAlign:"left",fontFamily:SANS,transition:"all .15s",outline:"none"}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}>
-                <div style={{width:40,height:40,borderRadius:10,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{opt.icon}</div>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:15,fontWeight:600,color:C.dark,marginBottom:3}}>{opt.title}</div>
-                  <div style={{fontSize:13,color:C.textSec,lineHeight:1.4}}>{opt.desc}</div>
-                </div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{flexShrink:0,marginTop:4}}><path d="M9 18l6-6-6-6" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/></svg>
-              </button>
-            ))}
-          </div>
+            <textarea value={aiPrompt} onChange={e=>setAiPrompt(e.target.value)}
+              placeholder={"Describe in plain language, e.g.:\n\"40 hours of web dev for TechVentures in February\"\n\"Send a quote to Atelier Lumière for €2,400 design retainer\"\n\nYou can also paste an email thread or contract excerpt."}
+              style={{width:"100%",minHeight:100,padding:"14px 16px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",resize:"vertical",lineHeight:1.6,outline:"none",marginBottom:12}}
+              onFocus={e=>e.target.style.borderColor=C.dark} onBlur={e=>e.target.style.borderColor=C.border}/>
+
+            <button onClick={()=>{aiGenerate(aiPrompt);}} disabled={!aiPrompt.trim()}
+              style={{width:"100%",height:44,borderRadius:20,border:"none",background:aiPrompt.trim()?C.dark:C.surfaceAlt,color:aiPrompt.trim()?"#fff":C.textTer,fontSize:15,fontWeight:500,cursor:aiPrompt.trim()?"pointer":"default",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8,transition:"all .2s",marginBottom:24}}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>
+              Generate</button>
+
+            {/* Divider */}
+            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
+              <div style={{flex:1,height:1,background:C.borderLight}}/>
+              <span style={{fontSize:12,fontWeight:500,color:C.textTer}}>or create manually</span>
+              <div style={{flex:1,height:1,background:C.borderLight}}/>
+            </div>
+
+            {/* Manual artifact type buttons */}
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {[
+                {key:"invoice",label:"Invoice",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/></svg>},
+                {key:"quote",label:"Quote",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M9 15l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>},
+                {key:"payment-link",label:"Payment link",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
+                {key:"credit-note",label:"Credit note",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
+              ].map(opt=>(
+                <button key={opt.key} onClick={()=>{setShowNewSaleModal(false);if(opt.key==="invoice"){setInvNum(freshInvNum());setPhase("editor");}else{alert("Not available in this prototype.");}}}
+                  style={{flex:"1 1 calc(50% - 4px)",display:"flex",alignItems:"center",gap:10,padding:"14px 16px",borderRadius:12,border:`2px solid ${C.border}`,background:"#fff",cursor:"pointer",textAlign:"left",fontFamily:SANS,transition:"all .15s",outline:"none"}}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}>
+                  <span style={{color:C.dark}}>{opt.icon}</span>
+                  <span style={{fontSize:14,fontWeight:500,color:C.dark}}>{opt.label}</span>
+                </button>
+              ))}
+            </div>
+            </>
+          )}
         </div>
       </>)}
     </div>
