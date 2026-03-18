@@ -784,7 +784,7 @@ function InvoiceBuilder(){
             const multi=sale.artifacts.length>1;
             const primary=sale.artifacts.find(a=>a.type==="invoice")||sale.artifacts[0];
             const primarySt=statusCfg[primary.status]||statusCfg.draft;
-            const saleTotal=sale.artifacts.reduce((s,a)=>s+a.amount,0);
+            const saleTotal=sale.artifacts.filter(a=>a.type!=="quote").reduce((s,a)=>s+a.amount,0);
             return(
               <div key={sale.id} style={{borderBottom:idx<MOCK_SALES.length-1?`1px solid ${C.borderLight}`:"none",padding:"14px 4px"}}>
                 {/* Sale header: client + amount */}
