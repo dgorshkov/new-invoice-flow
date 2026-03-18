@@ -86,7 +86,7 @@ const FLAGS={DE:"🇩🇪",FR:"🇫🇷",IT:"🇮🇹",ES:"🇪🇸",NL:"🇳�
    ═══════════════════════════════════════════════════════════════════════════ */
 const MOCK_SALES=[
   {id:1,clientName:"TechVentures GmbH",country:"DE",cur:"EUR",artifacts:[
-    {type:"invoice",num:"INV-2026-791",amount:4522.50,date:"2026-03-03",dueDate:"2026-03-17",status:"shared"},
+    {type:"invoice",num:"INV-2026-791",amount:4522.50,date:"2026-03-03",dueDate:"2026-03-17",status:"sent"},
   ]},
   {id:9,clientName:"Mustermann GmbH",country:"DE",cur:"EUR",artifacts:[
     {type:"invoice",num:"INV-2026-798",amount:12600.00,date:"2026-03-07",dueDate:"2026-04-06",status:"draft"},
@@ -99,7 +99,7 @@ const MOCK_SALES=[
   ]},
   {id:3,clientName:"SolarTech Solutions SARL",country:"FR",cur:"EUR",artifacts:[
     {type:"quote",num:"QT-2026-140",amount:8340.00,date:"2026-02-20",status:"accepted"},
-    {type:"invoice",num:"INV-2026-772",amount:8340.00,date:"2026-02-27",dueDate:"2026-03-13",status:"shared"},
+    {type:"invoice",num:"INV-2026-772",amount:8340.00,date:"2026-02-27",dueDate:"2026-03-13",status:"sent"},
   ]},
   {id:4,clientName:"Smith & Partners Ltd",country:"GB",cur:"GBP",artifacts:[
     {type:"invoice",num:"INV-2026-765",amount:1850.00,date:"2026-02-20",dueDate:"2026-03-06",status:"overdue"},
@@ -696,7 +696,7 @@ function InvoiceBuilder(){
   /* sales are always expanded — no toggle needed */
 
   const renderListScreen=()=>{
-    const statusCfg={shared:{color:C.blue,label:"Shared"},not_shared:{color:C.textTer,label:"Not shared"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"},credit_note:{color:C.orange||C.red,label:"Issued"}};
+    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"}};
     const typeCfg={invoice:{icon:"INV",color:C.dark},quote:{icon:"QT",color:C.textSec},credit_note:{icon:"CN",color:C.red}};
     const fmtDate=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});};
     const fmtAmt=(a,c)=>{const cur=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cur.sym.trim();};
@@ -846,7 +846,7 @@ function InvoiceBuilder(){
   const renderDetailScreen=()=>{
     if(!detailSale||!detailArtifact)return null;
     const sale=detailSale;const art=detailArtifact;
-    const statusCfg={shared:{color:C.blue,label:"Shared"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"}};
+    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"}};
     const st=statusCfg[art.status]||statusCfg.draft;
     const typeLabel={invoice:"Invoice",quote:"Quote",credit_note:"Credit Note"}[art.type]||"Document";
     const fmtDateL=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});};
@@ -854,7 +854,7 @@ function InvoiceBuilder(){
     /* Mock history events */
     const history=[
       {date:art.date,label:"Created",done:true},
-      ...(art.status==="shared"||art.status==="paid"?[{date:art.date,label:"Shared with client",done:true}]:[]),
+      ...(art.status==="sent"||art.status==="paid"?[{date:art.date,label:"Sent to client",done:true}]:[]),
       ...(art.status==="paid"?[{date:art.dueDate||art.date,label:"Payment received",done:true}]:[]),
       ...(art.status!=="paid"?[{date:art.dueDate||null,label:art.status==="overdue"?"Payment overdue":"Awaiting payment",done:false}]:[]),
     ];
