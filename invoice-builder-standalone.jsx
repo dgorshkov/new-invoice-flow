@@ -1661,6 +1661,25 @@ function InvoiceBuilder(){
                 </button>
               ))}
             </div>
+
+            {/* Upload divider */}
+            <div style={{display:"flex",alignItems:"center",gap:12,margin:"20px 0"}}>
+              <div style={{flex:1,height:1,background:C.borderLight}}/>
+              <span style={{fontSize:12,fontWeight:500,color:C.textTer}}>or upload</span>
+              <div style={{flex:1,height:1,background:C.borderLight}}/>
+            </div>
+
+            {/* Dropzone */}
+            <div style={{border:`2px dashed ${C.border}`,borderRadius:12,padding:"24px 16px",textAlign:"center",cursor:"pointer",transition:"all .15s"}}
+              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
+              onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="transparent";}}
+              onDragOver={e=>{e.preventDefault();e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
+              onDragLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="transparent";}}
+              onDrop={e=>{e.preventDefault();e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="transparent";alert("File upload is not available in this prototype.");}}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{marginBottom:8}}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/><path d="M17 8l-5-5-5 5" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 3v12" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/></svg>
+              <div style={{fontSize:14,fontWeight:500,color:C.dark,marginBottom:4}}>Drop a file here or <span style={{color:C.blue,cursor:"pointer"}}>browse</span></div>
+              <div style={{fontSize:12,color:C.textTer}}>PDF, contract, email export — we'll figure out the rest</div>
+            </div>
             </>
           )}
         </div>
