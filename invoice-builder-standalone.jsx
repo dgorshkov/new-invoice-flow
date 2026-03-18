@@ -697,7 +697,7 @@ function InvoiceBuilder(){
 
   const renderListScreen=()=>{
     const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"}};
-    const typeCfg={invoice:{icon:"INV",color:C.dark},quote:{icon:"QT",color:C.textSec},credit_note:{icon:"CN",color:C.red}};
+    const typeCfg={invoice:{icon:"Invoice",color:C.dark},quote:{icon:"Quote",color:C.textSec},credit_note:{icon:"Credit note",color:C.red}};
     const fmtDate=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});};
     const fmtAmt=(a,c)=>{const cur=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cur.sym.trim();};
     const sidebarItem=(icon,label,sub)=>(
