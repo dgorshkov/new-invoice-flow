@@ -89,11 +89,11 @@ const MOCK_SALES=[
     {type:"invoice",num:"INV-2026-791",amount:4522.50,date:"2026-03-03",dueDate:"2026-03-17",status:"sent"},
   ]},
   {id:9,clientName:"Mustermann GmbH",country:"DE",cur:"EUR",artifacts:[
-    {type:"quote",num:"QT-2026-155",amount:37800.00,date:"2026-01-10",status:"accepted"},
+    {type:"contract",num:"Mustermann-GmbH-Contract-May2027.pdf",amount:37800.00,date:"2025-12-15",status:"signed"},
     {type:"invoice",num:"INV-2026-750",amount:12600.00,date:"2026-01-20",dueDate:"2026-02-19",status:"paid"},
     {type:"invoice",num:"INV-2026-776",amount:12600.00,date:"2026-02-20",dueDate:"2026-03-22",status:"sent"},
     {type:"invoice",num:"INV-2026-798",amount:12600.00,date:"2026-03-07",dueDate:"2026-04-06",status:"draft"},
-  ],aiSource:{type:"contract",label:"Created by AI based on the contract uploaded earlier",fileName:"Mustermann-GmbH-Contract-May2027.pdf",fileUrl:"#contract-preview"}},
+  ]},
   {id:10,clientName:"Ivan Examplov",country:"DE",cur:"EUR",artifacts:[
     {type:"invoice",num:"INV-2026-795",amount:3150.00,date:"2026-03-05",dueDate:"2026-04-04",status:"draft"},
   ],aiSource:{type:"email",label:"Created by AI based on your Gmail conversation with Ivan Examplov",linkText:"conversation",linkUrl:"#gmail-thread"}},
@@ -645,8 +645,8 @@ function InvoiceBuilder(){
   /* sales are always expanded — no toggle needed */
 
   const renderListScreen=()=>{
-    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"}};
-    const typeCfg={invoice:{icon:"Invoice",color:C.dark},quote:{icon:"Quote",color:C.textSec},credit_note:{icon:"Credit note",color:C.red}};
+    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"},signed:{color:C.green,label:"Signed"}};
+    const typeCfg={invoice:{icon:"Invoice",color:C.dark},quote:{icon:"Quote",color:C.textSec},credit_note:{icon:"Credit note",color:C.red},contract:{icon:"Contract",color:C.textSec}};
     const fmtDate=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});};
     const fmtAmt=(a,c)=>{const cur=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cur.sym.trim();};
     const sidebarItem=(icon,label,sub)=>(
@@ -743,7 +743,7 @@ function InvoiceBuilder(){
             const multi=sale.artifacts.length>1;
             const primary=sale.artifacts.find(a=>a.type==="invoice")||sale.artifacts[0];
             const primarySt=statusCfg[primary.status]||statusCfg.draft;
-            const saleTotal=sale.artifacts.filter(a=>a.type!=="quote").reduce((s,a)=>s+a.amount,0);
+            const saleTotal=sale.artifacts.filter(a=>a.type!=="quote"&&a.type!=="contract").reduce((s,a)=>s+a.amount,0);
             return(
               <div key={sale.id} style={{borderBottom:idx<MOCK_SALES.length-1?`1px solid ${C.borderLight}`:"none",padding:"14px 4px"}}>
                 {/* Sale header: client + amount */}
@@ -805,9 +805,9 @@ function InvoiceBuilder(){
   const renderDetailScreen=()=>{
     if(!detailSale||!detailArtifact)return null;
     const sale=detailSale;const art=detailArtifact;
-    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"}};
+    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"},signed:{color:C.green,label:"Signed"}};
     const st=statusCfg[art.status]||statusCfg.draft;
-    const typeLabel={invoice:"Invoice",quote:"Quote",credit_note:"Credit Note"}[art.type]||"Document";
+    const typeLabel={invoice:"Invoice",quote:"Quote",credit_note:"Credit Note",contract:"Contract"}[art.type]||"Document";
     const fmtDateL=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});};
     const fmtAmtL=(a,c)=>{const cu=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cu.sym.trim();};
     /* Mock history events */
