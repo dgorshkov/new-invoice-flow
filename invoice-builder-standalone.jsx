@@ -394,6 +394,7 @@ function InvoiceBuilder(){
   const[phase,setPhase]=useState("list");
   const[detailSale,setDetailSale]=useState(null);
   const[detailArtifact,setDetailArtifact]=useState(null);
+  const[showNewSaleModal,setShowNewSaleModal]=useState(false);
   const[emailTo,setEmailTo]=useState("");
   const[emailSubject,setEmailSubject]=useState("");
   const[emailBody,setEmailBody]=useState("");
@@ -758,7 +759,12 @@ function InvoiceBuilder(){
 
         {/* MAIN CONTENT */}
         <div style={{flex:1,minWidth:0}}>
-          <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:"0 0 20px",fontFamily:SANS}}>Get Paid</h1>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",margin:"0 0 20px"}}>
+            <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:0,fontFamily:SANS}}>Get Paid</h1>
+            <button onClick={()=>setShowNewSaleModal(true)} style={{width:40,height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:22,fontWeight:400,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1}}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/></svg>
+            </button>
+          </div>
 
           {/* Search bar */}
           <div style={{position:"relative",marginBottom:14}}>
@@ -1655,6 +1661,48 @@ function InvoiceBuilder(){
       {phase==="send"&&renderSendScreen()}
       {phase==="reminders"&&renderRemindersScreen()}
       {phase==="done"&&renderDoneScreen()}
+
+      {/* ═══ NEW SALE MODAL ═══ */}
+      {showNewSaleModal&&(<>
+        {/* Backdrop */}
+        <div onClick={()=>setShowNewSaleModal(false)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.35)",zIndex:100,backdropFilter:"blur(2px)"}}/>
+        {/* Modal */}
+        <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",zIndex:101,width:520,maxHeight:"85vh",overflowY:"auto",background:"#fff",borderRadius:20,padding:"32px 32px 28px",boxShadow:"0 16px 48px rgba(0,0,0,.12)"}}>
+          {/* Close button */}
+          <button onClick={()=>setShowNewSaleModal(false)} style={{position:"absolute",top:16,right:16,width:32,height:32,borderRadius:16,border:"none",background:C.surfaceAlt,color:C.textSec,fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+
+          <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>Start a new sale</div>
+          <div style={{fontSize:14,color:C.textSec,marginBottom:24,lineHeight:1.5}}>How would you like to get started?</div>
+
+          {/* Option cards */}
+          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+            {[
+              {key:"invoice",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.dark} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.dark} strokeWidth="1.5"/><path d="M8 13h8M8 17h8M8 9h2" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/></svg>,
+                title:"Invoice",desc:"Create a standard invoice and send it to your client."},
+              {key:"quote",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.dark} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.dark} strokeWidth="1.5"/><path d="M9 15l2 2 4-4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+                title:"Quote",desc:"Send a quote first — convert it to an invoice once accepted."},
+              {key:"payment-link",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/></svg>,
+                title:"Payment link",desc:"Share a quick link for small sales — no formal document needed."},
+              {key:"from-contract",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke={C.dark} strokeWidth="1.5"/><path d="M2 12h20" stroke={C.dark} strokeWidth="1.5"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" stroke={C.dark} strokeWidth="1.5"/></svg>,
+                title:"From a contract",desc:"Generate an invoice from an uploaded contract or agreement."},
+              {key:"ai",icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>,
+                title:"Describe it",desc:"Tell us what you're selling and we'll set everything up for you."},
+            ].map(opt=>(
+              <button key={opt.key} onClick={()=>{setShowNewSaleModal(false);if(opt.key==="ai"){setAiPrompt("");setPhase("ai-create");}else if(opt.key==="invoice"){setInvNum(freshInvNum());setPhase("editor");}else{alert("Not available in this prototype.");}}}
+                style={{display:"flex",alignItems:"flex-start",gap:16,padding:"18px 20px",borderRadius:12,border:`2px solid ${C.border}`,background:"#fff",cursor:"pointer",textAlign:"left",fontFamily:SANS,transition:"all .15s",outline:"none"}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}>
+                <div style={{width:40,height:40,borderRadius:10,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{opt.icon}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:15,fontWeight:600,color:C.dark,marginBottom:3}}>{opt.title}</div>
+                  <div style={{fontSize:13,color:C.textSec,lineHeight:1.4}}>{opt.desc}</div>
+                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{flexShrink:0,marginTop:4}}><path d="M9 18l6-6-6-6" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/></svg>
+              </button>
+            ))}
+          </div>
+        </div>
+      </>)}
     </div>
   );
 }
