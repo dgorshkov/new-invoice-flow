@@ -396,6 +396,7 @@ function InvoiceBuilder(){
   /* Post-creation flow state */
   const[phase,setPhase]=useState("list");
   const[activeSaleId,setActiveSaleId]=useState(null);
+  const[openMenuSaleId,setOpenMenuSaleId]=useState(null);
   const[detailSale,setDetailSale]=useState(null);
   const[detailArtifact,setDetailArtifact]=useState(null);
   const[showNewSaleModal,setShowNewSaleModal]=useState(false);
@@ -417,6 +418,20 @@ function InvoiceBuilder(){
   const shareLink=useMemo(()=>"https://pay.finom.co/inv/"+invNum.replace(/[^A-Za-z0-9]/g,"").toLowerCase(),[invNum]);
 
   const [sales, setSales] = useState(INITIAL_SALES);
+
+  /* Close open menu on global click */
+  useEffect(() => {
+    const closeMenu = () => setOpenMenuSaleId(null);
+    if (openMenuSaleId) window.addEventListener('click', closeMenu);
+    return () => window.removeEventListener('click', closeMenu);
+  }, [openMenuSaleId]);
+
+  /* Helper to get client name for active sale context */
+  const activeSaleClientName = useMemo(() => {
+    if (!activeSaleId) return null;
+    const s = sales.find(x => x.id === activeSaleId);
+    return s ? s.clientName : null;
+  }, [activeSaleId, sales]);
 
   /* Format amounts in selected currency */
   const fmtAmt=useCallback((n)=>{
@@ -720,7 +735,7 @@ function InvoiceBuilder(){
               <span style={{fontSize:13,fontWeight:600,color:C.dark}}>New{"\n"}invoice</span>
             </button>
             <div style={{width:1,background:C.borderLight,margin:"8px 0"}}/>
-            <button onClick={()=>alert("Not available in this prototype.")} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS}}>
+            <button onClick={()=>setShowUploadModal(true)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS}}>
               <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center"}}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/><path d="M12 3v12m0-12l4 4m-4-4L8 7" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
@@ -758,14 +773,6 @@ function InvoiceBuilder(){
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",margin:"0 0 20px"}}>
             <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:0,fontFamily:SANS}}>Get Paid</h1>
-            <div style={{display:"flex",gap:8}}>
-              <button onClick={()=>setShowUploadModal(true)} title="Upload a file" style={{width:40,height:40,borderRadius:10,border:`1px solid ${C.border}`,background:"#fff",color:C.textSec,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M17 8l-5-5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 3v12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-              </button>
-              <button onClick={()=>setShowNewSaleModal(true)} title="New sale" style={{width:40,height:40,borderRadius:10,border:"none",background:C.dark,color:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/></svg>
-              </button>
-            </div>
           </div>
 
           {/* Search bar */}
@@ -795,10 +802,10 @@ function InvoiceBuilder(){
             const saleTotal=sale.artifacts.filter(a=>a.type!=="quote"&&a.type!=="contract").reduce((s,a)=>s+a.amount,0);
             return(
               <div key={sale.id} style={{borderBottom:idx<sales.length-1?`1px solid ${C.borderLight}`:"none",padding:"14px 4px"}}>
-                {/* Sale header: client + amount */}
+                {/* Sale header: client + amount + menu */}
                 <div style={{display:"flex",alignItems:"center",marginBottom:multi?8:0}}>
                   <div style={{flex:1,minWidth:0}}>
-                    <span style={{fontSize:14,fontWeight:600,color:C.dark}}>{sale.clientName}</span>
+                    <span style={{fontSize:14,fontWeight:600,color:C.dark}}>Sale to {sale.clientName}</span>
                     {sale.aiSource&&(
                       <div style={{display:"flex",alignItems:"center",gap:5,marginTop:4}}>
                         <AiPill style={{fontSize:9,padding:"1px 6px 1px 4px"}}/>
@@ -812,8 +819,21 @@ function InvoiceBuilder(){
                       </div>
                     )}
                   </div>
-                  <div style={{textAlign:"right"}}>
+                  <div style={{textAlign:"right",marginRight:12}}>
                     <span style={{fontSize:14,fontWeight:600,color:C.dark}}>{fmtAmt(multi?saleTotal:primary.amount,sale.cur)}</span>
+                  </div>
+                  <div style={{position:"relative",marginLeft:"12px"}}>
+                    <button onClick={(e)=>{e.stopPropagation();setOpenMenuSaleId(openMenuSaleId===sale.id?null:sale.id);}} style={{width:28,height:28,borderRadius:6,border:"none",background:openMenuSaleId===sale.id?C.surfaceAlt:"transparent",color:C.textTer,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,lineHeight:1}}>
+                      ⋮
+                    </button>
+                    {openMenuSaleId===sale.id&&(
+                      <div style={{position:"absolute",top:32,right:0,background:"#fff",border:`1px solid ${C.borderLight}`,borderRadius:8,boxShadow:"0 4px 12px rgba(0,0,0,0.1)",zIndex:10,minWidth:160,padding:"4px 0"}}>
+                        <button onClick={()=>{setOpenMenuSaleId(null);setActiveSaleId(sale.id);setShowNewSaleModal(true);}} style={{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"8px 12px",border:"none",background:"transparent",color:C.dark,fontSize:13,fontWeight:500,cursor:"pointer",textAlign:"left",fontFamily:SANS}} onMouseEnter={e=>e.target.style.background=C.surfaceAlt} onMouseLeave={e=>e.target.style.background="transparent"}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                          Add document
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* Artifacts — always visible */}
@@ -901,11 +921,6 @@ function InvoiceBuilder(){
           {/* Action buttons */}
           <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:28,flexWrap:"wrap"}}>
             <button style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{art.status==="draft"?"Send":"Re-send"}</button>
-            {art.type==="invoice" && (
-              <button onClick={()=>handleAddArtifact("credit_note")} style={{padding:"0 20px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>
-                Create credit note
-              </button>
-            )}
             <button style={{width:40,height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.textSec,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>···</button>
           </div>
 
@@ -957,14 +972,6 @@ function InvoiceBuilder(){
 
       {/* RIGHT — sidebar */}
       <div style={{flex:"0 0 320px",paddingTop:36}}>
-        {/* Actions */}
-        <div style={{marginBottom:16}}>
-          <button onClick={()=>handleAddArtifact("invoice")} style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${C.border}`,background:"#fff",color:C.dark,fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8,boxShadow:"0 2px 4px rgba(0,0,0,.03)"}}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-            Add document to this sale
-          </button>
-        </div>
-
         {/* Files card */}
         <div style={{background:"#fff",borderRadius:20,padding:"24px 24px",marginBottom:16}}>
           <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:14}}>Files</div>
@@ -1690,12 +1697,12 @@ function InvoiceBuilder(){
             <div style={{textAlign:"center",padding:"40px 0"}}>
               <div style={{display:"inline-block",width:48,height:48,borderRadius:24,border:`3px solid ${C.borderLight}`,borderTopColor:C.dark,animation:"spin 1s linear infinite",marginBottom:20}}/>
               <div style={{fontSize:16,fontWeight:600,color:C.dark,marginBottom:8}}>{aiStep}</div>
-              <div style={{fontSize:13,color:C.textSec}}>Building your invoice from: "{aiPrompt}"</div>
+              <div style={{fontSize:13,color:C.textSec}}>Building your {activeSaleId ? "document" : "invoice"} from: "{aiPrompt}"</div>
             </div>
           ):(
             <>
             {/* AI freetext area */}
-            <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>New sale</div>
+            <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>{activeSaleId ? `Add to ${activeSaleClientName}` : "New sale"}</div>
             <div style={{fontSize:14,color:C.textSec,marginBottom:20,lineHeight:1.5}}>Describe what you need — or pick a document type below.</div>
 
             <textarea value={aiPrompt} onChange={e=>setAiPrompt(e.target.value)}
@@ -1721,8 +1728,9 @@ function InvoiceBuilder(){
                 {key:"invoice",label:"Invoice",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/></svg>},
                 {key:"quote",label:"Quote",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M9 15l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>},
                 {key:"payment-link",label:"Payment link",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
+                ...(activeSaleId ? [{key:"credit_note",label:"Credit note",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}] : []),
               ].map(opt=>(
-                <button key={opt.key} onClick={()=>{setShowNewSaleModal(false);if(opt.key==="invoice"){setInvNum(freshInvNum());setPhase("editor");setActiveSaleId(null);}else{alert("Not available in this prototype.");}}}
+                <button key={opt.key} onClick={()=>{setShowNewSaleModal(false);if(opt.key==="invoice"){setInvNum(freshInvNum());setPhase("editor");if(!activeSaleId) setActiveSaleId(null);} else if(opt.key==="credit_note"){setInvNum("CN-2026-"+String(Math.floor(Math.random()*900)+100));setPhase("editor");} else{alert("Not available in this prototype.");}}}
                   style={{flex:"1 1 calc(50% - 4px)",display:"flex",alignItems:"center",gap:10,padding:"14px 16px",borderRadius:12,border:`2px solid ${C.border}`,background:"#fff",cursor:"pointer",textAlign:"left",fontFamily:SANS,transition:"all .15s",outline:"none"}}
                   onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
                   onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}>
