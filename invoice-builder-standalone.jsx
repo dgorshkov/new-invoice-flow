@@ -691,8 +691,7 @@ function InvoiceBuilder(){
     </div>
   );
 
-  const [expandedSales,setExpandedSales]=useState({});
-  const toggleSale=(id)=>setExpandedSales(p=>({...p,[id]:!p[id]}));
+  /* sales are always expanded — no toggle needed */
 
   const renderListScreen=()=>{
     const statusCfg={shared:{color:C.blue,label:"Shared"},not_shared:{color:C.textTer,label:"Not shared"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"},credit_note:{color:C.orange||C.red,label:"Issued"}};
@@ -781,30 +780,15 @@ function InvoiceBuilder(){
           {/* Sales list */}
           {MOCK_SALES.map((sale,idx)=>{
             const multi=sale.artifacts.length>1;
-            const expanded=expandedSales[sale.id];
-            /* For single-artifact sales, show the artifact inline */
             const primary=sale.artifacts.find(a=>a.type==="invoice")||sale.artifacts[0];
             const primarySt=statusCfg[primary.status]||statusCfg.draft;
             const saleTotal=sale.artifacts.reduce((s,a)=>s+a.amount,0);
             return(
-              <div key={sale.id} style={{borderBottom:idx<MOCK_SALES.length-1?`1px solid ${C.borderLight}`:"none"}}>
-                {/* Sale row */}
-                <div onClick={()=>multi?toggleSale(sale.id):alert(`Opening ${primary.num} is not available in this prototype.`)}
-                  style={{display:"flex",alignItems:"center",padding:"14px 4px",cursor:"pointer",transition:"background .15s"}}
-                  onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
-                  onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
-                  {/* Expand chevron for multi-artifact sales */}
-                  <div style={{width:20,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                    {multi&&<svg width="12" height="12" viewBox="0 0 16 16" style={{transform:expanded?"rotate(90deg)":"rotate(0deg)",transition:"transform .15s"}}><path d="M6 4l4 4-4 4" fill="none" stroke={C.textTer} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                  </div>
-                  {/* Left: client + artifact summary */}
-                  <div style={{flex:1,minWidth:0,paddingLeft:4}}>
-                    <div style={{display:"flex",alignItems:"center",gap:6}}>
-                      <span style={{fontSize:14,fontWeight:600,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{sale.clientName}</span>
-                      {multi&&<span style={{fontSize:11,fontWeight:500,padding:"2px 7px",borderRadius:6,background:C.surfaceAlt,color:C.textSec,border:`1px solid ${C.border}`,whiteSpace:"nowrap"}}>{sale.artifacts.length} docs</span>}
-                    </div>
-                    {!multi&&<div style={{fontSize:12,color:C.textTer,marginTop:2}}>{primary.num}</div>}
-                    {multi&&!expanded&&<div style={{fontSize:12,color:C.textTer,marginTop:2}}>{sale.artifacts.map(a=>a.num).join(" · ")}</div>}
+              <div key={sale.id} style={{borderBottom:idx<MOCK_SALES.length-1?`1px solid ${C.borderLight}`:"none",padding:"14px 4px"}}>
+                {/* Sale header: client + amount */}
+                <div style={{display:"flex",alignItems:"center",marginBottom:multi?8:0}}>
+                  <div style={{flex:1,minWidth:0}}>
+                    <span style={{fontSize:14,fontWeight:600,color:C.dark}}>{sale.clientName}</span>
                     {sale.aiSource&&(
                       <div style={{display:"flex",alignItems:"center",gap:5,marginTop:4}}>
                         <AiPill style={{fontSize:9,padding:"1px 6px 1px 4px"}}/>
@@ -818,52 +802,37 @@ function InvoiceBuilder(){
                       </div>
                     )}
                   </div>
-                  {/* Center: status (primary artifact for single, overall for multi) */}
-                  <div style={{flex:"0 0 160px"}}>
-                    {!multi&&<>
-                      <div style={{display:"flex",alignItems:"center",gap:6}}>
-                        <span style={{width:8,height:8,borderRadius:4,background:primarySt.color,flexShrink:0}}/>
-                        <span style={{fontSize:13,fontWeight:500,color:C.textSec}}>{primarySt.label}</span>
-                      </div>
-                      {primary.dueDate&&primary.status!=="paid"&&primary.status!=="draft"&&<div style={{fontSize:12,color:C.textTer,marginTop:2,paddingLeft:14}}>Due {fmtDate(primary.dueDate)}</div>}
-                    </>}
-                  </div>
-                  {/* Right: amount + date */}
-                  <div style={{flex:"0 0 130px",textAlign:"right"}}>
-                    <div style={{fontSize:14,fontWeight:600,color:C.dark}}>{fmtAmt(multi?saleTotal:primary.amount,sale.cur)}</div>
-                    <div style={{fontSize:12,color:C.textTer,marginTop:2}}>{fmtDate(primary.date)}</div>
+                  <div style={{textAlign:"right"}}>
+                    <span style={{fontSize:14,fontWeight:600,color:C.dark}}>{fmtAmt(multi?saleTotal:primary.amount,sale.cur)}</span>
                   </div>
                 </div>
-                {/* Expanded artifacts */}
-                {multi&&expanded&&(
-                  <div style={{paddingLeft:28,paddingBottom:8}}>
-                    {sale.artifacts.map((a,ai)=>{
-                      const ast=statusCfg[a.status]||statusCfg.draft;
-                      const tc=typeCfg[a.type]||typeCfg.invoice;
-                      return(
-                        <div key={ai} onClick={e=>{e.stopPropagation();alert(`Opening ${a.num} is not available in this prototype.`);}}
-                          style={{display:"flex",alignItems:"center",padding:"8px 8px",borderRadius:8,cursor:"pointer",transition:"background .15s",marginBottom:2}}
-                          onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
-                          onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
-                          <span style={{fontSize:10,fontFamily:MONO,fontWeight:600,padding:"2px 6px",borderRadius:4,background:a.type==="credit_note"?C.redLight:C.surfaceAlt,color:tc.color,border:`1px solid ${C.border}`,marginRight:10,whiteSpace:"nowrap"}}>{tc.icon}</span>
-                          <div style={{flex:1,minWidth:0}}>
-                            <span style={{fontSize:13,fontWeight:500,color:C.dark}}>{a.num}</span>
-                          </div>
-                          <div style={{flex:"0 0 140px",display:"flex",alignItems:"center",gap:6}}>
-                            <span style={{width:6,height:6,borderRadius:3,background:ast.color,flexShrink:0}}/>
-                            <span style={{fontSize:12,fontWeight:500,color:C.textSec}}>{ast.label}</span>
-                          </div>
-                          <div style={{flex:"0 0 100px",textAlign:"right"}}>
-                            <span style={{fontSize:13,fontFamily:MONO,fontWeight:500,color:a.amount<0?C.red:C.dark}}>{a.amount<0?"−":""}{fmtAmt(Math.abs(a.amount),sale.cur)}</span>
-                          </div>
-                          <div style={{flex:"0 0 70px",textAlign:"right"}}>
-                            <span style={{fontSize:12,color:C.textTer}}>{fmtDate(a.date)}</span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
+                {/* Artifacts — always visible */}
+                {sale.artifacts.map((a,ai)=>{
+                  const ast=statusCfg[a.status]||statusCfg.draft;
+                  const tc=typeCfg[a.type]||typeCfg.invoice;
+                  return(
+                    <div key={ai} onClick={()=>alert(`Opening ${a.num} is not available in this prototype.`)}
+                      style={{display:"flex",alignItems:"center",padding:multi?"6px 8px":"4px 0",borderRadius:8,cursor:"pointer",transition:"background .15s",marginTop:multi&&ai===0?0:2}}
+                      onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
+                      onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+                      <span style={{fontSize:10,fontFamily:MONO,fontWeight:600,padding:"2px 6px",borderRadius:4,background:a.type==="credit_note"?C.redLight:C.surfaceAlt,color:tc.color,border:`1px solid ${C.border}`,marginRight:10,whiteSpace:"nowrap"}}>{tc.icon}</span>
+                      <div style={{flex:1,minWidth:0}}>
+                        <span style={{fontSize:13,fontWeight:500,color:C.dark}}>{a.num}</span>
+                      </div>
+                      <div style={{flex:"0 0 130px",display:"flex",alignItems:"center",gap:6}}>
+                        <span style={{width:6,height:6,borderRadius:3,background:ast.color,flexShrink:0}}/>
+                        <span style={{fontSize:12,fontWeight:500,color:C.textSec}}>{ast.label}</span>
+                        {a.dueDate&&a.status!=="paid"&&a.status!=="draft"&&<span style={{fontSize:11,color:C.textTer}}>· Due {fmtDate(a.dueDate)}</span>}
+                      </div>
+                      <div style={{flex:"0 0 90px",textAlign:"right"}}>
+                        <span style={{fontSize:13,fontFamily:MONO,fontWeight:500,color:a.amount<0?C.red:C.dark}}>{a.amount<0?"−":""}{fmtAmt(Math.abs(a.amount),sale.cur)}</span>
+                      </div>
+                      <div style={{flex:"0 0 60px",textAlign:"right"}}>
+                        <span style={{fontSize:12,color:C.textTer}}>{fmtDate(a.date)}</span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             );
           })}
