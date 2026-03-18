@@ -892,7 +892,7 @@ function InvoiceBuilder(){
 
           {/* Action buttons */}
           <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:28}}>
-            <button style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>Share document</button>
+            <button style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{art.status==="draft"?"Send":"Re-send"}</button>
             <button style={{width:40,height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.textSec,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>···</button>
           </div>
 
