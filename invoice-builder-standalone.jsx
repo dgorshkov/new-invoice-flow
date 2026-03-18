@@ -89,6 +89,9 @@ const MOCK_SALES=[
     {type:"invoice",num:"INV-2026-791",amount:4522.50,date:"2026-03-03",dueDate:"2026-03-17",status:"sent"},
   ]},
   {id:9,clientName:"Mustermann GmbH",country:"DE",cur:"EUR",artifacts:[
+    {type:"quote",num:"QT-2026-155",amount:37800.00,date:"2026-01-10",status:"accepted"},
+    {type:"invoice",num:"INV-2026-750",amount:12600.00,date:"2026-01-20",dueDate:"2026-02-19",status:"paid"},
+    {type:"invoice",num:"INV-2026-776",amount:12600.00,date:"2026-02-20",dueDate:"2026-03-22",status:"sent"},
     {type:"invoice",num:"INV-2026-798",amount:12600.00,date:"2026-03-07",dueDate:"2026-04-06",status:"draft"},
   ],aiSource:{type:"contract",label:"Created by AI based on the contract uploaded earlier",fileName:"Mustermann-GmbH-Contract-May2027.pdf",fileUrl:"#contract-preview"}},
   {id:10,clientName:"Ivan Examplov",country:"DE",cur:"EUR",artifacts:[
