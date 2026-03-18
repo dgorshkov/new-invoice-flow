@@ -893,7 +893,6 @@ function InvoiceBuilder(){
           {/* Action buttons */}
           <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:28}}>
             <button style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>Share document</button>
-            <button style={{padding:"0 24px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.dark,fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>Download</button>
             <button style={{width:40,height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.textSec,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>···</button>
           </div>
 
@@ -945,6 +944,27 @@ function InvoiceBuilder(){
 
       {/* RIGHT — sidebar */}
       <div style={{flex:"0 0 320px",paddingTop:36}}>
+        {/* Files card */}
+        <div style={{background:"#fff",borderRadius:20,padding:"24px 24px",marginBottom:16}}>
+          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:14}}>Files</div>
+          {[
+            {name:`${art.num}.pdf`,label:"PDF",size:"124 KB",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.red} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.red} strokeWidth="1.5"/><text x="12" y="17" textAnchor="middle" fill={C.red} fontSize="6" fontWeight="700" fontFamily={SANS}>PDF</text></svg>},
+            {name:`${art.num}.xml`,label:"ZUGFeRD",size:"18 KB",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.blue} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.blue} strokeWidth="1.5"/><text x="12" y="17" textAnchor="middle" fill={C.blue} fontSize="5" fontWeight="700" fontFamily={SANS}>XML</text></svg>},
+            {name:`${art.num}-xrechnung.xml`,label:"XRechnung",size:"22 KB",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.teal} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.teal} strokeWidth="1.5"/><text x="12" y="17" textAnchor="middle" fill={C.teal} fontSize="4.5" fontWeight="700" fontFamily={SANS}>XR</text></svg>},
+          ].map((f,i)=>(
+            <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 0",borderBottom:i<2?`1px solid ${C.borderLight}`:"none"}}>
+              <div style={{flexShrink:0}}>{f.icon}</div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:13,fontWeight:500,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{f.label}</div>
+                <div style={{fontSize:11,color:C.textTer}}>{f.size}</div>
+              </div>
+              <button onClick={e=>e.stopPropagation()} style={{padding:"4px 10px",borderRadius:8,border:`1px solid ${C.border}`,background:"#fff",color:C.textSec,fontSize:12,fontWeight:500,cursor:"pointer",fontFamily:SANS,display:"flex",alignItems:"center",gap:4}}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+              </button>
+            </div>
+          ))}
+        </div>
+
         {/* Link payment card */}
         <div style={{background:"#fff",borderRadius:20,padding:"32px 24px",textAlign:"center",marginBottom:16}}>
           <div style={{width:56,height:56,borderRadius:16,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px"}}>
