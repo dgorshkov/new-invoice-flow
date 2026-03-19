@@ -415,6 +415,7 @@ function InvoiceBuilder(){
   const[aiPrompt,setAiPrompt]=useState("");
   const[aiGenerating,setAiGenerating]=useState(false);
   const[aiStep,setAiStep]=useState("");
+  const[showContextMenu,setShowContextMenu]=useState(false);
   const shareLink=useMemo(()=>"https://pay.finom.co/inv/"+invNum.replace(/[^A-Za-z0-9]/g,"").toLowerCase(),[invNum]);
 
   const [sales, setSales] = useState(INITIAL_SALES);
@@ -726,7 +727,7 @@ function InvoiceBuilder(){
         <div style={{flex:"0 0 300px",paddingTop:4}}>
           {/* Action buttons card */}
           <div style={{background:"#fff",borderRadius:20,padding:"24px 16px",marginBottom:16,display:"flex",gap:0}}>
-            <button onClick={()=>{setAiPrompt("");setShowNewSaleModal(true);setActiveSaleId(null);}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
+            <button onClick={()=>{setAiPrompt("");setShowContextMenu(false);setShowNewSaleModal(true);setActiveSaleId(null);}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
               onMouseEnter={e=>e.currentTarget.querySelector("div").style.background=C.borderLight}
               onMouseLeave={e=>e.currentTarget.querySelector("div").style.background=C.surfaceAlt}>
               <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .15s"}}>
@@ -828,7 +829,7 @@ function InvoiceBuilder(){
                     </button>
                     {openMenuSaleId===sale.id&&(
                       <div style={{position:"absolute",top:32,right:0,background:"#fff",border:`1px solid ${C.borderLight}`,borderRadius:8,boxShadow:"0 4px 12px rgba(0,0,0,0.1)",zIndex:10,minWidth:160,padding:"4px 0"}}>
-                        <button onClick={()=>{setOpenMenuSaleId(null);setActiveSaleId(sale.id);setShowNewSaleModal(true);}} style={{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"8px 12px",border:"none",background:"transparent",color:C.dark,fontSize:13,fontWeight:500,cursor:"pointer",textAlign:"left",fontFamily:SANS}} onMouseEnter={e=>e.target.style.background=C.surfaceAlt} onMouseLeave={e=>e.target.style.background="transparent"}>
+                        <button onClick={()=>{setOpenMenuSaleId(null);setActiveSaleId(sale.id);setShowContextMenu(false);setShowNewSaleModal(true);}} style={{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"8px 12px",border:"none",background:"transparent",color:C.dark,fontSize:13,fontWeight:500,cursor:"pointer",textAlign:"left",fontFamily:SANS}} onMouseEnter={e=>e.target.style.background=C.surfaceAlt} onMouseLeave={e=>e.target.style.background="transparent"}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
                           Add document
                         </button>
@@ -1688,7 +1689,7 @@ function InvoiceBuilder(){
         {/* Backdrop */}
         <div onClick={()=>{if(!aiGenerating)setShowNewSaleModal(false);}} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.35)",zIndex:100,backdropFilter:"blur(2px)"}}/>
         {/* Modal */}
-        <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",zIndex:101,width:560,maxHeight:"90vh",overflowY:"auto",background:"#fff",borderRadius:20,padding:"32px 32px 28px",boxShadow:"0 16px 48px rgba(0,0,0,.12)"}}>
+        <div onClick={()=>showContextMenu&&setShowContextMenu(false)} style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",zIndex:101,width:560,maxHeight:"90vh",overflowY:"auto",background:"#fff",borderRadius:20,padding:"32px 32px 28px",boxShadow:"0 16px 48px rgba(0,0,0,.12)"}}>
           {/* Close button */}
           {!aiGenerating&&<button onClick={()=>setShowNewSaleModal(false)} style={{position:"absolute",top:16,right:16,width:32,height:32,borderRadius:16,border:"none",background:C.surfaceAlt,color:C.textSec,fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>}
 
@@ -1705,10 +1706,39 @@ function InvoiceBuilder(){
             <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>{activeSaleId ? `Add to ${activeSaleClientName}` : "New sale"}</div>
             <div style={{fontSize:14,color:C.textSec,marginBottom:20,lineHeight:1.5}}>Describe what you need — or pick a document type below.</div>
 
-            <textarea value={aiPrompt} onChange={e=>setAiPrompt(e.target.value)}
-              placeholder={"Describe in plain language, e.g.:\n\"40 hours of web dev for TechVentures in February\"\n\"Send a quote to Atelier Lumière for €2,400 design retainer\"\n\nYou can also paste an email thread or contract excerpt."}
-              style={{width:"100%",minHeight:100,padding:"14px 16px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",resize:"vertical",lineHeight:1.6,outline:"none",marginBottom:12}}
-              onFocus={e=>e.target.style.borderColor=C.dark} onBlur={e=>e.target.style.borderColor=C.border}/>
+            <div style={{position:"relative",marginBottom:12}}>
+              <textarea value={aiPrompt} onChange={e=>setAiPrompt(e.target.value)}
+                placeholder={"Describe in plain language, e.g.:\n\"40 hours of web dev for TechVentures in February\"\n\"Send a quote to Atelier Lumière for €2,400 design retainer\"\n\nYou can also paste an email thread or contract excerpt."}
+                style={{width:"100%",minHeight:100,padding:"14px 40px 14px 16px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",resize:"vertical",lineHeight:1.6,outline:"none"}}
+                onFocus={e=>e.target.style.borderColor=C.dark} onBlur={e=>e.target.style.borderColor=C.border}/>
+              {/* Context fetch button */}
+              <button onClick={e=>{e.stopPropagation();setShowContextMenu(v=>!v);}}
+                style={{position:"absolute",top:8,right:8,width:28,height:28,borderRadius:6,border:`1.5px solid ${C.border}`,background:showContextMenu?C.surfaceAlt:"#fff",color:C.textSec,fontSize:14,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",padding:0,transition:"all .15s"}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
+                onMouseLeave={e=>{if(!showContextMenu){e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}}
+                title="Pull context from external source">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/><circle cx="19" cy="6" r="2" fill="currentColor" stroke="none"/></svg>
+              </button>
+              {/* Context menu dropdown */}
+              {showContextMenu&&<div style={{position:"absolute",top:40,right:8,width:220,background:"#fff",borderRadius:12,border:`1px solid ${C.border}`,boxShadow:"0 8px 24px rgba(0,0,0,.10)",zIndex:10,overflow:"hidden",padding:"4px 0"}}>
+                {[
+                  {key:"granola",label:"Fetch from Granola",icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,desc:"Meeting notes"},
+                  {key:"notion",label:"Fetch from Notion",icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><path d="M12 8h4"/><path d="M12 12h4"/></svg>,desc:"Pages & databases"},
+                  {key:"gmail",label:"Fetch from Gmail",icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>,desc:"Email threads"},
+                ].map(opt=>(
+                  <button key={opt.key} onClick={()=>{setShowContextMenu(false);alert("Fetch from "+opt.label.split("from ")[1]+" — coming soon!");}}
+                    style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"10px 14px",border:"none",background:"transparent",cursor:"pointer",textAlign:"left",fontFamily:SANS,transition:"background .1s"}}
+                    onMouseEnter={e=>e.currentTarget.style.background=C.surfaceAlt}
+                    onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+                    <span style={{color:C.textSec,display:"flex",alignItems:"center"}}>{opt.icon}</span>
+                    <div>
+                      <div style={{fontSize:13,fontWeight:500,color:C.dark}}>{opt.label}</div>
+                      <div style={{fontSize:11,color:C.textSec,marginTop:1}}>{opt.desc}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>}
+            </div>
 
             <button onClick={()=>{aiGenerate(aiPrompt);}} disabled={!aiPrompt.trim()}
               style={{width:"100%",height:44,borderRadius:20,border:"none",background:aiPrompt.trim()?C.dark:C.surfaceAlt,color:aiPrompt.trim()?"#fff":C.textTer,fontSize:15,fontWeight:500,cursor:aiPrompt.trim()?"pointer":"default",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8,transition:"all .2s",marginBottom:24}}>
