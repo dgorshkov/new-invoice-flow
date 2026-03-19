@@ -732,7 +732,7 @@ function InvoiceBuilder(){
               <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .15s"}}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.dark} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.dark} strokeWidth="1.5"/><path d="M12 13v4m-2-2h4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/></svg>
               </div>
-              <span style={{fontSize:13,fontWeight:600,color:C.dark}}>New{"\n"}invoice</span>
+              <span style={{fontSize:13,fontWeight:600,color:C.dark}}>New{"\n"}sale</span>
             </button>
             <div style={{width:1,background:C.borderLight,margin:"8px 0"}}/>
             <button onClick={()=>setShowUploadModal(true)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS}}>
@@ -1727,10 +1727,27 @@ function InvoiceBuilder(){
               {[
                 {key:"invoice",label:"Invoice",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/></svg>},
                 {key:"quote",label:"Quote",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M9 15l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>},
+                {key:"contract",label:"Contract",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
                 {key:"payment-link",label:"Payment link",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
-                ...(activeSaleId ? [{key:"credit_note",label:"Credit note",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}] : []),
+                ...(activeSaleId ? [
+                  {key:"credit_note",label:"Credit note",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
+                  {key:"debit_note",label:"Debit note",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}
+                ] : []),
               ].map(opt=>(
-                <button key={opt.key} onClick={()=>{setShowNewSaleModal(false);if(opt.key==="invoice"){setInvNum(freshInvNum());setPhase("editor");if(!activeSaleId) setActiveSaleId(null);} else if(opt.key==="credit_note"){setInvNum("CN-2026-"+String(Math.floor(Math.random()*900)+100));setPhase("editor");} else{alert("Not available in this prototype.");}}}
+                <button key={opt.key} onClick={()=>{
+                  setShowNewSaleModal(false);
+                  if(opt.key==="invoice"){
+                    setInvNum(freshInvNum());setPhase("editor");if(!activeSaleId) setActiveSaleId(null);
+                  } else if(opt.key==="credit_note"){
+                    setInvNum("CN-2026-"+String(Math.floor(Math.random()*900)+100));setPhase("editor");
+                  } else if(opt.key==="debit_note"){
+                    setInvNum("DN-2026-"+String(Math.floor(Math.random()*900)+100));setPhase("editor");
+                  } else if(opt.key==="contract"){
+                    setInvNum("CNT-2026-"+String(Math.floor(Math.random()*900)+100));setPhase("editor");if(!activeSaleId) setActiveSaleId(null);
+                  } else{
+                    alert("Not available in this prototype.");
+                  }
+                }}
                   style={{flex:"1 1 calc(50% - 4px)",display:"flex",alignItems:"center",gap:10,padding:"14px 16px",borderRadius:12,border:`2px solid ${C.border}`,background:"#fff",cursor:"pointer",textAlign:"left",fontFamily:SANS,transition:"all .15s",outline:"none"}}
                   onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
                   onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}>
