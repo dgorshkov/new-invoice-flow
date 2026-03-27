@@ -179,6 +179,374 @@ const LEGAL_TEXTS = {
   exp:"Export supply — VAT exempt under applicable national legislation.",
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   UI TRANSLATIONS — wizard chrome (EN / DE / IT)
+   PDF preview labels stay in LANG[pdfLang] above
+   ═══════════════════════════════════════════════════════════════════════════ */
+const UI={
+EN:{
+  // Nav
+  navHome:"Home",navGetPaid:"Get Paid",navAccounting:"Accounting",navTeam:"Team",navCards:"Cards",
+  // Editor title bar
+  backToInvoices:"Back to invoices",newWord:"New",invoiceWord:"invoice",
+  saveDraft:"Save draft",saving:"Saving...",sendInvoice:"Send invoice",creating:"Creating...",
+  // Step 0
+  invoiceBranding:"Invoice Branding",logoColorsLayout:"Logo, colors, layout",
+  logo:"Logo",displayName:"Display name",accentColor:"Accent color",
+  brandingNotice:"Branding changes will be reflected in a future version of this prototype.",
+  // Step 1
+  yourBusiness:"Your Business",
+  registeredName:"Registered name",tradeName:"Trade name (if different)",optional:"Optional",
+  streetAddress:"Street address",postalCity:"Postal code & city",
+  vatId:"VAT ID",email:"Email",phone:"Phone",
+  noExemptionEs:"Spain — no small business VAT exemption.",allAutonomos:"All autónomos charge IVA.",
+  // Step 2
+  client:"Client",change:"Change",addNewClient:"Add new client",
+  // Step 3
+  lineItems:"Line Items",itemSg:"item",itemPl:"items",net:"net",
+  noVatOnInvoice:"No VAT on this invoice.",allItemsZero:"All items at 0%.",
+  goodsIcsNote:"Goods → ICS (Art. 138); Services → RC (Art. 196).",
+  intraEuB2B:"Intra-EU B2B",exportLabel:"Export",
+  catBadge:"CAT",goodsBadge:"GOODS",servicesBadge:"SERVICES",
+  exemptReason:"small business exemption",icsReason:"intra-community supply (Art. 138)",
+  rcReason:"reverse charge (Art. 196)",exportReason:"export exempt",
+  classifying:"Classifying…",
+  qty:"Qty",unitPrice:"Unit price (€)",discPct:"Disc. %",category:"Category",
+  addItem:"Add item",searchCatalogue:"Search catalogue…",noMatches:"No matches",
+  customItem:"Custom item",describeCustom:"Describe a custom item…",addBtn:"+ Add",
+  // Step 4
+  detailsPayment:"Details & Payment",
+  invoiceDate:"Invoice date",dueDate:"Due date",paymentTerms:"Payment terms",
+  dueOnReceipt:"Due on receipt",net7:"Net 7",net14:"Net 14",net30:"Net 30",net45:"Net 45",net60:"Net 60",
+  paymentMethod:"Payment method",
+  bankTransfer:"Bank transfer (SEPA)",paypal:"PayPal",creditCard:"Credit card",otherMethod:"Other",
+  deliveryServicePeriod:"Delivery / Service period",periodToggle:"Period",
+  deliveryDateLabel:"Delivery date",periodStart:"Period start",periodEnd:"Period end",
+  pdfLanguage:"PDF language",invoiceCurrency:"Invoice currency",
+  fxNote:"FX note:",fxNoteText:"Prices entered in EUR. Preview converts at approximate rate",
+  eurShownOnInvoice:"EUR equivalent shown on invoice.",
+  bankDetails:"Bank details",poReference:"PO / Reference number",
+  notesToClient:"Notes to client",footerDisclaimer:"Footer / disclaimer",
+  footerPlaceholder:"e.g. Late payments subject to interest…",
+  // Preview
+  livePreview:"Live Preview",pagesLabel:"pages",
+  noLineItems:"No line items",selectClient:"Select a client…",continued:"Continued…",
+  reverseChargeTag:"Reverse charge",icsTag:"Intra-community supply",exportZeroTag:"Export 0%",
+  previewFooter:"A4 · VAT rates 26 Feb 2026 · Claude API classification",fxApprox:"FX rates approximate",
+  // List screen
+  getPaid:"Get Paid",newSaleBtn:"New\nsale",uploadDocBtn:"Upload\ndocument",
+  goodsServices:"Goods & Services",goodsServicesDesc:"Manage your products and services to use it in invoices",
+  importData:"Import data to Finom",importDataDesc:"Simply transfer your contacts and products from other system",
+  docsCollection:"Documents collection",docsCollectionDesc:"Uploaded files, scans and email attachments",
+  receiveInvoices:"Receive invoices and receipts by email",
+  receiveInvoicesDesc:"All invoices, receipts and other documents sent to this email will be added directly to Finom",
+  searchPlaceholder:"Search by counterparty or invoice parameters",
+  filterInvoices:"Invoices ˅",filterStatus:"Status",filterScheduled:"Scheduled email",
+  filterIssueDate:"Issue date",filterMore:"More filters ···",byDate:"By date",
+  saleTo:"Sale to",createdByAi:"Created by AI based on your Gmail",withWord:"with",
+  addDocument:"Add document",dueWord:"Due",
+  // Status labels
+  stSent:"Sent",stOverdue:"Overdue",stPaid:"Paid",stDraft:"Draft",stAccepted:"Accepted",stIssued:"Issued",stSigned:"Signed",
+  // Type labels
+  tpInvoice:"Invoice",tpQuote:"Quote",tpCreditNote:"Credit note",tpContract:"Contract",tpDebitNote:"Debit note",tpPaymentLink:"Payment link",
+  // Detail screen
+  backToGetPaid:"Back to Get Paid",sendBtn:"Send",resendBtn:"Re-send",
+  details:"Details",issuer:"Issuer",customer:"Customer",issueDateLabel:"Issue date",
+  amountLabel:"Amount",documentNumber:"Document number",
+  filesSection:"Files",linkPayment:"Link payment",
+  linkPaymentDesc:"If you already have a payment on this document, just attach it.",
+  historySection:"History",
+  histCreated:"Created",histSent:"Sent to client",histPaymentReceived:"Payment received",
+  histAwaiting:"Awaiting payment",histOverdue:"Payment overdue",
+  // Send screen
+  backToEditor:"← Back to editor",invoiceCreatedWord:"created",
+  sendByEmail:"Send by email",composingEmail:"Composing email...",
+  toLabel:"To",subjectLabel:"Subject",messageLabel:"Message",
+  sendEmailBtn:"Send email",sendingEmail:"Sending...",skipForNow:"Skip for now",
+  shareLink:"Share link",copyBtn:"Copy",copyLinkAnywhere:"Copy link & paste anywhere",
+  // Reminders screen
+  remindersFor:"Payment reminders for",
+  firstInvoiceClient:"First invoice to this client",tendPayLate:"tend to pay late",tailoredFor:"Tailored for",
+  noPayHistory:"No payment history",invoiceSg:"invoice",invoicePl:"invoices",
+  avgDays:"avg",daysWord:"days",lastWord:"Last:",
+  genSchedule:"Generating reminder schedule...",
+  confirmReminders:"Confirm reminders",customizeBtn:"Customize",doneBtn:"Done",
+  noRemindersLink:"No reminders",addReminderBtn:"+ Add reminder",whenToSend:"When to send?",cancelBtn:"Cancel",
+  // Done screen
+  stampSent:"SENT",stampSaved:"SAVED",
+  doneCreated:"Created",doneSent:"Sent",doneSaved:"Saved",doneViewed:"Viewed",donePaid:"Paid",
+  createAnother:"Create another invoice",backToInvoicesDone:"Back to invoices",
+  smartReminders:"smart reminders will keep things on track",
+  bookkeepingCreated:"Bookkeeping record created",autoCategorized:"Auto-categorized from invoice line items",
+  reviewAdjust:"Review & adjust",taxExemptRevenues:"Tax-exempt revenues",
+  revenuesWithVat:"Revenues with",vatWord:"VAT",standardRate:"Standard Rate",reducedRate:"Reduced Rate",
+  total:"Total",invoicesBoxLabel:"INVOICES",
+  doneHlSent:["Off your plate.","And... sent.","Out the door.","Done deal."],
+  doneHlSaved:["Saved and sealed.","Ready when you are.","Locked in."],
+  doneSlSent:["{0} should see this any moment now. Go do something you actually enjoy.",
+    "It's in {0}'s hands now. You've done your part.",
+    "Making its way to {0}. We'll keep an eye on things from here."],
+  doneSlSaved:["{0} doesn't know what's coming yet. Send it whenever you're ready.",
+    "Looking sharp. Take a second to admire it, then hit send whenever.",
+    "Saved and waiting for your go. No rush — it's not going anywhere."],
+  // New sale modal
+  newSaleTitle:"New sale",addToTitle:"Add to",
+  describeNeed:"Describe what you need — or pick a document type below.",
+  describePlaceholder:"Describe in plain language, e.g.:\n\"40 hours of web dev for TechVentures in February\"\n\"Send a quote to Atelier Lumière for €2,400 design retainer\"\n\nYou can also paste an email thread or contract excerpt.",
+  pullContext:"Pull context from external source",
+  fetchGranola:"Fetch from Granola",fetchNotion:"Fetch from Notion",fetchGmail:"Fetch from Gmail",
+  meetingNotes:"Meeting notes",pagesDbLabel:"Pages & databases",emailThreads:"Email threads",
+  generateBtn:"Generate",orManually:"or create manually",
+  documentWord:"document",
+  // Upload modal
+  uploadTitle:"Upload a document",
+  uploadDesc:"Drop a file and we'll extract the details automatically.",
+  dropOrBrowse:"Drop a file here or",browseWord:"browse",
+  uploadTypes:"PDF, contract, email export, scan",
+  // AI steps
+  aiSteps:["Understanding your request...","Matching client from history...","Building line items...","Classifying VAT treatment...","Setting payment terms...","Generating preview..."],
+  buildingYour:"Building your",fromWord:"from:",
+  // Timing slots
+  tmBefore7:"7 days before due",tmBefore3:"3 days before due",tmOnDue:"On due date",
+  tmOver3:"3 days overdue",tmOver7:"7 days overdue",tmOver14:"14 days overdue",
+  tmOver21:"21 days overdue",tmOver30:"30 days overdue",
+  // Reminder generation
+  standardScheduleNew:"Standard schedule for new client",adaptiveSchedule:"Adaptive schedule based on payment history",
+  firstInvRationale:"First invoice to {0} — using a balanced approach until we learn their payment patterns.",
+  lateRationale:"{0} averages {1} days to pay across {2} invoices. Firmer schedule with earlier follow-ups.",
+  reliableRationale:"{0} averages {1} days to pay across {2} invoices. Light-touch approach since they're reliable.",
+  standardNote:"Standard schedule — we'll learn their payment patterns over time.",
+},
+DE:{
+  navHome:"Home",navGetPaid:"Bezahlt werden",navAccounting:"Buchhaltung",navTeam:"Team",navCards:"Karten",
+  backToInvoices:"Zurück zu Rechnungen",newWord:"Neue",invoiceWord:"Rechnung",
+  saveDraft:"Entwurf speichern",saving:"Speichern...",sendInvoice:"Rechnung senden",creating:"Erstellen...",
+  invoiceBranding:"Rechnungsdesign",logoColorsLayout:"Logo, Farben, Layout",
+  logo:"Logo",displayName:"Anzeigename",accentColor:"Akzentfarbe",
+  brandingNotice:"Branding-Änderungen werden in einer zukünftigen Version dieses Prototyps angezeigt.",
+  yourBusiness:"Ihr Unternehmen",
+  registeredName:"Firmenname",tradeName:"Handelsname (falls abweichend)",optional:"Optional",
+  streetAddress:"Straße",postalCity:"PLZ & Ort",
+  vatId:"USt-IdNr.",email:"E-Mail",phone:"Telefon",
+  noExemptionEs:"Spanien — keine Kleinunternehmerregelung.",allAutonomos:"Alle Autónomos berechnen IVA.",
+  client:"Kunde",change:"Ändern",addNewClient:"Neuen Kunden anlegen",
+  lineItems:"Positionen",itemSg:"Position",itemPl:"Positionen",net:"netto",
+  noVatOnInvoice:"Keine USt. auf dieser Rechnung.",allItemsZero:"Alle Positionen mit 0%.",
+  goodsIcsNote:"Waren → IGL (Art. 138); Dienstleistungen → RC (Art. 196).",
+  intraEuB2B:"Innergemeinschaftl. B2B",exportLabel:"Export",
+  catBadge:"KAT",goodsBadge:"WAREN",servicesBadge:"DIENSTL.",
+  exemptReason:"Kleinunternehmerregelung",icsReason:"innergemeinschaftl. Lieferung (Art. 138)",
+  rcReason:"Reverse Charge (Art. 196)",exportReason:"Ausfuhr steuerfrei",
+  classifying:"Klassifizierung…",
+  qty:"Menge",unitPrice:"Stückpreis (€)",discPct:"Rabatt %",category:"Kategorie",
+  addItem:"Position hinzufügen",searchCatalogue:"Katalog durchsuchen…",noMatches:"Keine Treffer",
+  customItem:"Freie Position",describeCustom:"Freie Position beschreiben…",addBtn:"+ Hinzufügen",
+  detailsPayment:"Details & Zahlung",
+  invoiceDate:"Rechnungsdatum",dueDate:"Fälligkeitsdatum",paymentTerms:"Zahlungsbedingungen",
+  dueOnReceipt:"Sofort fällig",net7:"Netto 7",net14:"Netto 14",net30:"Netto 30",net45:"Netto 45",net60:"Netto 60",
+  paymentMethod:"Zahlungsmethode",
+  bankTransfer:"Überweisung (SEPA)",paypal:"PayPal",creditCard:"Kreditkarte",otherMethod:"Sonstige",
+  deliveryServicePeriod:"Liefer- / Leistungszeitraum",periodToggle:"Zeitraum",
+  deliveryDateLabel:"Lieferdatum",periodStart:"Beginn",periodEnd:"Ende",
+  pdfLanguage:"PDF-Sprache",invoiceCurrency:"Rechnungswährung",
+  fxNote:"Währungshinweis:",fxNoteText:"Preise in EUR eingegeben. Vorschau rechnet zum ungefähren Kurs um",
+  eurShownOnInvoice:"EUR-Gegenwert auf Rechnung angegeben.",
+  bankDetails:"Bankverbindung",poReference:"Bestellnr. / Referenz",
+  notesToClient:"Bemerkungen an Kunden",footerDisclaimer:"Fußzeile / Haftungsausschluss",
+  footerPlaceholder:"z.B. Bei Zahlungsverzug fallen Zinsen an…",
+  livePreview:"Live-Vorschau",pagesLabel:"Seiten",
+  noLineItems:"Keine Positionen",selectClient:"Kunde auswählen…",continued:"Fortsetzung…",
+  reverseChargeTag:"Reverse Charge",icsTag:"Innergemeinschaftl. Lieferung",exportZeroTag:"Export 0%",
+  previewFooter:"A4 · USt.-Sätze 26. Feb. 2026 · Claude-API-Klassifizierung",fxApprox:"Wechselkurse ungefähr",
+  getPaid:"Bezahlt werden",newSaleBtn:"Neuer\nVerkauf",uploadDocBtn:"Dokument\nhochladen",
+  goodsServices:"Waren & Dienstleistungen",goodsServicesDesc:"Verwalten Sie Ihre Produkte und Dienstleistungen für Rechnungen",
+  importData:"Daten importieren",importDataDesc:"Übertragen Sie einfach Ihre Kontakte und Produkte aus anderen Systemen",
+  docsCollection:"Dokumentensammlung",docsCollectionDesc:"Hochgeladene Dateien, Scans und E-Mail-Anhänge",
+  receiveInvoices:"Rechnungen und Belege per E-Mail empfangen",
+  receiveInvoicesDesc:"Alle an diese E-Mail gesendeten Rechnungen, Belege und Dokumente werden direkt zu Finom hinzugefügt",
+  searchPlaceholder:"Nach Geschäftspartner oder Rechnungsparametern suchen",
+  filterInvoices:"Rechnungen ˅",filterStatus:"Status",filterScheduled:"Geplante E-Mail",
+  filterIssueDate:"Ausstellungsdatum",filterMore:"Weitere Filter ···",byDate:"Nach Datum",
+  saleTo:"Verkauf an",createdByAi:"Von KI erstellt basierend auf Ihrer Gmail",withWord:"mit",
+  addDocument:"Dokument hinzufügen",dueWord:"Fällig",
+  stSent:"Gesendet",stOverdue:"Überfällig",stPaid:"Bezahlt",stDraft:"Entwurf",stAccepted:"Akzeptiert",stIssued:"Ausgestellt",stSigned:"Unterschrieben",
+  tpInvoice:"Rechnung",tpQuote:"Angebot",tpCreditNote:"Gutschrift",tpContract:"Vertrag",tpDebitNote:"Lastschrift",tpPaymentLink:"Zahlungslink",
+  backToGetPaid:"Zurück zu Bezahlt werden",sendBtn:"Senden",resendBtn:"Erneut senden",
+  details:"Details",issuer:"Aussteller",customer:"Kunde",issueDateLabel:"Ausstellungsdatum",
+  amountLabel:"Betrag",documentNumber:"Dokumentennummer",
+  filesSection:"Dateien",linkPayment:"Zahlung verknüpfen",
+  linkPaymentDesc:"Wenn Sie bereits eine Zahlung für dieses Dokument haben, verknüpfen Sie diese einfach.",
+  historySection:"Verlauf",
+  histCreated:"Erstellt",histSent:"An Kunden gesendet",histPaymentReceived:"Zahlung eingegangen",
+  histAwaiting:"Zahlung ausstehend",histOverdue:"Zahlung überfällig",
+  backToEditor:"← Zurück zum Editor",invoiceCreatedWord:"erstellt",
+  sendByEmail:"Per E-Mail senden",composingEmail:"E-Mail wird erstellt...",
+  toLabel:"An",subjectLabel:"Betreff",messageLabel:"Nachricht",
+  sendEmailBtn:"E-Mail senden",sendingEmail:"Senden...",skipForNow:"Überspringen",
+  shareLink:"Link teilen",copyBtn:"Kopieren",copyLinkAnywhere:"Link kopieren & überall einfügen",
+  remindersFor:"Zahlungserinnerungen für",
+  firstInvoiceClient:"Erste Rechnung an diesen Kunden",tendPayLate:"zahlt tendenziell spät",tailoredFor:"Angepasst für",
+  noPayHistory:"Kein Zahlungsverlauf",invoiceSg:"Rechnung",invoicePl:"Rechnungen",
+  avgDays:"Ø",daysWord:"Tage",lastWord:"Letzte:",
+  genSchedule:"Erinnerungsplan wird erstellt...",
+  confirmReminders:"Erinnerungen bestätigen",customizeBtn:"Anpassen",doneBtn:"Fertig",
+  noRemindersLink:"Keine Erinnerungen",addReminderBtn:"+ Erinnerung",whenToSend:"Wann senden?",cancelBtn:"Abbrechen",
+  stampSent:"GESENDET",stampSaved:"GESPEICHERT",
+  doneCreated:"Erstellt",doneSent:"Gesendet",doneSaved:"Gespeichert",doneViewed:"Angesehen",donePaid:"Bezahlt",
+  createAnother:"Weitere Rechnung erstellen",backToInvoicesDone:"Zurück zu Rechnungen",
+  smartReminders:"smarte Erinnerungen halten alles auf Kurs",
+  bookkeepingCreated:"Buchungssatz erstellt",autoCategorized:"Automatisch aus Rechnungspositionen kategorisiert",
+  reviewAdjust:"Überprüfen & anpassen",taxExemptRevenues:"Steuerfreie Erlöse",
+  revenuesWithVat:"Erlöse mit",vatWord:"USt.",standardRate:"Regelsteuersatz",reducedRate:"Ermäßigter Satz",
+  total:"Gesamt",invoicesBoxLabel:"RECHNUNGEN",
+  doneHlSent:["Erledigt.","Und... gesendet.","Raus damit.","Abgehakt."],
+  doneHlSaved:["Gespeichert und versiegelt.","Bereit, wenn Sie es sind.","Festgehalten."],
+  doneSlSent:["{0} sollte das gleich sehen. Machen Sie jetzt etwas Schönes.",
+    "Liegt jetzt bei {0}. Sie haben Ihren Teil erledigt.",
+    "Auf dem Weg zu {0}. Wir behalten alles im Blick."],
+  doneSlSaved:["{0} weiß noch nichts davon. Senden Sie, wenn Sie bereit sind.",
+    "Sieht gut aus. Kurz bewundern, dann ab die Post.",
+    "Gespeichert und wartet auf Ihr Go. Kein Stress."],
+  newSaleTitle:"Neuer Verkauf",addToTitle:"Hinzufügen zu",
+  describeNeed:"Beschreiben Sie, was Sie brauchen — oder wählen Sie einen Dokumenttyp.",
+  describePlaceholder:"In einfacher Sprache beschreiben, z.B.:\n\"40 Stunden Webentwicklung für TechVentures im Februar\"\n\"Angebot an Atelier Lumière für 2.400 € Design-Retainer senden\"\n\nSie können auch einen E-Mail-Verlauf oder Vertragsauszug einfügen.",
+  pullContext:"Kontext aus externer Quelle laden",
+  fetchGranola:"Von Granola laden",fetchNotion:"Von Notion laden",fetchGmail:"Von Gmail laden",
+  meetingNotes:"Meeting-Notizen",pagesDbLabel:"Seiten & Datenbanken",emailThreads:"E-Mail-Verläufe",
+  generateBtn:"Generieren",orManually:"oder manuell erstellen",
+  documentWord:"Dokument",
+  uploadTitle:"Dokument hochladen",
+  uploadDesc:"Datei ablegen und wir extrahieren die Details automatisch.",
+  dropOrBrowse:"Datei hier ablegen oder",browseWord:"durchsuchen",
+  uploadTypes:"PDF, Vertrag, E-Mail-Export, Scan",
+  aiSteps:["Anfrage wird verstanden...","Kunden aus Verlauf abgleichen...","Positionen werden erstellt...","USt.-Behandlung klassifizieren...","Zahlungsbedingungen festlegen...","Vorschau generieren..."],
+  buildingYour:"Erstelle Ihr",fromWord:"basierend auf:",
+  tmBefore7:"7 Tage vor Fälligkeit",tmBefore3:"3 Tage vor Fälligkeit",tmOnDue:"Am Fälligkeitstag",
+  tmOver3:"3 Tage überfällig",tmOver7:"7 Tage überfällig",tmOver14:"14 Tage überfällig",
+  tmOver21:"21 Tage überfällig",tmOver30:"30 Tage überfällig",
+  standardScheduleNew:"Standardplan für neuen Kunden",adaptiveSchedule:"Adaptiver Plan basierend auf Zahlungsverlauf",
+  firstInvRationale:"Erste Rechnung an {0} — ausgewogener Ansatz, bis wir die Zahlungsmuster kennen.",
+  lateRationale:"{0} zahlt im Schnitt in {1} Tagen bei {2} Rechnungen. Strafferer Plan mit früheren Nachfassungen.",
+  reliableRationale:"{0} zahlt im Schnitt in {1} Tagen bei {2} Rechnungen. Zurückhaltender Ansatz, da zuverlässig.",
+  standardNote:"Standardplan — Zahlungsmuster werden mit der Zeit erkannt.",
+},
+IT:{
+  navHome:"Home",navGetPaid:"Incassa",navAccounting:"Contabilità",navTeam:"Team",navCards:"Carte",
+  backToInvoices:"Torna alle fatture",newWord:"Nuova",invoiceWord:"fattura",
+  saveDraft:"Salva bozza",saving:"Salvataggio...",sendInvoice:"Invia fattura",creating:"Creazione...",
+  invoiceBranding:"Design fattura",logoColorsLayout:"Logo, colori, layout",
+  logo:"Logo",displayName:"Nome visualizzato",accentColor:"Colore accento",
+  brandingNotice:"Le modifiche al branding saranno visibili in una versione futura di questo prototipo.",
+  yourBusiness:"La tua azienda",
+  registeredName:"Ragione sociale",tradeName:"Nome commerciale (se diverso)",optional:"Facoltativo",
+  streetAddress:"Indirizzo",postalCity:"CAP & Città",
+  vatId:"Partita IVA",email:"E-mail",phone:"Telefono",
+  noExemptionEs:"Spagna — nessuna esenzione per piccole imprese.",allAutonomos:"Tutti gli autónomos applicano l'IVA.",
+  client:"Cliente",change:"Cambia",addNewClient:"Aggiungi nuovo cliente",
+  lineItems:"Voci",itemSg:"voce",itemPl:"voci",net:"netto",
+  noVatOnInvoice:"Nessuna IVA su questa fattura.",allItemsZero:"Tutte le voci allo 0%.",
+  goodsIcsNote:"Beni → ICS (Art. 138); Servizi → RC (Art. 196).",
+  intraEuB2B:"Intra-UE B2B",exportLabel:"Esportazione",
+  catBadge:"CAT",goodsBadge:"BENI",servicesBadge:"SERVIZI",
+  exemptReason:"regime forfettario",icsReason:"cessione intracomunitaria (Art. 138)",
+  rcReason:"inversione contabile (Art. 196)",exportReason:"esportazione esente",
+  classifying:"Classificazione…",
+  qty:"Qtà",unitPrice:"Prezzo unitario (€)",discPct:"Sconto %",category:"Categoria",
+  addItem:"Aggiungi voce",searchCatalogue:"Cerca nel catalogo…",noMatches:"Nessun risultato",
+  customItem:"Voce personalizzata",describeCustom:"Descrivi una voce personalizzata…",addBtn:"+ Aggiungi",
+  detailsPayment:"Dettagli & Pagamento",
+  invoiceDate:"Data fattura",dueDate:"Data scadenza",paymentTerms:"Termini di pagamento",
+  dueOnReceipt:"A vista",net7:"30 gg FM",net14:"14 gg",net30:"30 gg",net45:"45 gg",net60:"60 gg",
+  paymentMethod:"Metodo di pagamento",
+  bankTransfer:"Bonifico (SEPA)",paypal:"PayPal",creditCard:"Carta di credito",otherMethod:"Altro",
+  deliveryServicePeriod:"Periodo consegna / servizio",periodToggle:"Periodo",
+  deliveryDateLabel:"Data di consegna",periodStart:"Inizio periodo",periodEnd:"Fine periodo",
+  pdfLanguage:"Lingua PDF",invoiceCurrency:"Valuta fattura",
+  fxNote:"Nota cambio:",fxNoteText:"Prezzi inseriti in EUR. L'anteprima converte al tasso approssimativo",
+  eurShownOnInvoice:"Equivalente EUR indicato in fattura.",
+  bankDetails:"Dati bancari",poReference:"Nr. ordine / Riferimento",
+  notesToClient:"Note per il cliente",footerDisclaimer:"Piè di pagina / Clausole",
+  footerPlaceholder:"es. Interessi per pagamento in ritardo…",
+  livePreview:"Anteprima live",pagesLabel:"pagine",
+  noLineItems:"Nessuna voce",selectClient:"Seleziona un cliente…",continued:"Continua…",
+  reverseChargeTag:"Inversione contabile",icsTag:"Cessione intracomunitaria",exportZeroTag:"Export 0%",
+  previewFooter:"A4 · Aliquote IVA 26 feb 2026 · Classificazione Claude API",fxApprox:"Tassi di cambio approssimativi",
+  getPaid:"Incassa",newSaleBtn:"Nuova\nvendita",uploadDocBtn:"Carica\ndocumento",
+  goodsServices:"Beni & Servizi",goodsServicesDesc:"Gestisci i tuoi prodotti e servizi da usare nelle fatture",
+  importData:"Importa dati",importDataDesc:"Trasferisci facilmente contatti e prodotti da altri sistemi",
+  docsCollection:"Raccolta documenti",docsCollectionDesc:"File caricati, scansioni e allegati e-mail",
+  receiveInvoices:"Ricevi fatture e ricevute via e-mail",
+  receiveInvoicesDesc:"Tutte le fatture, ricevute e documenti inviati a questa e-mail saranno aggiunti direttamente a Finom",
+  searchPlaceholder:"Cerca per controparte o parametri fattura",
+  filterInvoices:"Fatture ˅",filterStatus:"Stato",filterScheduled:"E-mail programmata",
+  filterIssueDate:"Data emissione",filterMore:"Altri filtri ···",byDate:"Per data",
+  saleTo:"Vendita a",createdByAi:"Creato dall'IA dalla tua Gmail",withWord:"con",
+  addDocument:"Aggiungi documento",dueWord:"Scad.",
+  stSent:"Inviata",stOverdue:"Scaduta",stPaid:"Pagata",stDraft:"Bozza",stAccepted:"Accettata",stIssued:"Emessa",stSigned:"Firmata",
+  tpInvoice:"Fattura",tpQuote:"Preventivo",tpCreditNote:"Nota di credito",tpContract:"Contratto",tpDebitNote:"Nota di debito",tpPaymentLink:"Link di pagamento",
+  backToGetPaid:"Torna a Incassa",sendBtn:"Invia",resendBtn:"Reinvia",
+  details:"Dettagli",issuer:"Emittente",customer:"Cliente",issueDateLabel:"Data emissione",
+  amountLabel:"Importo",documentNumber:"Numero documento",
+  filesSection:"File",linkPayment:"Collega pagamento",
+  linkPaymentDesc:"Se hai già un pagamento per questo documento, collegalo semplicemente.",
+  historySection:"Cronologia",
+  histCreated:"Creata",histSent:"Inviata al cliente",histPaymentReceived:"Pagamento ricevuto",
+  histAwaiting:"In attesa di pagamento",histOverdue:"Pagamento scaduto",
+  backToEditor:"← Torna all'editor",invoiceCreatedWord:"creata",
+  sendByEmail:"Invia per e-mail",composingEmail:"Composizione e-mail...",
+  toLabel:"A",subjectLabel:"Oggetto",messageLabel:"Messaggio",
+  sendEmailBtn:"Invia e-mail",sendingEmail:"Invio...",skipForNow:"Salta per ora",
+  shareLink:"Condividi link",copyBtn:"Copia",copyLinkAnywhere:"Copia link e incolla ovunque",
+  remindersFor:"Promemoria pagamento per",
+  firstInvoiceClient:"Prima fattura a questo cliente",tendPayLate:"tende a pagare in ritardo",tailoredFor:"Personalizzato per",
+  noPayHistory:"Nessuno storico pagamenti",invoiceSg:"fattura",invoicePl:"fatture",
+  avgDays:"media",daysWord:"gg",lastWord:"Ultima:",
+  genSchedule:"Generazione piano promemoria...",
+  confirmReminders:"Conferma promemoria",customizeBtn:"Personalizza",doneBtn:"Fatto",
+  noRemindersLink:"Nessun promemoria",addReminderBtn:"+ Promemoria",whenToSend:"Quando inviare?",cancelBtn:"Annulla",
+  stampSent:"INVIATA",stampSaved:"SALVATA",
+  doneCreated:"Creata",doneSent:"Inviata",doneSaved:"Salvata",doneViewed:"Visualizzata",donePaid:"Pagata",
+  createAnother:"Crea un'altra fattura",backToInvoicesDone:"Torna alle fatture",
+  smartReminders:"promemoria intelligenti terranno tutto sotto controllo",
+  bookkeepingCreated:"Registrazione contabile creata",autoCategorized:"Categorizzata automaticamente dalle voci fattura",
+  reviewAdjust:"Rivedi e modifica",taxExemptRevenues:"Ricavi esenti",
+  revenuesWithVat:"Ricavi con",vatWord:"IVA",standardRate:"Aliquota ordinaria",reducedRate:"Aliquota ridotta",
+  total:"Totale",invoicesBoxLabel:"FATTURE",
+  doneHlSent:["Fatto.","E... inviata.","Partita.","Affare chiuso."],
+  doneHlSaved:["Salvata e sigillata.","Pronta quando vuoi.","Archiviata."],
+  doneSlSent:["{0} dovrebbe vederla a momenti. Vai a fare qualcosa di bello.",
+    "Ora è nelle mani di {0}. Hai fatto la tua parte.",
+    "In viaggio verso {0}. Teniamo d'occhio noi."],
+  doneSlSaved:["{0} non sa ancora nulla. Invia quando sei pronto.",
+    "Bella. Ammirala un attimo, poi invia quando vuoi.",
+    "Salvata e in attesa del tuo via. Nessuna fretta."],
+  newSaleTitle:"Nuova vendita",addToTitle:"Aggiungi a",
+  describeNeed:"Descrivi cosa ti serve — o scegli un tipo di documento.",
+  describePlaceholder:"Descrivi in linguaggio semplice, es.:\n\"40 ore di sviluppo web per TechVentures a febbraio\"\n\"Invia un preventivo ad Atelier Lumière per €2.400 retainer design\"\n\nPuoi anche incollare un thread e-mail o un estratto di contratto.",
+  pullContext:"Carica contesto da fonte esterna",
+  fetchGranola:"Carica da Granola",fetchNotion:"Carica da Notion",fetchGmail:"Carica da Gmail",
+  meetingNotes:"Note riunione",pagesDbLabel:"Pagine & database",emailThreads:"Thread e-mail",
+  generateBtn:"Genera",orManually:"o crea manualmente",
+  documentWord:"documento",
+  uploadTitle:"Carica un documento",
+  uploadDesc:"Trascina un file e estrarremo i dettagli automaticamente.",
+  dropOrBrowse:"Trascina un file qui o",browseWord:"sfoglia",
+  uploadTypes:"PDF, contratto, export e-mail, scansione",
+  aiSteps:["Comprensione della richiesta...","Ricerca cliente nello storico...","Creazione delle voci...","Classificazione trattamento IVA...","Impostazione termini di pagamento...","Generazione anteprima..."],
+  buildingYour:"Creazione della",fromWord:"da:",
+  tmBefore7:"7 giorni prima della scadenza",tmBefore3:"3 giorni prima della scadenza",tmOnDue:"Giorno di scadenza",
+  tmOver3:"3 giorni di ritardo",tmOver7:"7 giorni di ritardo",tmOver14:"14 giorni di ritardo",
+  tmOver21:"21 giorni di ritardo",tmOver30:"30 giorni di ritardo",
+  standardScheduleNew:"Piano standard per nuovo cliente",adaptiveSchedule:"Piano adattivo basato sullo storico pagamenti",
+  firstInvRationale:"Prima fattura a {0} — approccio equilibrato finché non conosciamo i pattern di pagamento.",
+  lateRationale:"{0} paga in media in {1} giorni su {2} fatture. Piano più deciso con follow-up anticipati.",
+  reliableRationale:"{0} paga in media in {1} giorni su {2} fatture. Approccio leggero, cliente affidabile.",
+  standardNote:"Piano standard — impareremo i pattern di pagamento nel tempo.",
+},
+};
+/* helper: resolve timing slot label */
+const tmKey={"-7":"tmBefore7","-3":"tmBefore3","0":"tmOnDue","3":"tmOver3","7":"tmOver7","14":"tmOver14","21":"tmOver21","30":"tmOver30"};
+
 function lookupRate(category,cc){const d=VAT[cc];if(!d)return 19;for(const[rate,cats]of Object.entries(d.cats)){if(cats.some(c=>c.toLowerCase()===category.toLowerCase()))return Number(rate);}return d.std;}
 
 /* Build selectable category options for a country — excludes context-driven zero-rate entries */
@@ -386,12 +754,17 @@ function InvoiceBuilder(){
   const[periodStart,setPeriodStart]=useState(isoDate(new Date(today.getFullYear(),today.getMonth(),1)));
   const[periodEnd,setPeriodEnd]=useState(isoDate(new Date(today.getFullYear(),today.getMonth()+1,0)));
 
+  /* UI language — auto-detect from browser, sync PDF lang */
+  const[uiLang,setUiLang]=useState(()=>{const l=(navigator.language||"en").slice(0,2).toLowerCase();return l==="de"?"DE":l==="it"?"IT":"EN";});
+  const t=UI[uiLang];
   /* Document-level: language (PDF only) and currency */
-  const[pdfLang,setPdfLang]=useState("EN");
+  const[pdfLang,setPdfLang]=useState(()=>{const l=(navigator.language||"en").slice(0,2).toLowerCase();return l==="de"?"DE":l==="it"?"IT":"EN";});
   const[curCode,setCurCode]=useState("EUR");
   const L=LANG[pdfLang];
   const cur=CUR[curCode];
   const isEur=curCode==="EUR";
+  /* Sync PDF language when UI language changes (user can still override in Details) */
+  useEffect(()=>{if(["EN","DE","IT"].includes(uiLang)&&LANG[uiLang])setPdfLang(uiLang);},[uiLang]);
 
   /* Post-creation flow state */
   const[phase,setPhase]=useState("list");
@@ -608,10 +981,10 @@ function InvoiceBuilder(){
   const filteredCat=CATALOGUE.filter(c=>!catSearch||c.desc.toLowerCase().includes(catSearch.toLowerCase())||c.cat.toLowerCase().includes(catSearch.toLowerCase()));
 
   // Done screen copy — must be top-level hooks (not inside conditional render)
-  const doneHl=useMemo(()=>{const h=sentViaEmail?["Off your plate.","And... sent.","Out the door.","Done deal."]:["Saved and sealed.","Ready when you are.","Locked in."];return h[Math.floor(Math.random()*h.length)];},[phase]);
+  const doneHl=useMemo(()=>{const h=sentViaEmail?t.doneHlSent:t.doneHlSaved;return h[Math.floor(Math.random()*h.length)];},[phase]);
   const doneSl=useMemo(()=>{const cn=client?.name||"them";const s=sentViaEmail
-    ?[`${cn} should see this any moment now. Go do something you actually enjoy.`,`It's in ${cn}'s hands now. You've done your part.`,`Making its way to ${cn}. We'll keep an eye on things from here.`]
-    :[`${cn} doesn't know what's coming yet. Send it whenever you're ready.`,`Looking sharp. Take a second to admire it, then hit send whenever.`,`Saved and waiting for your go. No rush — it's not going anywhere.`];
+    ?t.doneSlSent.map(x=>x.replace("{0}",cn))
+    :t.doneSlSaved.map(x=>x.replace("{0}",cn));
     return s[Math.floor(Math.random()*s.length)];},[phase]);
 
   const previewRef=useRef(null);const[previewScale,setPreviewScale]=useState(1);
@@ -626,8 +999,8 @@ function InvoiceBuilder(){
   /* Catalogue panel — plain function, NOT a component (avoids remount on every render) */
   const renderCatPanel=(onClose)=>(
     <div style={{padding:12,background:C.surface,border:`1px solid ${C.borderLight}`,borderRadius:8,marginBottom:6}}>
-      {onClose&&<div style={{display:"flex",alignItems:"center",marginBottom:8}}><span style={{fontSize:15,fontWeight:600,color:C.dark}}>Add item</span><div style={{flex:1}}/><button onClick={onClose} style={{background:"transparent",border:"none",color:C.textSec,cursor:"pointer",fontSize:16,lineHeight:1}}>×</button></div>}
-      <input value={catSearch} onChange={e=>setCatSearch(e.target.value)} placeholder="Search catalogue…" style={{...inputStyle,marginBottom:6,background:C.surfaceAlt}}/>
+      {onClose&&<div style={{display:"flex",alignItems:"center",marginBottom:8}}><span style={{fontSize:15,fontWeight:600,color:C.dark}}>{t.addItem}</span><div style={{flex:1}}/><button onClick={onClose} style={{background:"transparent",border:"none",color:C.textSec,cursor:"pointer",fontSize:16,lineHeight:1}}>×</button></div>}
+      <input value={catSearch} onChange={e=>setCatSearch(e.target.value)} placeholder={t.searchCatalogue} style={{...inputStyle,marginBottom:6,background:C.surfaceAlt}}/>
       <div style={{maxHeight:200,overflowY:"auto"}}>
         {filteredCat.map(c=>(<button key={c.id} onClick={()=>addFromCat(c)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",cursor:"pointer",borderRadius:6,border:"none",background:"transparent",width:"100%",textAlign:"left",outline:"none"}}
           onMouseOver={e=>e.currentTarget.style.background=C.surfaceAlt} onMouseOut={e=>e.currentTarget.style.background="transparent"}>
@@ -638,17 +1011,17 @@ function InvoiceBuilder(){
           <span style={{fontSize:12,fontFamily:MONO,fontWeight:600,color:C.dark,flexShrink:0}}>€{c.price.toFixed(2)}</span>
           <span style={{fontSize:9,fontFamily:MONO,color:C.textSec,flexShrink:0}}>/{c.unit}</span>
         </button>))}
-        {filteredCat.length===0&&<div style={{padding:10,fontSize:13,color:C.textSec,textAlign:"center",fontStyle:"italic"}}>No matches</div>}
+        {filteredCat.length===0&&<div style={{padding:10,fontSize:13,color:C.textSec,textAlign:"center",fontStyle:"italic"}}>{t.noMatches}</div>}
       </div>
       {showFreeform?(
         <div style={{display:"flex",gap:5,marginTop:8}}>
-          <input value={desc} onChange={e=>setDesc(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addItem()} placeholder="Describe a custom item…" autoFocus style={{...inputStyle,flex:1}}/>
-          <button onClick={addItem} disabled={!desc.trim()} style={{padding:"9px 14px",borderRadius:12,border:"none",background:desc.trim()?C.dark:C.borderLight,color:desc.trim()?"#fff":C.textTer,fontSize:13,fontWeight:500,cursor:desc.trim()?"pointer":"default",whiteSpace:"nowrap",fontFamily:SANS}}>+ Add</button>
+          <input value={desc} onChange={e=>setDesc(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addItem()} placeholder={t.describeCustom} autoFocus style={{...inputStyle,flex:1}}/>
+          <button onClick={addItem} disabled={!desc.trim()} style={{padding:"9px 14px",borderRadius:12,border:"none",background:desc.trim()?C.dark:C.borderLight,color:desc.trim()?"#fff":C.textTer,fontSize:13,fontWeight:500,cursor:desc.trim()?"pointer":"default",whiteSpace:"nowrap",fontFamily:SANS}}>{t.addBtn}</button>
         </div>
       ):(
         <button onClick={()=>setShowFreeform(true)} style={{marginTop:8,width:"100%",padding:"8px",borderRadius:12,border:`1.5px dashed ${C.border}`,background:"transparent",color:C.textSec,fontSize:11,fontWeight:500,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:4,outline:"none"}}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-          Custom item
+          {t.customItem}
         </button>
       )}
     </div>
@@ -692,7 +1065,7 @@ function InvoiceBuilder(){
 
   const aiGenerate=async(prompt)=>{
     setAiGenerating(true);
-    const steps=["Understanding your request...","Matching client from history...","Building line items...","Classifying VAT treatment...","Setting payment terms...","Generating preview..."];
+    const steps=t.aiSteps;
     for(const s of steps){setAiStep(s);await delay(600,1000);}
     setClient(CLIENTS[0]);setClientListOpen(false);
     setItems([{id:Date.now(),desc:"Web development — February 2026",qty:40,price:95,unit:"hr",discount:0,done:true,conf:"high",cat:"Professional services",supplyType:"services",reasoning:"Matched from previous invoices to TechVentures GmbH",fromCat:false}]);
@@ -705,8 +1078,8 @@ function InvoiceBuilder(){
   /* sales are always expanded — no toggle needed */
 
   const renderListScreen=()=>{
-    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"},signed:{color:C.green,label:"Signed"}};
-    const typeCfg={invoice:{icon:"Invoice",color:C.dark},quote:{icon:"Quote",color:C.textSec},credit_note:{icon:"Credit note",color:C.red},contract:{icon:"Contract",color:C.textSec}};
+    const statusCfg={sent:{color:C.blue,label:t.stSent},overdue:{color:C.red,label:t.stOverdue},paid:{color:C.green,label:t.stPaid},draft:{color:C.amber,label:t.stDraft},accepted:{color:C.green,label:t.stAccepted},issued:{color:C.blue,label:t.stIssued},signed:{color:C.green,label:t.stSigned}};
+    const typeCfg={invoice:{icon:t.tpInvoice,color:C.dark},quote:{icon:t.tpQuote,color:C.textSec},credit_note:{icon:t.tpCreditNote,color:C.red},contract:{icon:t.tpContract,color:C.textSec}};
     const fmtDate=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});};
     const fmtAmt=(a,c)=>{const cur=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cur.sym.trim();};
     const sidebarItem=(icon,label,sub)=>(
@@ -733,14 +1106,14 @@ function InvoiceBuilder(){
               <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .15s"}}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.dark} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.dark} strokeWidth="1.5"/><path d="M12 13v4m-2-2h4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/></svg>
               </div>
-              <span style={{fontSize:13,fontWeight:600,color:C.dark}}>New{"\n"}sale</span>
+              <span style={{fontSize:13,fontWeight:600,color:C.dark}}>{t.newSaleBtn}</span>
             </button>
             <div style={{width:1,background:C.borderLight,margin:"8px 0"}}/>
             <button onClick={()=>setShowUploadModal(true)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"12px 8px",border:"none",background:"transparent",cursor:"pointer",fontFamily:SANS}}>
               <div style={{width:48,height:48,borderRadius:12,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center"}}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round"/><path d="M12 3v12m0-12l4 4m-4-4L8 7" stroke={C.dark} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
-              <span style={{fontSize:13,fontWeight:600,color:C.dark}}>Upload{"\n"}document</span>
+              <span style={{fontSize:13,fontWeight:600,color:C.dark}}>{t.uploadDocBtn}</span>
             </button>
           </div>
 
@@ -748,43 +1121,43 @@ function InvoiceBuilder(){
           <div style={{background:"#fff",borderRadius:20,overflow:"hidden",marginBottom:16}}>
             {sidebarItem(
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 7H4a1 1 0 00-1 1v12a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z" stroke={C.textSec} strokeWidth="1.5"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke={C.textSec} strokeWidth="1.5"/></svg>,
-              "Goods & Services","Manage your products and services to use it in invoices"
+              t.goodsServices,t.goodsServicesDesc
             )}
             <div style={{height:1,background:C.borderLight,margin:"0 18px"}}/>
             {sidebarItem(
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke={C.textSec} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" transform="rotate(180 12 12)"/><path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2" stroke={C.textSec} strokeWidth="1.5" strokeLinecap="round"/></svg>,
-              "Import data to Finom","Simply transfer your contacts and products from other system"
+              t.importData,t.importDataDesc
             )}
             <div style={{height:1,background:C.borderLight,margin:"0 18px"}}/>
             {sidebarItem(
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.textSec} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.textSec} strokeWidth="1.5"/></svg>,
-              "Documents collection","Uploaded files, scans and email attachments"
+              t.docsCollection,t.docsCollectionDesc
             )}
           </div>
 
           {/* Receive invoices card */}
           <div style={{background:"#fff",borderRadius:20,padding:"24px 20px"}}>
-            <div style={{fontSize:15,fontWeight:700,color:C.dark,marginBottom:8,lineHeight:1.3}}>Receive invoices and receipts by email</div>
+            <div style={{fontSize:15,fontWeight:700,color:C.dark,marginBottom:8,lineHeight:1.3}}>{t.receiveInvoices}</div>
             <div style={{fontSize:13,fontFamily:MONO,color:C.dark,marginBottom:6}}>invoices@mustermann.de</div>
-            <div style={{fontSize:12,color:C.textSec,lineHeight:1.4}}>All invoices, receipts and other documents sent to this email will be added directly to Finom</div>
+            <div style={{fontSize:12,color:C.textSec,lineHeight:1.4}}>{t.receiveInvoicesDesc}</div>
           </div>
         </div>
 
         {/* MAIN CONTENT */}
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",margin:"0 0 20px"}}>
-            <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:0,fontFamily:SANS}}>Get Paid</h1>
+            <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:0,fontFamily:SANS}}>{t.getPaid}</h1>
           </div>
 
           {/* Search bar */}
           <div style={{position:"relative",marginBottom:14}}>
             <svg style={{position:"absolute",left:14,top:"50%",transform:"translateY(-50%)"}} width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke={C.textTer} strokeWidth="1.5"/><path d="M21 21l-4.35-4.35" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/></svg>
-            <input readOnly placeholder="Search by counterparty or invoice parameters" style={{width:"100%",padding:"10px 14px 10px 42px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",cursor:"default",height:40}}/>
+            <input readOnly placeholder={t.searchPlaceholder} style={{width:"100%",padding:"10px 14px 10px 42px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",cursor:"default",height:40}}/>
           </div>
 
           {/* Filter chips */}
           <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
-            {["Invoices ˅","Status","Scheduled email","Issue date","More filters ···"].map(f=>(
+            {[t.filterInvoices,t.filterStatus,t.filterScheduled,t.filterIssueDate,t.filterMore].map(f=>(
               <span key={f} style={{padding:"7px 16px",borderRadius:20,border:"none",fontSize:13,color:C.textSec,fontWeight:500,background:C.surfaceAlt,cursor:"default",whiteSpace:"nowrap"}}>{f}</span>
             ))}
           </div>
@@ -792,7 +1165,7 @@ function InvoiceBuilder(){
           {/* Sort control */}
           <div style={{display:"flex",gap:0,borderBottom:`1px solid ${C.borderLight}`,marginBottom:0}}>
             <div style={{flex:1}}/>
-            <div style={{padding:"12px 0 10px",fontSize:12,fontWeight:600,color:C.blue,letterSpacing:.3,textTransform:"uppercase",cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>By date <span style={{fontSize:10}}>˅</span></div>
+            <div style={{padding:"12px 0 10px",fontSize:12,fontWeight:600,color:C.blue,letterSpacing:.3,textTransform:"uppercase",cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>{t.byDate} <span style={{fontSize:10}}>˅</span></div>
           </div>
 
           {/* Sales list */}
@@ -806,7 +1179,7 @@ function InvoiceBuilder(){
                 {/* Sale header: client + amount + menu */}
                 <div style={{display:"flex",alignItems:"center",marginBottom:multi?8:0}}>
                   <div style={{flex:1,minWidth:0}}>
-                    <span style={{fontSize:14,fontWeight:600,color:C.dark}}>Sale to {sale.clientName}</span>
+                    <span style={{fontSize:14,fontWeight:600,color:C.dark}}>{t.saleTo} {sale.clientName}</span>
                     {sale.aiSource&&(
                       <div style={{display:"flex",alignItems:"center",gap:5,marginTop:4}}>
                         <AiPill style={{fontSize:9,padding:"1px 6px 1px 4px"}}/>
@@ -814,7 +1187,7 @@ function InvoiceBuilder(){
                           {sale.aiSource.type==="contract"?(<>
                             {sale.aiSource.label} — <a href={sale.aiSource.fileUrl} onClick={e=>e.stopPropagation()} style={{color:C.blue,textDecoration:"none",fontWeight:500}}>{sale.aiSource.fileName}</a>
                           </>):(<>
-                            Created by AI based on your Gmail <a href={sale.aiSource.linkUrl} onClick={e=>e.stopPropagation()} style={{color:C.blue,textDecoration:"none",fontWeight:500}}>{sale.aiSource.linkText}</a> with {sale.clientName}
+                            {t.createdByAi} <a href={sale.aiSource.linkUrl} onClick={e=>e.stopPropagation()} style={{color:C.blue,textDecoration:"none",fontWeight:500}}>{sale.aiSource.linkText}</a> {t.withWord} {sale.clientName}
                           </>)}
                         </span>
                       </div>
@@ -831,7 +1204,7 @@ function InvoiceBuilder(){
                       <div style={{position:"absolute",top:32,right:0,background:"#fff",border:`1px solid ${C.borderLight}`,borderRadius:8,boxShadow:"0 4px 12px rgba(0,0,0,0.1)",zIndex:10,minWidth:160,padding:"4px 0"}}>
                         <button onClick={()=>{setOpenMenuSaleId(null);setActiveSaleId(sale.id);setShowContextMenu(false);setShowNewSaleModal(true);}} style={{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"8px 12px",border:"none",background:"transparent",color:C.dark,fontSize:13,fontWeight:500,cursor:"pointer",textAlign:"left",fontFamily:SANS}} onMouseEnter={e=>e.target.style.background=C.surfaceAlt} onMouseLeave={e=>e.target.style.background="transparent"}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-                          Add document
+                          {t.addDocument}
                         </button>
                       </div>
                     )}
@@ -853,7 +1226,7 @@ function InvoiceBuilder(){
                       <div style={{flex:"0 0 130px",display:"flex",alignItems:"center",gap:6}}>
                         <span style={{width:6,height:6,borderRadius:3,background:ast.color,flexShrink:0}}/>
                         <span style={{fontSize:12,fontWeight:500,color:C.textSec}}>{ast.label}</span>
-                        {a.dueDate&&a.status!=="paid"&&a.status!=="draft"&&<span style={{fontSize:11,color:C.textTer}}>· Due {fmtDate(a.dueDate)}</span>}
+                        {a.dueDate&&a.status!=="paid"&&a.status!=="draft"&&<span style={{fontSize:11,color:C.textTer}}>· {t.dueWord} {fmtDate(a.dueDate)}</span>}
                       </div>
                       <div style={{flex:"0 0 90px",textAlign:"right"}}>
                         <span style={{fontSize:13,fontFamily:MONO,fontWeight:500,color:a.amount<0?C.red:C.dark}}>{a.amount<0?"−":""}{fmtAmt(Math.abs(a.amount),sale.cur)}</span>
@@ -875,17 +1248,17 @@ function InvoiceBuilder(){
   const renderDetailScreen=()=>{
     if(!detailSale||!detailArtifact)return null;
     const sale=detailSale;const art=detailArtifact;
-    const statusCfg={sent:{color:C.blue,label:"Sent"},overdue:{color:C.red,label:"Overdue"},paid:{color:C.green,label:"Paid"},draft:{color:C.amber,label:"Draft"},accepted:{color:C.green,label:"Accepted"},issued:{color:C.blue,label:"Issued"},signed:{color:C.green,label:"Signed"}};
+    const statusCfg={sent:{color:C.blue,label:t.stSent},overdue:{color:C.red,label:t.stOverdue},paid:{color:C.green,label:t.stPaid},draft:{color:C.amber,label:t.stDraft},accepted:{color:C.green,label:t.stAccepted},issued:{color:C.blue,label:t.stIssued},signed:{color:C.green,label:t.stSigned}};
     const st=statusCfg[art.status]||statusCfg.draft;
-    const typeLabel={invoice:"Invoice",quote:"Quote",credit_note:"Credit Note",contract:"Contract"}[art.type]||"Document";
+    const typeLabel={invoice:t.tpInvoice,quote:t.tpQuote,credit_note:t.tpCreditNote,contract:t.tpContract}[art.type]||"Document";
     const fmtDateL=(iso)=>{if(!iso)return"";const d=new Date(iso);return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});};
     const fmtAmtL=(a,c)=>{const cu=CUR[c]||CUR.EUR;return a.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+cu.sym.trim();};
     /* Mock history events */
     const history=[
-      {date:art.date,label:"Created",done:true},
-      ...(art.status==="sent"||art.status==="paid"?[{date:art.date,label:"Sent to client",done:true}]:[]),
-      ...(art.status==="paid"?[{date:art.dueDate||art.date,label:"Payment received",done:true}]:[]),
-      ...(art.status!=="paid"?[{date:art.dueDate||null,label:art.status==="overdue"?"Payment overdue":"Awaiting payment",done:false}]:[]),
+      {date:art.date,label:t.histCreated,done:true},
+      ...(art.status==="sent"||art.status==="paid"?[{date:art.date,label:t.histSent,done:true}]:[]),
+      ...(art.status==="paid"?[{date:art.dueDate||art.date,label:t.histPaymentReceived,done:true}]:[]),
+      ...(art.status!=="paid"?[{date:art.dueDate||null,label:art.status==="overdue"?t.histOverdue:t.histAwaiting,done:false}]:[]),
     ];
     return(
     <div className="phase-enter" key="detail" style={{maxWidth:1200,margin:"0 auto",padding:"0 32px 40px",display:"flex",gap:20,alignItems:"flex-start"}}>
@@ -895,7 +1268,7 @@ function InvoiceBuilder(){
         <div style={{marginBottom:16}}>
           <span onClick={()=>setPhase("list")} style={{fontSize:13,fontWeight:500,color:C.textSec,cursor:"pointer",display:"inline-flex",alignItems:"center",gap:4}}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            Back to Get Paid
+            {t.backToGetPaid}
           </span>
         </div>
 
@@ -921,7 +1294,7 @@ function InvoiceBuilder(){
 
           {/* Action buttons */}
           <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:28,flexWrap:"wrap"}}>
-            <button style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{art.status==="draft"?"Send":"Re-send"}</button>
+            <button style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{art.status==="draft"?t.sendBtn:t.resendBtn}</button>
             <button style={{width:40,height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.textSec,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>···</button>
           </div>
 
@@ -951,16 +1324,16 @@ function InvoiceBuilder(){
 
         {/* Details card */}
         <div style={{background:"#fff",borderRadius:20,padding:"32px 40px"}}>
-          <div style={{fontSize:20,fontWeight:700,color:C.dark,marginBottom:20}}>Details</div>
+          <div style={{fontSize:20,fontWeight:700,color:C.dark,marginBottom:20}}>{t.details}</div>
           <div style={{display:"flex",gap:0,flexDirection:"column"}}>
             {[
-              ["Issuer","Mustermann Digital GmbH"],
+              [t.issuer,"Mustermann Digital GmbH"],
               ["",[`VAT ID: ${sellerVatId}`,`IBAN: ${iban}`,`BIC: ${bic}`].join("\n")],
-              ["Customer",sale.clientName],
-              ["Issue date",fmtDateL(art.date)],
-              ...(art.dueDate?[["Due date",fmtDateL(art.dueDate)]]:[]),
-              ["Amount",fmtAmtL(Math.abs(art.amount),sale.cur)],
-              ["Document number",art.num],
+              [t.customer,sale.clientName],
+              [t.issueDateLabel,fmtDateL(art.date)],
+              ...(art.dueDate?[[t.dueDate,fmtDateL(art.dueDate)]]:[]),
+              [t.amountLabel,fmtAmtL(Math.abs(art.amount),sale.cur)],
+              [t.documentNumber,art.num],
             ].map(([label,val],i)=>(
               <div key={i} style={{display:"flex",padding:"10px 0",borderBottom:i<6?`1px solid ${C.borderLight}`:"none"}}>
                 <div style={{flex:"0 0 160px",fontSize:13,color:C.textSec}}>{label}</div>
@@ -975,7 +1348,7 @@ function InvoiceBuilder(){
       <div style={{flex:"0 0 320px",paddingTop:36}}>
         {/* Files card */}
         <div style={{background:"#fff",borderRadius:20,padding:"24px 24px",marginBottom:16}}>
-          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:14}}>Files</div>
+          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:14}}>{t.filesSection}</div>
           {[
             {name:`${art.num}.pdf`,label:"PDF",size:"124 KB",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.red} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.red} strokeWidth="1.5"/><text x="12" y="17" textAnchor="middle" fill={C.red} fontSize="6" fontWeight="700" fontFamily={SANS}>PDF</text></svg>},
             {name:`${art.num}.xml`,label:"ZUGFeRD",size:"18 KB",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke={C.blue} strokeWidth="1.5"/><path d="M14 2v6h6" stroke={C.blue} strokeWidth="1.5"/><text x="12" y="17" textAnchor="middle" fill={C.blue} fontSize="5" fontWeight="700" fontFamily={SANS}>XML</text></svg>},
@@ -999,14 +1372,14 @@ function InvoiceBuilder(){
           <div style={{width:56,height:56,borderRadius:16,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px"}}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke={C.textSec} strokeWidth="2" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke={C.textSec} strokeWidth="2" strokeLinecap="round"/></svg>
           </div>
-          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:8}}>Link payment</div>
-          <div style={{fontSize:13,color:C.textSec,lineHeight:1.5,marginBottom:16}}>If you already have a payment on this document, just attach it.</div>
-          <button style={{width:"100%",padding:"0 20px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>Link payment</button>
+          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:8}}>{t.linkPayment}</div>
+          <div style={{fontSize:13,color:C.textSec,lineHeight:1.5,marginBottom:16}}>{t.linkPaymentDesc}</div>
+          <button style={{width:"100%",padding:"0 20px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:"#fff",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{t.linkPayment}</button>
         </div>
 
         {/* History card */}
         <div style={{background:"#fff",borderRadius:20,padding:"24px 24px"}}>
-          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:16}}>History</div>
+          <div style={{fontSize:17,fontWeight:700,color:C.dark,marginBottom:16}}>{t.historySection}</div>
           <div style={{display:"flex",flexDirection:"column",gap:0}}>
             {history.map((ev,i)=>{
               const isLast=i===history.length-1;
@@ -1031,51 +1404,51 @@ function InvoiceBuilder(){
 
   const renderSendScreen=()=>(
     <div className="phase-enter" key="send" style={{maxWidth:760,margin:"0 auto",padding:"0 32px 40px"}}>
-      <div style={{marginBottom:16}}><span onClick={()=>setPhase("editor")} style={{fontSize:12,fontWeight:500,color:C.textSec,letterSpacing:.5,textTransform:"uppercase",cursor:"pointer"}}>← Back to editor</span></div>
+      <div style={{marginBottom:16}}><span onClick={()=>setPhase("editor")} style={{fontSize:12,fontWeight:500,color:C.textSec,letterSpacing:.5,textTransform:"uppercase",cursor:"pointer"}}>{t.backToEditor}</span></div>
       <div style={{background:C.greenLight,border:`1px solid ${C.greenBorder}`,borderRadius:12,padding:"16px 20px",display:"flex",alignItems:"center",gap:12,marginBottom:24}}>
         <div style={{width:32,height:32,borderRadius:16,background:C.green,display:"flex",alignItems:"center",justifyContent:"center"}}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </div>
         <div>
-          <div style={{fontSize:15,fontWeight:600,color:C.dark}}>Invoice {invNum} created</div>
+          <div style={{fontSize:15,fontWeight:600,color:C.dark}}>{t.tpInvoice} {invNum} {t.invoiceCreatedWord}</div>
           <div style={{fontSize:13,color:C.textSec}}>{fmtEurSym(total)} to {client?.name}</div>
         </div>
       </div>
       <div style={{display:"flex",gap:20,alignItems:"flex-start"}}>
         <div style={{flex:"1 1 60%"}}>
           <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:12,padding:20}}>
-            <div style={{fontSize:17,fontWeight:600,color:C.dark,marginBottom:16,display:"flex",alignItems:"center",gap:8}}>Send by email <AiPill/></div>
-            {emailLoading?(<div style={{display:"flex",alignItems:"center",gap:10,padding:"32px 0",justifyContent:"center"}}><div className="sp"/><span style={{fontSize:13,color:C.textSec}}>Composing email...</span><AiPill/></div>):(<>
+            <div style={{fontSize:17,fontWeight:600,color:C.dark,marginBottom:16,display:"flex",alignItems:"center",gap:8}}>{t.sendByEmail} <AiPill/></div>
+            {emailLoading?(<div style={{display:"flex",alignItems:"center",gap:10,padding:"32px 0",justifyContent:"center"}}><div className="sp"/><span style={{fontSize:13,color:C.textSec}}>{t.composingEmail}</span><AiPill/></div>):(<>
               <div style={{marginBottom:12}}>
-                <label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:4}}>To</label>
+                <label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:4}}>{t.toLabel}</label>
                 <input value={emailTo} onChange={e=>setEmailTo(e.target.value)} placeholder="client@example.com" style={inputStylePost}/>
               </div>
               <div style={{marginBottom:12}}>
-                <label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:4}}>Subject</label>
+                <label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:4}}>{t.subjectLabel}</label>
                 <input value={emailSubject} onChange={e=>setEmailSubject(e.target.value)} style={inputStylePost}/>
               </div>
               <div style={{marginBottom:16}}>
-                <label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:4}}>Message</label>
-                <textarea value={emailBody} onChange={e=>setEmailBody(e.target.value)} rows={8} style={{...inputStylePost,lineHeight:1.6,resize:"vertical"}}/>
+                <label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:4}}>{t.messageLabel}</label>
+                <textarea value={emailBody} onChange={e=>setEmailBody(e.target.value)} rows={8} style={{...inputStylePost,height:"auto",lineHeight:1.6,resize:"vertical"}}/>
               </div>
               <button onClick={async()=>{setSendingEmail(true);await delay(1500,2500);setSendingEmail(false);handleGoToReminders(true);}} disabled={sendingEmail} style={{width:"100%",padding:"14px",borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:sendingEmail?"default":"pointer",opacity:sendingEmail?.7:1,fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
-                {sendingEmail?<><div className="sp" style={{width:16,height:16,borderWidth:2}}/> Sending...</>:<><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#fff" strokeWidth="2" strokeLinecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> Send email</>}
+                {sendingEmail?<><div className="sp" style={{width:16,height:16,borderWidth:2}}/> {t.sendingEmail}</>:<><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#fff" strokeWidth="2" strokeLinecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> {t.sendEmailBtn}</>}
               </button>
-              <div style={{textAlign:"center",marginTop:12}}><span onClick={()=>handleGoToReminders(false)} style={{fontSize:13,color:C.textSec,cursor:"pointer",textDecoration:"underline"}}>Skip for now</span></div>
+              <div style={{textAlign:"center",marginTop:12}}><span onClick={()=>handleGoToReminders(false)} style={{fontSize:13,color:C.textSec,cursor:"pointer",textDecoration:"underline"}}>{t.skipForNow}</span></div>
             </>)}
           </div>
         </div>
         <div style={{flex:"1 1 35%"}}>
           <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:12,padding:20}}>
-            <div style={{fontSize:15,fontWeight:600,color:C.dark,marginBottom:12}}>Share link</div>
+            <div style={{fontSize:15,fontWeight:600,color:C.dark,marginBottom:12}}>{t.shareLink}</div>
             <div style={{display:"flex",gap:6,marginBottom:14}}>
               <input readOnly value={shareLink} style={{...inputStylePost,flex:1,fontSize:12,color:C.textSec,background:C.surfaceAlt}}/>
-              <button onClick={()=>{navigator.clipboard?.writeText(shareLink);}} style={{padding:"8px 12px",borderRadius:10,border:`1px solid ${C.border}`,background:C.surfaceAlt,cursor:"pointer",fontSize:12,fontFamily:SANS,color:C.dark,whiteSpace:"nowrap"}}>Copy</button>
+              <button onClick={()=>{navigator.clipboard?.writeText(shareLink);}} style={{padding:"8px 12px",borderRadius:10,border:`1px solid ${C.border}`,background:C.surfaceAlt,cursor:"pointer",fontSize:12,fontFamily:SANS,color:C.dark,whiteSpace:"nowrap"}}>{t.copyBtn}</button>
             </div>
             <div style={{display:"flex",flexDirection:"column",gap:8}}>
               {[{name:"WhatsApp",color:"#25D366",icon:"W",url:`https://wa.me/?text=${encodeURIComponent(`Invoice ${invNum}: ${shareLink}`)}`},
                 {name:"Telegram",color:"#0088cc",icon:"T",url:`https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(`Invoice ${invNum}`)}`},
-                {name:"Copy link & paste anywhere",color:C.textSec,icon:"@",url:`mailto:?subject=${encodeURIComponent(`Invoice ${invNum}`)}&body=${encodeURIComponent(`View invoice: ${shareLink}`)}`}
+                {name:t.copyLinkAnywhere,color:C.textSec,icon:"@",url:`mailto:?subject=${encodeURIComponent(`Invoice ${invNum}`)}&body=${encodeURIComponent(`View invoice: ${shareLink}`)}`}
               ].map(ch=>(
                 <a key={ch.name} href={ch.url} target="_blank" rel="noopener" style={{display:"flex",alignItems:"center",gap:10,padding:"8px 10px",borderRadius:8,background:C.surfaceAlt,textDecoration:"none",color:C.text,fontSize:13,fontWeight:500}}>
                   <div style={{width:28,height:28,borderRadius:14,background:ch.color,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:12,fontWeight:700}}>{ch.icon}</div>
@@ -1132,7 +1505,7 @@ function InvoiceBuilder(){
     <div className="phase-enter" key="reminders" style={{maxWidth:640,margin:"0 auto",padding:"0 24px 40px"}}>
       <div style={{fontSize:22,fontWeight:600,color:C.dark,marginBottom:16,display:"flex",alignItems:"center",gap:10}}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.dark} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span>Payment reminders for <span style={{color:C.blue}}>{invNum}</span></span>
+        <span>{t.remindersFor} <span style={{color:C.blue}}>{invNum}</span></span>
         <AiPill/>
       </div>
 
@@ -1143,7 +1516,7 @@ function InvoiceBuilder(){
             <div style={{width:32,height:32,borderRadius:16,background:insightColor,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700,fontSize:16,flexShrink:0}}>{insightIcon}</div>
             <div style={{flex:1}}>
               <div style={{fontSize:14,fontWeight:600,color:C.dark,marginBottom:4}}>
-                {isNew?"First invoice to this client":isLate?`${client?.name} tend to pay late`:`Tailored for ${client?.name}`}
+                {isNew?t.firstInvoiceClient:isLate?`${client?.name} ${t.tendPayLate}`:`${t.tailoredFor} ${client?.name}`}
               </div>
               <div style={{fontSize:13,color:C.text,lineHeight:1.5,marginBottom:8}}>
                 {rationale||(isNew?`Standard schedule — we'll learn their payment patterns over time.`:isLate?`They average ${ch.avgPayDays} days to pay across ${ch.invoiceCount} invoices. Firmer schedule with earlier follow-ups.`:`Based on ${ch.invoiceCount} previous invoices, they pay in ~${ch.avgPayDays} days on average. Light-touch approach.`)}
@@ -1151,7 +1524,7 @@ function InvoiceBuilder(){
               <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
                 {ch.invoiceCount?<><span style={{fontSize:11,padding:"3px 10px",borderRadius:10,background:"rgba(255,255,255,.6)",color:C.text,fontWeight:500}}>{ch.invoiceCount} invoice{ch.invoiceCount>1?"s":""}</span>
                 <span style={{fontSize:11,padding:"3px 10px",borderRadius:10,background:"rgba(255,255,255,.6)",color:C.text,fontWeight:500}}>avg {ch.avgPayDays} days</span></>:
-                <span style={{fontSize:11,padding:"3px 10px",borderRadius:10,background:"rgba(255,255,255,.6)",color:C.text,fontWeight:500}}>No payment history</span>}
+                <span style={{fontSize:11,padding:"3px 10px",borderRadius:10,background:"rgba(255,255,255,.6)",color:C.text,fontWeight:500}}>{t.noPayHistory}</span>}
                 {ch.lastPaidDate&&<span style={{fontSize:11,padding:"3px 10px",borderRadius:10,background:"rgba(255,255,255,.6)",color:C.text,fontWeight:500}}>Last: {ch.lastPaidDate}</span>}
               </div>
             </div>
@@ -1159,7 +1532,7 @@ function InvoiceBuilder(){
         </div>
       )}
 
-      {reminderLoading?(<div style={{display:"flex",alignItems:"center",gap:10,padding:"48px 0",justifyContent:"center"}}><div className="sp"/><span style={{fontSize:13,color:C.textSec}}>Generating reminder schedule...</span><AiPill/></div>):(<>
+      {reminderLoading?(<div style={{display:"flex",alignItems:"center",gap:10,padding:"48px 0",justifyContent:"center"}}><div className="sp"/><span style={{fontSize:13,color:C.textSec}}>{t.genSchedule}</span><AiPill/></div>):(<>
         {/* ── Timeline ── */}
         <div style={{marginBottom:24}}>
           {steps.map((step,i)=>{
@@ -1208,35 +1581,35 @@ function InvoiceBuilder(){
         {/* ── Add reminder (when customizing) ── */}
         {customizing&&!addingReminder&&availableSlots.length>0&&(
           <div style={{marginBottom:20,textAlign:"center"}}>
-            <button onClick={()=>setAddingReminder(true)} style={{padding:"8px 20px",borderRadius:16,border:`1.5px dashed ${C.border}`,background:"transparent",color:C.textSec,fontSize:13,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>+ Add reminder</button>
+            <button onClick={()=>setAddingReminder(true)} style={{padding:"8px 20px",borderRadius:16,border:`1.5px dashed ${C.border}`,background:"transparent",color:C.textSec,fontSize:13,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{t.addReminderBtn}</button>
           </div>
         )}
         {customizing&&addingReminder&&(
           <div style={{marginBottom:20,padding:"14px 16px",borderRadius:12,border:`1px solid ${C.borderLight}`,background:C.surfaceAlt}}>
-            <div style={{fontSize:12,fontWeight:600,color:C.textSec,marginBottom:8,textTransform:"uppercase",letterSpacing:.5}}>When to send?</div>
+            <div style={{fontSize:12,fontWeight:600,color:C.textSec,marginBottom:8,textTransform:"uppercase",letterSpacing:.5}}>{t.whenToSend}</div>
             <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
               {availableSlots.map(slot=>(
                 <button key={slot.daysFromDue} onClick={()=>addStep(slot)} style={{padding:"6px 14px",borderRadius:12,border:`1px solid ${C.border}`,background:C.surface,color:C.dark,fontSize:13,fontWeight:500,cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}>{slot.timing}</button>
               ))}
             </div>
-            <div style={{marginTop:8,textAlign:"right"}}><span onClick={()=>setAddingReminder(false)} style={{fontSize:12,color:C.textSec,cursor:"pointer"}}>Cancel</span></div>
+            <div style={{marginTop:8,textAlign:"right"}}><span onClick={()=>setAddingReminder(false)} style={{fontSize:12,color:C.textSec,cursor:"pointer"}}>{t.cancelBtn}</span></div>
           </div>
         )}
 
         {/* ── Action buttons ── */}
         <div style={{display:"flex",gap:10,alignItems:"center"}}>
-          <button onClick={()=>setPhase("done")} style={{flex:1,padding:"14px",borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS}}>Confirm reminders</button>
-          <button onClick={()=>{setCustomizing(e=>!e);setAddingReminder(false);}} style={{padding:"14px 20px",borderRadius:20,border:`1px solid ${C.border}`,background:customizing?C.surfaceAlt:"transparent",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{customizing?"Done":"Customize"}</button>
+          <button onClick={()=>setPhase("done")} style={{flex:1,padding:"14px",borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS}}>{t.confirmReminders}</button>
+          <button onClick={()=>{setCustomizing(e=>!e);setAddingReminder(false);}} style={{padding:"14px 20px",borderRadius:20,border:`1px solid ${C.border}`,background:customizing?C.surfaceAlt:"transparent",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{customizing?t.doneBtn:t.customizeBtn}</button>
         </div>
-        <div style={{textAlign:"center",marginTop:12}}><span onClick={()=>{setReminderData(null);setPhase("done");}} style={{fontSize:13,color:C.textSec,cursor:"pointer",textDecoration:"underline"}}>No reminders</span></div>
+        <div style={{textAlign:"center",marginTop:12}}><span onClick={()=>{setReminderData(null);setPhase("done");}} style={{fontSize:13,color:C.textSec,cursor:"pointer",textDecoration:"underline"}}>{t.noRemindersLink}</span></div>
       </>)}
     </div>
   );};
 
   const renderDoneScreen=()=>{
     const hasReminders=reminderData&&reminderData.steps&&reminderData.steps.length>0;
-    const stampLabel=sentViaEmail?"SENT":"SAVED";
-    const lifecycle=[{l:"Created",done:true},{l:sentViaEmail?"Sent":"Saved",done:true},{l:"Viewed",done:false},{l:"Paid",done:false}];
+    const stampLabel=sentViaEmail?t.stampSent:t.stampSaved;
+    const lifecycle=[{l:t.doneCreated,done:true},{l:sentViaEmail?t.doneSent:t.doneSaved,done:true},{l:t.doneViewed,done:false},{l:t.donePaid,done:false}];
     return(
     <div key="done" style={{maxWidth:540,margin:"0 auto",padding:"40px 24px 60px",textAlign:"center"}}>
       {/* ── card + stamp → files into storage box ── */}
@@ -1272,7 +1645,7 @@ function InvoiceBuilder(){
               {[.85,.7,.5].map((w,i)=><div key={i} style={{height:2,background:C.borderLight,borderRadius:1,marginBottom:5,width:`${w*100}%`}}/>)}
               <div style={{flex:1}}/>
               <div style={{marginTop:24,paddingTop:6,borderTop:`1.5px solid ${C.dark}`,display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-                <div style={{fontSize:7,fontWeight:600,color:C.textSec,textTransform:"uppercase",letterSpacing:.5}}>Total</div>
+                <div style={{fontSize:7,fontWeight:600,color:C.textSec,textTransform:"uppercase",letterSpacing:.5}}>{t.total}</div>
                 <div style={{fontSize:13,fontWeight:700,color:C.dark}}>{fmtEurSym(total)}</div>
               </div>
             </div>
@@ -1293,7 +1666,7 @@ function InvoiceBuilder(){
             <rect x="1" y="1" width="208" height="88" rx="5" fill="#f0ece6" stroke="#d4cfc7"/>
             <rect x="81" y="10" width="48" height="8" rx="4" fill="#cfc9c1"/>
             <rect x="55" y="28" width="100" height="50" rx="4" fill="#faf8f5" stroke="#ddd8d0"/>
-            <text x="105" y="51" textAnchor="middle" fill="#b5afa5" fontSize="9" fontWeight="600" fontFamily="Poppins, system-ui, sans-serif">INVOICES</text>
+            <text x="105" y="51" textAnchor="middle" fill="#b5afa5" fontSize="9" fontWeight="600" fontFamily="Poppins, system-ui, sans-serif">{t.invoicesBoxLabel}</text>
             <text x="105" y="66" textAnchor="middle" fill="#ccc5bb" fontSize="7.5" fontFamily="Poppins, system-ui, sans-serif">2026</text>
           </svg>
         </div>
@@ -1324,7 +1697,7 @@ function InvoiceBuilder(){
         {/* reminders note */}
         {hasReminders&&<div style={{fontSize:13,color:C.green,marginTop:4,marginBottom:28,display:"flex",alignItems:"center",justifyContent:"center",gap:5}}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 017 7c0 3.53-1.4 5.17-2.4 6.65-.58.86-.6 1.85-.6 2.35v0H8v0c0-.5-.02-1.49-.6-2.35C6.4 14.17 5 12.53 5 9a7 7 0 017-7z" stroke={C.green} strokeWidth="1.5"/><path d="M10 21.5a2 2 0 004 0" stroke={C.green} strokeWidth="1.5" strokeLinecap="round"/></svg>
-          {reminderData.steps.length} smart reminders will keep things on track
+          {reminderData.steps.length} {t.smartReminders}
         </div>}
 
         {/* bookkeeping record */}
@@ -1334,26 +1707,26 @@ function InvoiceBuilder(){
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.blue} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M8 10h8"/><path d="M8 14h4"/></svg>
             </div>
             <div>
-              <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:14,fontWeight:600,color:C.dark}}>Bookkeeping record created</span><AiPill/></div>
-              <div style={{fontSize:11,color:C.textSec}}>Auto-categorized from invoice line items</div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:14,fontWeight:600,color:C.dark}}>{t.bookkeepingCreated}</span><AiPill/></div>
+              <div style={{fontSize:11,color:C.textSec}}>{t.autoCategorized}</div>
             </div>
           </div>
           <div style={{padding:"12px 14px",borderRadius:10,background:C.surfaceAlt,border:`1px solid ${C.borderLight}`}}>
             {Object.entries(vatGroups).map(([rate,g])=>{
               const rn=Number(rate);
-              const catLabel=rn===0?"Tax-exempt revenues":`Revenues with ${rn}% VAT${rn===sd.std?" (Standard Rate)":rn===7?" (Reduced Rate)":" (Reduced Rate)"}`;
+              const catLabel=rn===0?t.taxExemptRevenues:`${t.revenuesWithVat} ${rn}% ${t.vatWord}${rn===sd.std?` (${t.standardRate})`:rn===7?` (${t.reducedRate})`:` (${t.reducedRate})`}`;
               return <div key={rate} style={{marginBottom:Object.keys(vatGroups).length>1?8:0}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:2}}>
                   <span style={{fontSize:13,fontWeight:500,color:C.dark}}>{catLabel}</span>
                   <span style={{fontSize:13,fontWeight:600,color:C.dark}}>{fmtEurSym(g.base+g.vat)}</span>
                 </div>
-                {rn>0&&<span style={{fontSize:11,padding:"2px 8px",borderRadius:6,background:C.blueLight,color:C.blue,fontWeight:500}}>VAT {rn}%: {fmtEurSym(g.vat)}</span>}
+                {rn>0&&<span style={{fontSize:11,padding:"2px 8px",borderRadius:6,background:C.blueLight,color:C.blue,fontWeight:500}}>{t.vatWord} {rn}%: {fmtEurSym(g.vat)}</span>}
               </div>;
             })}
           </div>
           <button onClick={()=>{}} style={{marginTop:10,width:"100%",padding:"8px",borderRadius:10,border:`1px solid ${C.border}`,background:"transparent",color:C.dark,fontSize:13,fontWeight:500,cursor:"pointer",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Review &amp; adjust
+            {t.reviewAdjust}
           </button>
         </div>
 
@@ -1361,10 +1734,10 @@ function InvoiceBuilder(){
         <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:0}}>
           <button onClick={()=>{setInvNum(freshInvNum());setPhase("editor");setClient(null);setItems([]);setClientListOpen(true);setEmailTo("");setEmailSubject("");setEmailBody("");setReminderData(null);setCustomizing(false);setSentViaEmail(false);setSavingDraft(false);setSendingEmail(false);setCreatingInvoice(false);}} style={{padding:"14px 32px",borderRadius:24,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS,transition:"transform .15s"}}
             onMouseEnter={e=>e.currentTarget.style.transform="scale(1.03)"}
-            onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>Create another invoice</button>
+            onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>{t.createAnother}</button>
           <button onClick={()=>setPhase("list")} style={{padding:"14px 28px",borderRadius:24,border:`1px solid ${C.border}`,background:"transparent",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
             onMouseEnter={e=>{e.currentTarget.style.background=C.surface;e.currentTarget.style.borderColor=C.dark}}
-            onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.borderColor=C.border}}>Back to invoices</button>
+            onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.borderColor=C.border}}>{t.backToInvoicesDone}</button>
         </div>
       </div>
     </div>
@@ -1383,10 +1756,14 @@ function InvoiceBuilder(){
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/></svg>
             GO
           </button>
-          {["Home","Get Paid","Accounting","Team","Cards"].map(item=><button key={item} onClick={()=>{if(item==="Get Paid")setPhase("list");}} style={{padding:"0 14px",height:40,border:"none",background:"transparent",color:item==="Get Paid"?"#fff":"rgba(255,255,255,0.55)",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,borderRadius:20,whiteSpace:"nowrap",borderBottom:item==="Get Paid"?"2px solid #fff":"2px solid transparent",borderRadius:0,paddingBottom:2}}>{item}</button>)}
+          {[{k:"Home",l:t.navHome},{k:"Get Paid",l:t.navGetPaid},{k:"Accounting",l:t.navAccounting},{k:"Team",l:t.navTeam},{k:"Cards",l:t.navCards}].map(({k,l})=><button key={k} onClick={()=>{if(k==="Get Paid")setPhase("list");}} style={{padding:"0 14px",height:40,border:"none",background:"transparent",color:k==="Get Paid"?"#fff":"rgba(255,255,255,0.55)",fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS,borderRadius:20,whiteSpace:"nowrap",borderBottom:k==="Get Paid"?"2px solid #fff":"2px solid transparent",borderRadius:0,paddingBottom:2}}>{l}</button>)}
         </div>
         <div style={{flex:1}}/>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
+          {/* Language switcher */}
+          <div style={{display:"flex",gap:2,padding:2,borderRadius:8,background:C.surfaceAlt,border:`1px solid ${C.borderLight}`}}>
+            {["EN","DE","IT"].map(code=><button key={code} onClick={()=>setUiLang(code)} style={{padding:"4px 8px",borderRadius:6,border:"none",background:uiLang===code?C.surface:"transparent",color:uiLang===code?C.dark:C.textTer,fontSize:11,fontWeight:uiLang===code?600:500,cursor:"pointer",fontFamily:SANS,boxShadow:uiLang===code?"0 1px 2px rgba(0,0,0,.08)":"none",transition:"all .15s"}}>{code}</button>)}
+          </div>
           <div style={{width:36,height:36,borderRadius:10,background:C.surfaceAlt,border:`2px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",color:C.textSec}}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/></svg>
           </div>
@@ -1403,19 +1780,19 @@ function InvoiceBuilder(){
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
           <span onClick={()=>setPhase("list")} style={{fontSize:13,fontWeight:500,color:C.textSec,cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            Back to invoices</span>
+            {t.backToInvoices}</span>
           <span style={{fontSize:12,fontFamily:MONO,color:C.textTer}}>{invNum}</span>
         </div>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-          <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:0,fontFamily:SANS}}>New <span style={{color:C.blue}}>invoice</span></h1>
+          <h1 style={{fontSize:28,fontWeight:600,color:C.dark,margin:0,fontFamily:SANS}}>{t.newWord} <span style={{color:C.blue}}>{t.invoiceWord}</span></h1>
           <div style={{display:"flex",gap:8,alignItems:"center"}}>
             {/* FDS btn-light-secondary */}
             <button onClick={async()=>{setSavingDraft(true);await delay(1200,2000);setSavingDraft(false);setPhase("list");}} disabled={savingDraft||creatingInvoice} style={{padding:"0 24px",height:40,borderRadius:20,border:`1px solid ${C.border}`,background:C.surfaceAlt,color:C.dark,fontSize:15,fontWeight:500,cursor:(savingDraft||creatingInvoice)?"default":"pointer",opacity:(savingDraft||creatingInvoice)?.6:1,fontFamily:SANS,display:"flex",alignItems:"center",gap:6}}>
-              {savingDraft?<><div className="sp" style={{width:14,height:14,borderWidth:2,borderColor:`${C.dark} transparent transparent transparent`}}/> Saving...</>:"Save draft"}
+              {savingDraft?<><div className="sp" style={{width:14,height:14,borderWidth:2,borderColor:`${C.dark} transparent transparent transparent`}}/> {t.saving}</>:t.saveDraft}
             </button>
             {/* FDS btn-primary */}
             <button onClick={handleSendInvoice} disabled={!client||items.length===0||creatingInvoice||savingDraft} style={{padding:"0 24px",height:40,borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:500,cursor:(!client||items.length===0||creatingInvoice||savingDraft)?"default":"pointer",opacity:(!client||items.length===0||creatingInvoice||savingDraft)?.6:1,fontFamily:SANS,display:"flex",alignItems:"center",gap:6}}>
-              {creatingInvoice?<><div className="sp" style={{width:14,height:14,borderWidth:2}}/> Creating...</>:<><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#fff" strokeWidth="2" strokeLinecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> Send invoice</>}
+              {creatingInvoice?<><div className="sp" style={{width:14,height:14,borderWidth:2}}/> {t.creating}</>:<><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#fff" strokeWidth="2" strokeLinecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> {t.sendInvoice}</>}
             </button>
           </div>
         </div>
@@ -1426,37 +1803,37 @@ function InvoiceBuilder(){
         <div style={{flex:"0 0 540px",padding:"20px 16px 32px",overflowY:"auto",maxHeight:"calc(100vh - 170px)",borderRight:`1px solid ${C.border}`}}>
 
           {/* STEP 0: Branding */}
-          <Collapsible icon={ICONS.branding} title="Invoice Branding" subtitle="Logo, colors, layout" open={brandingOpen} onToggle={()=>setBrandingOpen(!brandingOpen)}>
+          <Collapsible icon={ICONS.branding} title={t.invoiceBranding} subtitle={t.logoColorsLayout} open={brandingOpen} onToggle={()=>setBrandingOpen(!brandingOpen)}>
             <div style={{display:"flex",gap:14,marginBottom:14}}>
               <div style={{width:68,height:68,borderRadius:8,border:`2px dashed ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:2,flexShrink:0,cursor:"pointer",background:C.surfaceAlt}} onClick={()=>alert("Logo upload is not available in this prototype.")}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke={C.textTer} strokeWidth="2" strokeLinecap="round"/></svg><span style={{fontSize:8,color:C.textTer,fontWeight:600}}>Logo</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke={C.textTer} strokeWidth="2" strokeLinecap="round"/></svg><span style={{fontSize:8,color:C.textTer,fontWeight:600}}>{t.logo}</span>
               </div>
               <div style={{flex:1}}>
-                <Field label="Display name"><input value={companyDisplay} onChange={e=>setCompanyDisplay(e.target.value)} style={inputStyle}/></Field>
-                <div style={{marginTop:8}}><Field label="Accent color"><div style={{display:"flex",gap:5}}>
+                <Field label={t.displayName}><input value={companyDisplay} onChange={e=>setCompanyDisplay(e.target.value)} style={inputStyle}/></Field>
+                <div style={{marginTop:8}}><Field label={t.accentColor}><div style={{display:"flex",gap:5}}>
                   {["#FE42B4","#4A74FF","#1A1A1A","#00C48C","#FFB020","#8B5CF6"].map(c=><div key={c} onClick={()=>setBrandColor(c)} style={{width:24,height:24,borderRadius:5,background:c,cursor:"pointer",border:brandColor===c?`2.5px solid ${C.dark}`:`2.5px solid transparent`,outline:brandColor===c?`2px solid ${C.surface}`:"none"}}/>)}
                 </div></Field></div>
               </div>
             </div>
-            <div style={{fontSize:13,color:C.textSec,textAlign:"center",padding:8,background:C.surfaceAlt,borderRadius:8,border:`1px solid ${C.borderLight}`}}>Branding changes will be reflected in a future version of this prototype.</div>
+            <div style={{fontSize:13,color:C.textSec,textAlign:"center",padding:8,background:C.surfaceAlt,borderRadius:8,border:`1px solid ${C.borderLight}`}}>{t.brandingNotice}</div>
           </Collapsible>
 
           {/* STEP 1: Seller */}
-          <Collapsible icon={ICONS.seller} title="Your Business" subtitle={`${sd.flag} ${sellerName}${isEx?` · ${sd.ex.short}`:""}`} open={sellerOpen} onToggle={()=>setSellerOpen(!sellerOpen)}>
+          <Collapsible icon={ICONS.seller} title={t.yourBusiness} subtitle={`${sd.flag} ${sellerName}${isEx?` · ${sd.ex.short}`:""}`} open={sellerOpen} onToggle={()=>setSellerOpen(!sellerOpen)}>
             <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:14}}>
               {Object.keys(VAT).map(k=>{const v=VAT[k],sel=sellerCC===k;return(<button key={k} onClick={()=>{setSellerCC(k);setExempt(false);}} style={{display:"flex",alignItems:"center",gap:4,padding:"5px 9px",background:sel?C.surfaceAlt:"transparent",border:`2px solid ${sel?C.dark:C.border}`,borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:sel?600:500,color:sel?C.dark:C.textSec,outline:"none"}}><span>{v.flag}</span>{v.name}<span style={{fontFamily:MONO,fontSize:9,color:sel?C.dark:C.textTer}}>{v.std}%</span></button>);})}
             </div>
             <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}}>
-              <Field label="Registered name" half><input value={sellerName} onChange={e=>setSellerName(e.target.value)} style={inputStyle}/></Field>
-              <Field label="Trade name (if different)" half><input value={sellerTrade} onChange={e=>setSellerTrade(e.target.value)} placeholder="Optional" style={inputStyle}/></Field>
-              <Field label="Street address" half><input value={sellerStreet} onChange={e=>setSellerStreet(e.target.value)} style={inputStyle}/></Field>
-              <Field label="Postal code & city" half><input value={sellerCity} onChange={e=>setSellerCity(e.target.value)} style={inputStyle}/></Field>
+              <Field label={t.registeredName} half><input value={sellerName} onChange={e=>setSellerName(e.target.value)} style={inputStyle}/></Field>
+              <Field label={t.tradeName} half><input value={sellerTrade} onChange={e=>setSellerTrade(e.target.value)} placeholder={t.optional} style={inputStyle}/></Field>
+              <Field label={t.streetAddress} half><input value={sellerStreet} onChange={e=>setSellerStreet(e.target.value)} style={inputStyle}/></Field>
+              <Field label={t.postalCity} half><input value={sellerCity} onChange={e=>setSellerCity(e.target.value)} style={inputStyle}/></Field>
               <Field label={`VAT ID (${sd.vatPrefix}…)`} half><input value={sellerVatId} onChange={e=>setSellerVatId(e.target.value)} placeholder={`${sd.vatPrefix}000000000`} style={monoInputStyle}/></Field>
               <Field label={sd.taxIdLabel} half><input value={sellerTaxId} onChange={e=>setSellerTaxId(e.target.value)} placeholder={sd.taxIdPlaceholder} style={monoInputStyle}/></Field>
-              <Field label="Email" half><input value={sellerEmail} onChange={e=>setSellerEmail(e.target.value)} type="email" style={inputStyle}/></Field>
-              <Field label="Phone" half><input value={sellerPhone} onChange={e=>setSellerPhone(e.target.value)} type="tel" style={inputStyle}/></Field>
+              <Field label={t.email} half><input value={sellerEmail} onChange={e=>setSellerEmail(e.target.value)} type="email" style={inputStyle}/></Field>
+              <Field label={t.phone} half><input value={sellerPhone} onChange={e=>setSellerPhone(e.target.value)} type="tel" style={inputStyle}/></Field>
             </div>
-            {!sd.ex?(<div style={{padding:"10px 12px",background:C.redLight,border:`1px solid ${C.red}30`,borderRadius:8}}><span style={{fontSize:13,fontWeight:600,color:C.red}}>{sd.flag} Spain — no small business VAT exemption.</span><span style={{fontSize:13,color:C.textSec,marginLeft:4}}>All autónomos charge IVA.</span></div>):(
+            {!sd.ex?(<div style={{padding:"10px 12px",background:C.redLight,border:`1px solid ${C.red}30`,borderRadius:8}}><span style={{fontSize:13,fontWeight:600,color:C.red}}>{t.noExemptionEs}</span><span style={{fontSize:13,color:C.textSec,marginLeft:4}}>{t.allAutonomos}</span></div>):(
               <button onClick={()=>setExempt(!exempt)} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",width:"100%",textAlign:"left",cursor:"pointer",background:exempt?C.greenLight:C.surfaceAlt,border:`1.5px solid ${exempt?C.greenBorder:C.border}`,borderRadius:8,outline:"none"}}>
                 <div style={{width:18,height:18,borderRadius:4,flexShrink:0,border:`2px solid ${exempt?C.green:C.border}`,background:exempt?C.green:"transparent",display:"flex",alignItems:"center",justifyContent:"center"}}>{exempt&&<svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-6" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}</div>
                 <div><span style={{fontSize:15,fontWeight:600,color:C.dark}}>{sd.ex.short}</span><span style={{fontSize:13,color:C.textSec,marginLeft:6}}>{sd.ex.ref} · {sd.ex.thresh}</span></div>
@@ -1465,13 +1842,13 @@ function InvoiceBuilder(){
           </Collapsible>
 
           {/* STEP 2: Client */}
-          <Section icon={ICONS.client} title="Client" subtitle={client?`${FLAGS[client.country]||"🌐"} ${client.name}`:null}>
+          <Section icon={ICONS.client} title={t.client} subtitle={client?`${FLAGS[client.country]||"🌐"} ${client.name}`:null}>
             {client&&!clientListOpen?(
               <div style={{display:"flex",alignItems:"center",gap:9,padding:"9px 12px",background:C.surfaceAlt,border:`2px solid ${C.dark}`,borderRadius:8}}>
                 <span style={{fontSize:16,flexShrink:0}}>{FLAGS[client.country]||"🌐"}</span>
                 <div style={{flex:1,minWidth:0}}><div style={{fontSize:15,fontWeight:600,color:C.dark,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{client.name}</div><div style={{fontSize:11,color:C.textSec,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{client.addr}</div></div>
                 <span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 8px",borderRadius:10,background:client.biz?C.blueLight:C.surfaceAlt,color:client.biz?C.blue:C.textSec,border:`1px solid ${client.biz?C.blueBorder:C.border}`,whiteSpace:"nowrap"}}>{client.biz?"B2B":"B2C"}</span>
-                <button onClick={()=>setClientListOpen(true)} style={{padding:"5px 10px",borderRadius:8,border:`1px solid ${C.border}`,background:C.surface,color:C.textSec,fontSize:11,fontWeight:500,cursor:"pointer",whiteSpace:"nowrap",outline:"none"}}>Change</button>
+                <button onClick={()=>setClientListOpen(true)} style={{padding:"5px 10px",borderRadius:8,border:`1px solid ${C.border}`,background:C.surface,color:C.textSec,fontSize:11,fontWeight:500,cursor:"pointer",whiteSpace:"nowrap",outline:"none"}}>{t.change}</button>
               </div>
             ):(<>
               <div style={{display:"flex",flexDirection:"column",gap:5,maxHeight:300,overflowY:"auto",paddingRight:2}}>
@@ -1482,15 +1859,15 @@ function InvoiceBuilder(){
                 </button>);})}
               </div>
               <button style={{marginTop:8,width:"100%",padding:"9px",borderRadius:12,border:`1.5px dashed ${C.border}`,background:"transparent",color:C.textSec,fontSize:13,fontWeight:500,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5,outline:"none"}} onClick={()=>alert("Client creation is not available in this prototype.")}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>Add new client
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>{t.addNewClient}
               </button>
             </>)}
           </Section>
 
           {/* STEP 3: Line Items */}
-          <Section icon={ICONS.items} title="Line Items" subtitle={items.length?`${items.length} item${items.length>1?"s":""} · ${fmtEurSym(subtotal)} net`:null} locked={!client}>
-            {isEx&&(<div style={{padding:"8px 12px",background:C.amberLight,border:`1px solid ${C.amber}30`,borderRadius:8,marginBottom:10,fontSize:13,color:C.textSec}}><strong style={{color:C.amber}}>{sd.ex.short}:</strong> No VAT on this invoice.</div>)}
-            {isZero&&!isEx&&(<div style={{padding:"8px 12px",background:isRC?C.blueLight:C.greenLight,border:`1px solid ${isRC?C.blueBorder:C.greenBorder}`,borderRadius:8,marginBottom:10,fontSize:13,color:C.textSec}}><strong style={{color:isRC?C.blue:C.green}}>{isRC?"Intra-EU B2B":"Export"}:</strong> All items at 0%. {isRC?"Goods → ICS (Art. 138); Services → RC (Art. 196).":""}</div>)}
+          <Section icon={ICONS.items} title={t.lineItems} subtitle={items.length?`${items.length} ${items.length>1?t.itemPl:t.itemSg} · ${fmtEurSym(subtotal)} ${t.net}`:null} locked={!client}>
+            {isEx&&(<div style={{padding:"8px 12px",background:C.amberLight,border:`1px solid ${C.amber}30`,borderRadius:8,marginBottom:10,fontSize:13,color:C.textSec}}><strong style={{color:C.amber}}>{sd.ex.short}:</strong> {t.noVatOnInvoice}</div>)}
+            {isZero&&!isEx&&(<div style={{padding:"8px 12px",background:isRC?C.blueLight:C.greenLight,border:`1px solid ${isRC?C.blueBorder:C.greenBorder}`,borderRadius:8,marginBottom:10,fontSize:13,color:C.textSec}}><strong style={{color:isRC?C.blue:C.green}}>{isRC?t.intraEuB2B:t.exportLabel}:</strong> {t.allItemsZero} {isRC?t.goodsIcsNote:""}</div>)}
 
             {items.map(it=>{const ri=resolvedItems.find(r=>r.id===it.id)||it;
               const showCategory=it.done&&!isEx&&!isZero; /* hide when category is irrelevant */
@@ -1501,26 +1878,26 @@ function InvoiceBuilder(){
                   <div style={{flex:1}}>
                     <div style={{display:"flex",alignItems:"center",gap:5}}>
                       <span style={{fontSize:15,fontWeight:500,color:C.dark}}>{it.desc}</span>
-                      {it.fromCat&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:500,padding:"2px 6px",borderRadius:8,background:C.surfaceAlt,color:C.textTer,border:`1px solid ${C.border}`}}>CAT</span>}
+                      {it.fromCat&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:500,padding:"2px 6px",borderRadius:8,background:C.surfaceAlt,color:C.textTer,border:`1px solid ${C.border}`}}>{t.catBadge}</span>}
                       {!it.fromCat&&it.done&&<AiPill/>}
-                      {it.done&&it.supplyType&&isZero&&!isEx&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:500,padding:"3px 8px",borderRadius:10,background:it.supplyType==="goods"?C.tealLight:C.blueLight,color:it.supplyType==="goods"?C.teal:C.blue,border:`1px solid ${it.supplyType==="goods"?C.tealBorder:C.blueBorder}`}}>{it.supplyType==="goods"?"GOODS":"SERVICES"}</span>}
+                      {it.done&&it.supplyType&&isZero&&!isEx&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:500,padding:"3px 8px",borderRadius:10,background:it.supplyType==="goods"?C.tealLight:C.blueLight,color:it.supplyType==="goods"?C.teal:C.blue,border:`1px solid ${it.supplyType==="goods"?C.tealBorder:C.blueBorder}`}}>{it.supplyType==="goods"?t.goodsBadge:t.servicesBadge}</span>}
                     </div>
                     {it.done&&ri.zeroReason&&(<div style={{display:"flex",alignItems:"center",gap:5,marginTop:3}}>
                       <ZeroBadge reason={ri.zeroReason}/>
-                      <span style={{fontSize:11,color:C.textSec}}>0% — {ri.zeroReason==="exempt"?"small business exemption":ri.zeroReason==="ics"?"intra-community supply (Art. 138)":ri.zeroReason==="rc"?"reverse charge (Art. 196)":"export exempt"}</span>
+                      <span style={{fontSize:11,color:C.textSec}}>0% — {ri.zeroReason==="exempt"?t.exemptReason:ri.zeroReason==="ics"?t.icsReason:ri.zeroReason==="rc"?t.rcReason:t.exportReason}</span>
                     </div>)}
-                    {it.loading&&<div style={{display:"flex",alignItems:"center",gap:5,marginTop:4}}><div className="sp"/><span style={{fontSize:11,color:C.textSec}}>Classifying…</span><AiPill/></div>}
+                    {it.loading&&<div style={{display:"flex",alignItems:"center",gap:5,marginTop:4}}><div className="sp"/><span style={{fontSize:11,color:C.textSec}}>{t.classifying}</span><AiPill/></div>}
                   </div>
                   <button onClick={()=>removeItem(it.id)} style={{background:"transparent",border:"none",color:C.textTer,cursor:"pointer",fontSize:18,lineHeight:1,padding:"0 2px"}} aria-label="Remove">×</button>
                 </div>
                 <div style={{display:"flex",gap:6,marginBottom:showCategory?8:0}}>
-                  <div style={{flex:"0 0 56px"}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Qty</label><input type="number" min="1" value={it.qty} onChange={e=>updateItem(it.id,"qty",Math.max(1,+e.target.value||1))} style={{...monoInputStyle,textAlign:"center",padding:"7px 4px"}}/></div>
-                  <div style={{flex:1}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Unit price (€)</label><input type="number" min="0" step="0.01" value={it.price||""} placeholder="0.00" onChange={e=>updateItem(it.id,"price",+e.target.value||0)} style={monoInputStyle}/></div>
-                  <div style={{flex:"0 0 66px"}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Disc. %</label><input type="number" min="0" max="100" value={it.discount||""} placeholder="0" onChange={e=>updateItem(it.id,"discount",Math.min(100,+e.target.value||0))} style={{...monoInputStyle,textAlign:"center",padding:"7px 4px"}}/></div>
+                  <div style={{flex:"0 0 56px"}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>{t.qty}</label><input type="number" min="1" value={it.qty} onChange={e=>updateItem(it.id,"qty",Math.max(1,+e.target.value||1))} style={{...monoInputStyle,textAlign:"center",padding:"7px 4px"}}/></div>
+                  <div style={{flex:1}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>{t.unitPrice}</label><input type="number" min="0" step="0.01" value={it.price||""} placeholder="0.00" onChange={e=>updateItem(it.id,"price",+e.target.value||0)} style={monoInputStyle}/></div>
+                  <div style={{flex:"0 0 66px"}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>{t.discPct}</label><input type="number" min="0" max="100" value={it.discount||""} placeholder="0" onChange={e=>updateItem(it.id,"discount",Math.min(100,+e.target.value||0))} style={{...monoInputStyle,textAlign:"center",padding:"7px 4px"}}/></div>
                 </div>
                 {/* Category dropdown — determines VAT rate. Hidden when rate is context-driven. */}
                 {showCategory&&(<div style={{display:"flex",gap:6,alignItems:"flex-end"}}>
-                  <div style={{flex:1}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>Category</label>
+                  <div style={{flex:1}}><label style={{fontSize:11,fontWeight:500,color:C.textSec,display:"block",marginBottom:2}}>{t.category}</label>
                     <select value={it.cat||""} onChange={e=>updateItem(it.id,"cat",e.target.value)} style={{...selectStyle,fontSize:12}}>
                       {!it.cat&&<option value="">—</option>}
                       {/* Group by rate tier */}
@@ -1548,25 +1925,25 @@ function InvoiceBuilder(){
               ):(
                 <button onClick={()=>setShowAddPanel(true)} style={{width:"100%",padding:"10px",borderRadius:12,border:`1.5px dashed ${C.border}`,background:C.surfaceAlt,color:C.textSec,fontSize:13,fontWeight:500,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5,outline:"none",marginTop:4}}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-                  Add item
+                  {t.addItem}
                 </button>
               )
             )}
           </Section>
 
           {/* STEP 4: Details & Payment */}
-          <Section icon={ICONS.details} title="Details & Payment" locked={!client}>
+          <Section icon={ICONS.details} title={t.detailsPayment} locked={!client}>
             <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}}>
-              <Field label="Invoice date" half><input type="date" value={invDate} onChange={e=>setInvDate(e.target.value)} style={inputStyle}/></Field>
-              <Field label="Due date" half><input type="date" value={dueDate} onChange={e=>setDueDate(e.target.value)} style={inputStyle}/></Field>
-              <Field label="Payment terms" half>
+              <Field label={t.invoiceDate} half><input type="date" value={invDate} onChange={e=>setInvDate(e.target.value)} style={inputStyle}/></Field>
+              <Field label={t.dueDate} half><input type="date" value={dueDate} onChange={e=>setDueDate(e.target.value)} style={inputStyle}/></Field>
+              <Field label={t.paymentTerms} half>
                 <select value={payTerms} onChange={e=>{setPayTerms(e.target.value);const days={"Due on receipt":0,"Net 7":7,"Net 14":14,"Net 30":30,"Net 45":45,"Net 60":60}[e.target.value];if(days!==undefined)setDueDate(isoDate(addDays(new Date(invDate+"T00:00:00"),days)));}} style={selectStyle}>
-                  {["Due on receipt","Net 7","Net 14","Net 30","Net 45","Net 60"].map(t=><option key={t}>{t}</option>)}
+                  {[{v:"Due on receipt",l:t.dueOnReceipt},{v:"Net 7",l:t.net7},{v:"Net 14",l:t.net14},{v:"Net 30",l:t.net30},{v:"Net 45",l:t.net45},{v:"Net 60",l:t.net60}].map(o=><option key={o.v} value={o.v}>{o.l}</option>)}
                 </select>
               </Field>
-              <Field label="Payment method" half>
+              <Field label={t.paymentMethod} half>
                 <select value={payMethod} onChange={e=>setPayMethod(e.target.value)} style={selectStyle}>
-                  {["Bank transfer (SEPA)","PayPal","Credit card","Other"].map(t=><option key={t}>{t}</option>)}
+                  {[{v:"Bank transfer (SEPA)",l:t.bankTransfer},{v:"PayPal",l:t.paypal},{v:"Credit card",l:t.creditCard},{v:"Other",l:t.otherMethod}].map(o=><option key={o.v} value={o.v}>{o.l}</option>)}
                 </select>
               </Field>
             </div>
@@ -1574,41 +1951,41 @@ function InvoiceBuilder(){
             {/* Delivery / service period */}
             <div style={{padding:"10px 12px",background:C.surfaceAlt,border:`1px solid ${C.borderLight}`,borderRadius:8,marginBottom:12}}>
               <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-                <div style={{fontSize:11,fontWeight:600,color:C.textSec}}>Delivery / Service period</div><div style={{flex:1}}/>
+                <div style={{fontSize:11,fontWeight:600,color:C.textSec}}>{t.deliveryServicePeriod}</div><div style={{flex:1}}/>
                 <div style={{display:"flex",alignItems:"center",gap:8}}>
-                  <span style={{fontSize:11,color:C.textSec}}>Period</span>
+                  <span style={{fontSize:11,color:C.textSec}}>{t.periodToggle}</span>
                   <button onClick={()=>setDeliveryType(deliveryType==="date"?"period":"date")} style={{width:36,height:20,borderRadius:10,border:"none",padding:2,cursor:"pointer",background:deliveryType==="period"?C.dark:C.border,display:"flex",alignItems:"center",transition:"background .2s",outline:"none"}}>
                     <div style={{width:16,height:16,borderRadius:8,background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.15)",transition:"transform .2s",transform:deliveryType==="period"?"translateX(16px)":"translateX(0)"}}/>
                   </button>
                 </div>
               </div>
-              {deliveryType==="date"?<Field label="Delivery date"><input type="date" value={deliveryDate} onChange={e=>setDeliveryDate(e.target.value)} style={inputStyle}/></Field>:(
-                <div style={{display:"flex",gap:10}}><Field label="Period start" half><input type="date" value={periodStart} onChange={e=>setPeriodStart(e.target.value)} style={inputStyle}/></Field><Field label="Period end" half><input type="date" value={periodEnd} onChange={e=>setPeriodEnd(e.target.value)} style={inputStyle}/></Field></div>
+              {deliveryType==="date"?<Field label={t.deliveryDateLabel}><input type="date" value={deliveryDate} onChange={e=>setDeliveryDate(e.target.value)} style={inputStyle}/></Field>:(
+                <div style={{display:"flex",gap:10}}><Field label={t.periodStart} half><input type="date" value={periodStart} onChange={e=>setPeriodStart(e.target.value)} style={inputStyle}/></Field><Field label={t.periodEnd} half><input type="date" value={periodEnd} onChange={e=>setPeriodEnd(e.target.value)} style={inputStyle}/></Field></div>
               )}
             </div>
 
             {/* PDF language & currency */}
             <div style={{display:"flex",gap:10,marginBottom:12}}>
-              <Field label="PDF language" half>
+              <Field label={t.pdfLanguage} half>
                 <select value={pdfLang} onChange={e=>setPdfLang(e.target.value)} style={selectStyle}>
                   {Object.entries(LANG).map(([k,v])=><option key={k} value={k}>{v.name}</option>)}
                 </select>
               </Field>
-              <Field label="Invoice currency" half>
+              <Field label={t.invoiceCurrency} half>
                 <select value={curCode} onChange={e=>setCurCode(e.target.value)} style={selectStyle}>
                   {Object.keys(CUR).map(k=><option key={k} value={k}>{k}</option>)}
                 </select>
               </Field>
             </div>
             {!isEur&&(<div style={{padding:"8px 12px",background:C.amberLight,border:`1px solid ${C.amber}30`,borderRadius:8,marginBottom:12,fontSize:13,color:C.textSec}}>
-              <strong style={{color:C.amber}}>FX note:</strong> Prices entered in EUR. Preview converts at approximate rate 1 EUR ≈ {(1/cur.toEur).toFixed(curCode==="JPY"?0:2)} {curCode}. EUR equivalent shown on invoice.
+              <strong style={{color:C.amber}}>{t.fxNote}</strong> {t.fxNoteText} 1 EUR ≈ {(1/cur.toEur).toFixed(curCode==="JPY"?0:2)} {curCode}. {t.eurShownOnInvoice}
             </div>)}
 
-            {payMethod==="Bank transfer (SEPA)"&&(<div style={{padding:"10px 12px",background:C.surfaceAlt,border:`1px solid ${C.borderLight}`,borderRadius:8,marginBottom:12}}><div style={{fontSize:11,fontWeight:600,color:C.textSec,textTransform:"uppercase",letterSpacing:.4,marginBottom:4}}>Bank details</div><div style={{fontSize:12,fontFamily:MONO,color:C.text,lineHeight:1.7}}>Finom / Solarisbank AG<br/>IBAN: {iban}<br/>BIC: {bic}</div></div>)}
+            {payMethod==="Bank transfer (SEPA)"&&(<div style={{padding:"10px 12px",background:C.surfaceAlt,border:`1px solid ${C.borderLight}`,borderRadius:8,marginBottom:12}}><div style={{fontSize:11,fontWeight:600,color:C.textSec,textTransform:"uppercase",letterSpacing:.4,marginBottom:4}}>{t.bankDetails}</div><div style={{fontSize:12,fontFamily:MONO,color:C.text,lineHeight:1.7}}>Finom / Solarisbank AG<br/>IBAN: {iban}<br/>BIC: {bic}</div></div>)}
             <div style={{display:"flex",flexWrap:"wrap",gap:10}}>
-              <Field label="PO / Reference number" half><input value={poNumber} onChange={e=>setPoNumber(e.target.value)} placeholder="Optional" style={inputStyle}/></Field>
-              <div style={{flex:"1 1 100%"}}><Field label="Notes to client"><textarea value={notes} onChange={e=>setNotes(e.target.value)} rows={2} style={{...inputStyle,lineHeight:1.5}}/></Field></div>
-              <div style={{flex:"1 1 100%"}}><Field label="Footer / disclaimer"><textarea value={footerNote} onChange={e=>setFooterNote(e.target.value)} rows={2} placeholder="e.g. Late payments subject to interest…" style={{...inputStyle,lineHeight:1.5}}/></Field></div>
+              <Field label={t.poReference} half><input value={poNumber} onChange={e=>setPoNumber(e.target.value)} placeholder={t.optional} style={inputStyle}/></Field>
+              <div style={{flex:"1 1 100%"}}><Field label={t.notesToClient}><textarea value={notes} onChange={e=>setNotes(e.target.value)} rows={2} style={{...inputStyle,lineHeight:1.5}}/></Field></div>
+              <div style={{flex:"1 1 100%"}}><Field label={t.footerDisclaimer}><textarea value={footerNote} onChange={e=>setFooterNote(e.target.value)} rows={2} placeholder={t.footerPlaceholder} style={{...inputStyle,lineHeight:1.5}}/></Field></div>
             </div>
           </Section>
 
@@ -1616,7 +1993,7 @@ function InvoiceBuilder(){
 
         {/* ═══ RIGHT — A4 PREVIEW ═══ */}
         <div className="preview-wrap" ref={previewRef} style={{flex:1,padding:"20px 20px 32px",overflowY:"auto",maxHeight:"calc(100vh - 170px)",background:C.surfaceAlt,display:"flex",flexDirection:"column",alignItems:"center"}}>
-          <div style={{fontSize:11,fontWeight:600,color:C.textSec,textTransform:"uppercase",letterSpacing:.6,marginBottom:10,alignSelf:"flex-start"}}>Live Preview {totalPages>1&&<span style={{fontFamily:MONO,fontWeight:400}}>· {totalPages} pages</span>}</div>
+          <div style={{fontSize:11,fontWeight:600,color:C.textSec,textTransform:"uppercase",letterSpacing:.6,marginBottom:10,alignSelf:"flex-start"}}>{t.livePreview} {totalPages>1&&<span style={{fontFamily:MONO,fontWeight:400}}>· {totalPages} {t.pagesLabel}</span>}</div>
 
           {/* PAGE 1 */}
           <A4Page pageNum={1} totalPages={totalPages} scale={previewScale}>
@@ -1647,13 +2024,13 @@ function InvoiceBuilder(){
                 <div style={{fontSize:9,color:C.textSec}}>{client.addr}</div>
                 {client.vatId&&<div style={{fontSize:8,fontFamily:MONO,color:C.textSec,marginTop:1}}>VAT: {client.vatId}</div>}
                 <span style={{fontSize:7.5,fontFamily:MONO,fontWeight:700,padding:"1px 4px",borderRadius:2,background:C.blueLight,color:C.blue,marginTop:2,display:"inline-block",border:`1px solid ${C.blueBorder}`}}>{buyerTag}</span>
-              </div>):(<div style={{fontSize:10,color:C.textTer,fontStyle:"italic"}}>Select a client…</div>)}
+              </div>):(<div style={{fontSize:10,color:C.textTer,fontStyle:"italic"}}>{t.selectClient}</div>)}
             </div>
             <div style={{flex:1,minHeight:0}}>
               {renderTH()}
-              {items.length===0&&<div style={{padding:"14px 0",textAlign:"center",color:C.textTer,fontSize:9,fontStyle:"italic"}}>No line items</div>}
+              {items.length===0&&<div style={{padding:"14px 0",textAlign:"center",color:C.textTer,fontSize:9,fontStyle:"italic"}}>{t.noLineItems}</div>}
               {(pages[0]||[]).map(it=>renderItemRow(it))}
-              {totalPages>1&&<div style={{padding:"6px 0",textAlign:"center",fontSize:8,color:C.textTer,fontStyle:"italic",borderBottom:`1px solid ${C.borderLight}`}}>Continued…</div>}
+              {totalPages>1&&<div style={{padding:"6px 0",textAlign:"center",fontSize:8,color:C.textTer,fontStyle:"italic",borderBottom:`1px solid ${C.borderLight}`}}>{t.continued}</div>}
             </div>
             {totalPages===1&&renderFooterBlock()}
           </A4Page>
@@ -1661,7 +2038,7 @@ function InvoiceBuilder(){
           {pages.slice(1).map((pageItems,idx)=>{const pn=idx+2;const isLast=pn===totalPages;return(
             <A4Page key={pn} pageNum={pn} totalPages={totalPages} scale={previewScale}>
               <div style={{fontSize:8,color:C.textSec,marginBottom:8,display:"flex",justifyContent:"space-between"}}><span>{sellerName} → {client?.name||"—"}</span><span style={{fontFamily:MONO}}>{invNum}</span></div>
-              <div style={{flex:1,minHeight:0}}>{renderTH()}{pageItems.map(it=>renderItemRow(it))}{!isLast&&<div style={{padding:"6px 0",textAlign:"center",fontSize:8,color:C.textTer,fontStyle:"italic"}}>Continued…</div>}</div>
+              <div style={{flex:1,minHeight:0}}>{renderTH()}{pageItems.map(it=>renderItemRow(it))}{!isLast&&<div style={{padding:"6px 0",textAlign:"center",fontSize:8,color:C.textTer,fontStyle:"italic"}}>{t.continued}</div>}</div>
               {isLast&&renderFooterBlock()}
             </A4Page>);})}
 
@@ -1671,11 +2048,11 @@ function InvoiceBuilder(){
             <span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.surface,border:`1px solid ${C.border}`,color:C.textSec}}>{curCode}{!isEur?" ≈ EUR":""}</span>
             <span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.surface,border:`1px solid ${C.border}`,color:C.textSec}}>{LANG[pdfLang].name}</span>
             {isEx&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.amberLight,border:`1px solid ${C.amber}25`,color:C.amber}}>{sd.ex.short}</span>}
-            {resolvedItems.some(i=>i.zeroReason==="rc")&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.blueLight,border:`1px solid ${C.blueBorder}`,color:C.blue}}>Reverse charge</span>}
-            {resolvedItems.some(i=>i.zeroReason==="ics")&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.tealLight,border:`1px solid ${C.tealBorder}`,color:C.teal}}>Intra-community supply</span>}
-            {isExport&&!isEx&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.greenLight,border:`1px solid ${C.greenBorder}`,color:C.green}}>Export 0%</span>}
+            {resolvedItems.some(i=>i.zeroReason==="rc")&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.blueLight,border:`1px solid ${C.blueBorder}`,color:C.blue}}>{t.reverseChargeTag}</span>}
+            {resolvedItems.some(i=>i.zeroReason==="ics")&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.tealLight,border:`1px solid ${C.tealBorder}`,color:C.teal}}>{t.icsTag}</span>}
+            {isExport&&!isEx&&<span style={{fontSize:11,fontFamily:SANS,fontWeight:400,padding:"4px 10px",borderRadius:12,background:C.greenLight,border:`1px solid ${C.greenBorder}`,color:C.green}}>{t.exportZeroTag}</span>}
           </div>
-          <div style={{textAlign:"center",marginTop:6}}><span style={{fontSize:9,fontFamily:MONO,color:C.textTer}}>A4 · VAT rates 26 Feb 2026 · Claude API classification{!isEur?` · FX rates approximate`:""}</span></div>
+          <div style={{textAlign:"center",marginTop:6}}><span style={{fontSize:9,fontFamily:MONO,color:C.textTer}}>{t.previewFooter}{!isEur?` · ${t.fxApprox}`:""}</span></div>
         </div>
       </div>
       </>)}
@@ -1698,17 +2075,17 @@ function InvoiceBuilder(){
             <div style={{textAlign:"center",padding:"40px 0"}}>
               <div style={{display:"inline-block",width:48,height:48,borderRadius:24,border:`3px solid ${C.borderLight}`,borderTopColor:C.dark,animation:"spin 1s linear infinite",marginBottom:20}}/>
               <div style={{fontSize:16,fontWeight:600,color:C.dark,marginBottom:8}}>{aiStep}</div>
-              <div style={{fontSize:13,color:C.textSec}}>Building your {activeSaleId ? "document" : "invoice"} from: "{aiPrompt}"</div>
+              <div style={{fontSize:13,color:C.textSec}}>{t.buildingYour} {activeSaleId ? t.documentWord : t.invoiceWord} {t.fromWord} "{aiPrompt}"</div>
             </div>
           ):(
             <>
             {/* AI freetext area */}
-            <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>{activeSaleId ? `Add to ${activeSaleClientName}` : "New sale"}</div>
-            <div style={{fontSize:14,color:C.textSec,marginBottom:20,lineHeight:1.5}}>Describe what you need — or pick a document type below.</div>
+            <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>{activeSaleId ? `${t.addToTitle} ${activeSaleClientName}` : t.newSaleTitle}</div>
+            <div style={{fontSize:14,color:C.textSec,marginBottom:20,lineHeight:1.5}}>{t.describeNeed}</div>
 
             <div style={{position:"relative",marginBottom:12}}>
               <textarea value={aiPrompt} onChange={e=>setAiPrompt(e.target.value)}
-                placeholder={"Describe in plain language, e.g.:\n\"40 hours of web dev for TechVentures in February\"\n\"Send a quote to Atelier Lumière for €2,400 design retainer\"\n\nYou can also paste an email thread or contract excerpt."}
+                placeholder={t.describePlaceholder}
                 style={{width:"100%",minHeight:100,padding:"14px 40px 14px 16px",borderRadius:8,border:`2px solid ${C.border}`,fontSize:14,fontFamily:SANS,color:C.text,background:"#fff",resize:"vertical",lineHeight:1.6,outline:"none"}}
                 onFocus={e=>e.target.style.borderColor=C.dark} onBlur={e=>e.target.style.borderColor=C.border}/>
               {/* Context fetch button */}
@@ -1716,15 +2093,15 @@ function InvoiceBuilder(){
                 style={{position:"absolute",top:8,right:8,width:28,height:28,borderRadius:6,border:`1.5px solid ${C.border}`,background:showContextMenu?C.surfaceAlt:"#fff",color:C.textSec,fontSize:14,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",padding:0,transition:"all .15s"}}
                 onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
                 onMouseLeave={e=>{if(!showContextMenu){e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#fff";}}}
-                title="Pull context from external source">
+                title={t.pullContext}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/><circle cx="19" cy="6" r="2" fill="currentColor" stroke="none"/></svg>
               </button>
               {/* Context menu dropdown */}
               {showContextMenu&&<div style={{position:"absolute",top:40,right:8,width:220,background:"#fff",borderRadius:12,border:`1px solid ${C.border}`,boxShadow:"0 8px 24px rgba(0,0,0,.10)",zIndex:10,overflow:"hidden",padding:"4px 0"}}>
                 {[
-                  {key:"granola",label:"Fetch from Granola",icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,desc:"Meeting notes"},
-                  {key:"notion",label:"Fetch from Notion",icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><path d="M12 8h4"/><path d="M12 12h4"/></svg>,desc:"Pages & databases"},
-                  {key:"gmail",label:"Fetch from Gmail",icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>,desc:"Email threads"},
+                  {key:"granola",label:t.fetchGranola,icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,desc:t.meetingNotes},
+                  {key:"notion",label:t.fetchNotion,icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><path d="M12 8h4"/><path d="M12 12h4"/></svg>,desc:t.pagesDbLabel},
+                  {key:"gmail",label:t.fetchGmail,icon:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>,desc:t.emailThreads},
                 ].map(opt=>(
                   <button key={opt.key} onClick={()=>{setShowContextMenu(false);alert("Fetch from "+opt.label.split("from ")[1]+" — coming soon!");}}
                     style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"10px 14px",border:"none",background:"transparent",cursor:"pointer",textAlign:"left",fontFamily:SANS,transition:"background .1s"}}
@@ -1743,25 +2120,25 @@ function InvoiceBuilder(){
             <button onClick={()=>{aiGenerate(aiPrompt);}} disabled={!aiPrompt.trim()}
               style={{width:"100%",height:44,borderRadius:20,border:"none",background:aiPrompt.trim()?C.dark:C.surfaceAlt,color:aiPrompt.trim()?"#fff":C.textTer,fontSize:15,fontWeight:500,cursor:aiPrompt.trim()?"pointer":"default",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:8,transition:"all .2s",marginBottom:24}}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>
-              Generate</button>
+              {t.generateBtn}</button>
 
             {/* Divider */}
             <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
               <div style={{flex:1,height:1,background:C.borderLight}}/>
-              <span style={{fontSize:12,fontWeight:500,color:C.textTer}}>or create manually</span>
+              <span style={{fontSize:12,fontWeight:500,color:C.textTer}}>{t.orManually}</span>
               <div style={{flex:1,height:1,background:C.borderLight}}/>
             </div>
 
             {/* Manual artifact type buttons */}
             <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
               {[
-                {key:"invoice",label:"Invoice",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/></svg>},
-                {key:"quote",label:"Quote",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M9 15l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>},
-                {key:"contract",label:"Contract",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
-                {key:"payment-link",label:"Payment link",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
+                {key:"invoice",label:t.tpInvoice,icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/></svg>},
+                {key:"quote",label:t.tpQuote,icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M9 15l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>},
+                {key:"contract",label:t.tpContract,icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
+                {key:"payment-link",label:t.tpPaymentLink,icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
                 ...(activeSaleId ? [
-                  {key:"credit_note",label:"Credit note",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
-                  {key:"debit_note",label:"Debit note",icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}
+                  {key:"credit_note",label:t.tpCreditNote,icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>},
+                  {key:"debit_note",label:t.tpDebitNote,icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.5"/><path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 13h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}
                 ] : []),
               ].map(opt=>(
                 <button key={opt.key} onClick={()=>{
@@ -1796,8 +2173,8 @@ function InvoiceBuilder(){
         <div onClick={()=>setShowUploadModal(false)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.35)",zIndex:100,backdropFilter:"blur(2px)"}}/>
         <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",zIndex:101,width:480,background:"#fff",borderRadius:20,padding:"32px 32px 28px",boxShadow:"0 16px 48px rgba(0,0,0,.12)"}}>
           <button onClick={()=>setShowUploadModal(false)} style={{position:"absolute",top:16,right:16,width:32,height:32,borderRadius:16,border:"none",background:C.surfaceAlt,color:C.textSec,fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
-          <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>Upload a document</div>
-          <div style={{fontSize:14,color:C.textSec,marginBottom:24,lineHeight:1.5}}>Drop a file and we'll extract the details automatically.</div>
+          <div style={{fontSize:22,fontWeight:700,color:C.dark,marginBottom:6}}>{t.uploadTitle}</div>
+          <div style={{fontSize:14,color:C.textSec,marginBottom:24,lineHeight:1.5}}>{t.uploadDesc}</div>
           <div style={{border:`2px dashed ${C.border}`,borderRadius:12,padding:"40px 16px",textAlign:"center",cursor:"pointer",transition:"all .15s"}}
             onMouseEnter={e=>{e.currentTarget.style.borderColor=C.dark;e.currentTarget.style.background=C.surfaceAlt;}}
             onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="transparent";}}
@@ -1805,8 +2182,8 @@ function InvoiceBuilder(){
             onDragLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="transparent";}}
             onDrop={e=>{e.preventDefault();e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="transparent";alert("File upload is not available in this prototype.");}}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style={{marginBottom:12}}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/><path d="M17 8l-5-5-5 5" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 3v12" stroke={C.textTer} strokeWidth="1.5" strokeLinecap="round"/></svg>
-            <div style={{fontSize:15,fontWeight:500,color:C.dark,marginBottom:4}}>Drop a file here or <span style={{color:C.blue}}>browse</span></div>
-            <div style={{fontSize:13,color:C.textTer}}>PDF, contract, email export, scan</div>
+            <div style={{fontSize:15,fontWeight:500,color:C.dark,marginBottom:4}}>{t.dropOrBrowse} <span style={{color:C.blue}}>{t.browseWord}</span></div>
+            <div style={{fontSize:13,color:C.textTer}}>{t.uploadTypes}</div>
           </div>
         </div>
       </>)}
