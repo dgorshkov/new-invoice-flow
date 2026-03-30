@@ -1821,7 +1821,7 @@ function InvoiceBuilder(){
           {/* STEP 1: Seller */}
           <Collapsible icon={ICONS.seller} title={t.yourBusiness} subtitle={`${sd.flag} ${sellerName}${isEx?` · ${sd.ex.short}`:""}`} open={sellerOpen} onToggle={()=>setSellerOpen(!sellerOpen)}>
             <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:14}}>
-              {Object.keys(VAT).map(k=>{const v=VAT[k],sel=sellerCC===k;return(<button key={k} onClick={()=>{setSellerCC(k);setExempt(false);}} style={{display:"flex",alignItems:"center",gap:4,padding:"5px 9px",background:sel?C.surfaceAlt:"transparent",border:`2px solid ${sel?C.dark:C.border}`,borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:sel?600:500,color:sel?C.dark:C.textSec,outline:"none"}}><span>{v.flag}</span>{v.name}<span style={{fontFamily:MONO,fontSize:9,color:sel?C.dark:C.textTer}}>{v.std}%</span></button>);})}
+              {Object.keys(VAT).map(k=>{const v=VAT[k],sel=sellerCC===k;return(<button key={k} onClick={()=>{setSellerCC(k);setExempt(false);}} style={{display:"flex",alignItems:"center",gap:4,padding:"5px 9px",background:sel?C.surfaceAlt:"transparent",border:`2px solid ${sel?C.dark:C.border}`,borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:sel?600:500,color:sel?C.dark:C.textSec,outline:"none"}}><span>{v.flag}</span>{v.name}</button>);})}
             </div>
             <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}}>
               <Field label={t.registeredName} half><input value={sellerName} onChange={e=>setSellerName(e.target.value)} style={inputStyle}/></Field>
