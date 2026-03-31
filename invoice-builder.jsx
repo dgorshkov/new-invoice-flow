@@ -316,6 +316,18 @@ EN:{
   lateRationale:"{0} averages {1} days to pay across {2} invoices. Firmer schedule with earlier follow-ups.",
   reliableRationale:"{0} averages {1} days to pay across {2} invoices. Light-touch approach since they're reliable.",
   standardNote:"Standard schedule — we'll learn their payment patterns over time.",
+  // Factoring
+  factoringTitle:"Get paid now",factoringSubtitle:"Don't wait for your client to pay. Get your money today.",
+  factoringGetNow:"Get {0} now",factoringIllWait:"I'll wait for payment",
+  factoringPayout:"Your payout",factoringIn24h:"Funds in your account within 24 hours",
+  factoringFee:"Factoring fee",factoringFeeRate:"{0}% of invoice total",
+  factoringFullAmount:"Full invoice amount",factoringEstArrival:"Estimated arrival",
+  factoringDaysFromNow:"{0} days from now",factoringVsWait:"vs. waiting for",
+  factoringNonRecourse:"Non-recourse factoring — if they don't pay, that's on us.",
+  factoringWeCollect:"Finom handles collection. You focus on your business.",
+  factoringRiskLow:"Reliable payer",factoringRiskMed:"Average payer",factoringRiskHigh:"Slow payer",factoringRiskNew:"New client",
+  factoringAcceptedBadge:"Factored — funds in transit",factoringFundsIn24h:"Funds arriving in 24h",
+  factoringOr:"or",factoringRecommended:"Recommended",
 },
 DE:{
   navHome:"Home",navGetPaid:"Bezahlt werden",navAccounting:"Buchhaltung",navTeam:"Team",navCards:"Karten",
@@ -429,6 +441,17 @@ DE:{
   lateRationale:"{0} zahlt im Schnitt in {1} Tagen bei {2} Rechnungen. Strafferer Plan mit früheren Nachfassungen.",
   reliableRationale:"{0} zahlt im Schnitt in {1} Tagen bei {2} Rechnungen. Zurückhaltender Ansatz, da zuverlässig.",
   standardNote:"Standardplan — Zahlungsmuster werden mit der Zeit erkannt.",
+  factoringTitle:"Sofort bezahlt werden",factoringSubtitle:"Warten Sie nicht auf die Zahlung Ihres Kunden. Erhalten Sie Ihr Geld heute.",
+  factoringGetNow:"{0} jetzt erhalten",factoringIllWait:"Auf Zahlung warten",
+  factoringPayout:"Ihre Auszahlung",factoringIn24h:"Gutschrift innerhalb von 24 Stunden",
+  factoringFee:"Factoring-Gebühr",factoringFeeRate:"{0}% des Rechnungsbetrags",
+  factoringFullAmount:"Voller Rechnungsbetrag",factoringEstArrival:"Voraussichtlicher Eingang",
+  factoringDaysFromNow:"in {0} Tagen",factoringVsWait:"statt zu warten auf",
+  factoringNonRecourse:"Echtes Factoring — falls der Kunde nicht zahlt, tragen wir das Risiko.",
+  factoringWeCollect:"Finom übernimmt das Mahnwesen. Sie kümmern sich um Ihr Geschäft.",
+  factoringRiskLow:"Zuverlässiger Zahler",factoringRiskMed:"Durchschnittl. Zahler",factoringRiskHigh:"Langsamer Zahler",factoringRiskNew:"Neuer Kunde",
+  factoringAcceptedBadge:"Faktoriert — Zahlung unterwegs",factoringFundsIn24h:"Gutschrift in 24h",
+  factoringOr:"oder",factoringRecommended:"Empfohlen",
 },
 IT:{
   navHome:"Home",navGetPaid:"Incassa",navAccounting:"Contabilità",navTeam:"Team",navCards:"Carte",
@@ -542,6 +565,17 @@ IT:{
   lateRationale:"{0} paga in media in {1} giorni su {2} fatture. Piano più deciso con follow-up anticipati.",
   reliableRationale:"{0} paga in media in {1} giorni su {2} fatture. Approccio leggero, cliente affidabile.",
   standardNote:"Piano standard — impareremo i pattern di pagamento nel tempo.",
+  factoringTitle:"Incassa subito",factoringSubtitle:"Non aspettare che il cliente paghi. Ricevi i tuoi soldi oggi.",
+  factoringGetNow:"Incassa {0} ora",factoringIllWait:"Aspetto il pagamento",
+  factoringPayout:"Il tuo incasso",factoringIn24h:"Accredito entro 24 ore",
+  factoringFee:"Commissione factoring",factoringFeeRate:"{0}% dell'importo fattura",
+  factoringFullAmount:"Importo fattura completo",factoringEstArrival:"Arrivo stimato",
+  factoringDaysFromNow:"tra {0} giorni",factoringVsWait:"invece di aspettare",
+  factoringNonRecourse:"Factoring pro soluto — se non pagano, il rischio è nostro.",
+  factoringWeCollect:"Finom gestisce il recupero crediti. Tu concentrati sul tuo business.",
+  factoringRiskLow:"Pagatore affidabile",factoringRiskMed:"Pagatore medio",factoringRiskHigh:"Pagatore lento",factoringRiskNew:"Nuovo cliente",
+  factoringAcceptedBadge:"Ceduta — fondi in transito",factoringFundsIn24h:"Accredito in 24h",
+  factoringOr:"o",factoringRecommended:"Consigliato",
 },
 };
 /* helper: resolve timing slot label */
@@ -782,6 +816,7 @@ function InvoiceBuilder(){
   const[reminderLoading,setReminderLoading]=useState(false);
   const[customizing,setCustomizing]=useState(false);
   const[sentViaEmail,setSentViaEmail]=useState(false);
+  const[factoringAccepted,setFactoringAccepted]=useState(null);
   const[savingDraft,setSavingDraft]=useState(false);
   const[sendingEmail,setSendingEmail]=useState(false);
   const[creatingInvoice,setCreatingInvoice]=useState(false);
@@ -1598,18 +1633,105 @@ function InvoiceBuilder(){
 
         {/* ── Action buttons ── */}
         <div style={{display:"flex",gap:10,alignItems:"center"}}>
-          <button onClick={()=>setPhase("done")} style={{flex:1,padding:"14px",borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS}}>{t.confirmReminders}</button>
+          <button onClick={()=>setPhase("factoring")} style={{flex:1,padding:"14px",borderRadius:20,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS}}>{t.confirmReminders}</button>
           <button onClick={()=>{setCustomizing(e=>!e);setAddingReminder(false);}} style={{padding:"14px 20px",borderRadius:20,border:`1px solid ${C.border}`,background:customizing?C.surfaceAlt:"transparent",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>{customizing?t.doneBtn:t.customizeBtn}</button>
         </div>
-        <div style={{textAlign:"center",marginTop:12}}><span onClick={()=>{setReminderData(null);setPhase("done");}} style={{fontSize:13,color:C.textSec,cursor:"pointer",textDecoration:"underline"}}>{t.noRemindersLink}</span></div>
+        <div style={{textAlign:"center",marginTop:12}}><span onClick={()=>{setReminderData(null);setPhase("factoring");}} style={{fontSize:13,color:C.textSec,cursor:"pointer",textDecoration:"underline"}}>{t.noRemindersLink}</span></div>
       </>)}
+    </div>
+  );};
+
+  /* ─── FACTORING SCREEN ─── */
+  const renderFactoringScreen=()=>{
+    const invoiceTotal=subtotalRef.current+vatTotalRef.current;
+    const ch=client?CLIENT_HISTORY[client.id]||{}:{};
+    /* Fee calculation */
+    let feeRate=3;
+    if(ch.avgPayDays!==null&&ch.avgPayDays<=10)feeRate-=.5;
+    if(ch.avgPayDays!==null&&ch.avgPayDays>25)feeRate+=1;
+    if(!ch.invoiceCount)feeRate+=.5;
+    const termDays={"Due on receipt":0,"Net 7":7,"Net 14":14,"Net 30":30,"Net 45":45,"Net 60":60}[payTerms]||30;
+    if(termDays<=7)feeRate-=.5;
+    if(termDays>=60)feeRate+=1;
+    feeRate=Math.max(1.5,Math.min(5,feeRate));
+    const payout=invoiceTotal*(1-feeRate/100);
+    const fee=invoiceTotal*feeRate/100;
+    const estDays=ch.avgPayDays||termDays||30;
+    const riskLabel=!ch.invoiceCount?t.factoringRiskNew:ch.avgPayDays<=10?t.factoringRiskLow:ch.avgPayDays>25?t.factoringRiskHigh:t.factoringRiskMed;
+    const riskColor=!ch.invoiceCount?C.blue:ch.avgPayDays<=10?C.green:ch.avgPayDays>25?C.amber:C.textSec;
+    const riskBg=!ch.invoiceCount?C.blueLight:ch.avgPayDays<=10?C.greenLight:ch.avgPayDays>25?C.amberLight:C.surfaceAlt;
+    return(
+    <div className="phase-enter" key="factoring" style={{maxWidth:580,margin:"0 auto",padding:"0 24px 40px"}}>
+      {/* Title */}
+      <div style={{textAlign:"center",marginBottom:28}}>
+        <div style={{width:64,height:64,borderRadius:20,background:"linear-gradient(135deg, #00C48C 0%, #3AB15E 100%)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",boxShadow:"0 8px 24px rgba(0,196,140,.25)"}}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </div>
+        <div style={{fontSize:26,fontWeight:700,color:C.dark,marginBottom:6}}>{t.factoringTitle}</div>
+        <div style={{fontSize:15,color:C.textSec,lineHeight:1.5,maxWidth:400,margin:"0 auto"}}>{t.factoringSubtitle}</div>
+      </div>
+
+      {/* Two options */}
+      <div style={{display:"flex",gap:12,marginBottom:20}}>
+        {/* Option A: Get paid now */}
+        <div style={{flex:1,padding:"20px 18px",borderRadius:16,border:`2.5px solid ${C.green}`,background:C.greenLight,position:"relative"}}>
+          <div style={{position:"absolute",top:-10,right:16,padding:"3px 10px",borderRadius:8,background:C.green,color:"#fff",fontSize:11,fontWeight:600}}>{t.factoringRecommended}</div>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+            <div style={{width:36,height:36,borderRadius:10,background:C.green,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
+            <div>
+              <div style={{fontSize:14,fontWeight:600,color:C.dark}}>{t.factoringTitle}</div>
+              <div style={{fontSize:11,color:C.green,fontWeight:500}}>{t.factoringIn24h}</div>
+            </div>
+          </div>
+          <div style={{fontSize:32,fontWeight:800,color:C.dark,marginBottom:2,fontFamily:MONO}}>{fmtEurSym(payout)}</div>
+          <div style={{fontSize:12,color:C.textSec,marginBottom:12}}>{t.factoringFee}: {fmtEurSym(fee)} ({t.factoringFeeRate.replace("{0}",feeRate.toFixed(1))})</div>
+          <button onClick={()=>{setFactoringAccepted(true);setPhase("done");}} style={{width:"100%",padding:"12px",borderRadius:14,border:"none",background:C.green,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            {t.factoringGetNow.replace("{0}",fmtEurSym(payout))}
+          </button>
+        </div>
+
+        {/* Option B: Wait */}
+        <div style={{flex:1,padding:"20px 18px",borderRadius:16,border:`1.5px solid ${C.border}`,background:C.surface}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+            <div style={{width:36,height:36,borderRadius:10,background:C.surfaceAlt,display:"flex",alignItems:"center",justifyContent:"center",color:C.textSec}}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/><path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </div>
+            <div>
+              <div style={{fontSize:14,fontWeight:600,color:C.dark}}>{t.factoringIllWait}</div>
+              <div style={{fontSize:11,color:C.textSec}}>{t.factoringEstArrival}</div>
+            </div>
+          </div>
+          <div style={{fontSize:32,fontWeight:800,color:C.dark,marginBottom:2,fontFamily:MONO}}>{fmtEurSym(invoiceTotal)}</div>
+          <div style={{fontSize:12,color:C.textSec,marginBottom:12}}>~{t.factoringDaysFromNow.replace("{0}",estDays)}</div>
+          <button onClick={()=>{setFactoringAccepted(false);setPhase("done");}} style={{width:"100%",padding:"12px",borderRadius:14,border:`1.5px solid ${C.border}`,background:C.surface,color:C.dark,fontSize:15,fontWeight:500,cursor:"pointer",fontFamily:SANS}}>
+            {t.factoringIllWait}
+          </button>
+        </div>
+      </div>
+
+      {/* Client risk badge */}
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:16}}>
+        <span style={{fontSize:12,fontWeight:500,padding:"4px 12px",borderRadius:10,background:riskBg,color:riskColor,border:`1px solid ${riskColor}25`}}>{riskLabel}: {client?.name}</span>
+        {ch.invoiceCount>0&&<span style={{fontSize:12,fontWeight:500,padding:"4px 12px",borderRadius:10,background:C.surfaceAlt,color:C.textSec,border:`1px solid ${C.border}`}}>{ch.invoiceCount} {ch.invoiceCount>1?t.invoicePl:t.invoiceSg} · {t.avgDays} {ch.avgPayDays} {t.daysWord}</span>}
+      </div>
+
+      {/* Fine print */}
+      <div style={{textAlign:"center",padding:"14px 20px",borderRadius:12,background:C.surfaceAlt,border:`1px solid ${C.borderLight}`}}>
+        <div style={{fontSize:13,color:C.textSec,lineHeight:1.6,marginBottom:4}}>{t.factoringNonRecourse}</div>
+        <div style={{fontSize:12,color:C.textTer}}>{t.factoringWeCollect}</div>
+      </div>
     </div>
   );};
 
   const renderDoneScreen=()=>{
     const hasReminders=reminderData&&reminderData.steps&&reminderData.steps.length>0;
     const stampLabel=sentViaEmail?t.stampSent:t.stampSaved;
-    const lifecycle=[{l:t.doneCreated,done:true},{l:sentViaEmail?t.doneSent:t.doneSaved,done:true},{l:t.doneViewed,done:false},{l:t.donePaid,done:false}];
+    const lifecycle=factoringAccepted
+      ?[{l:t.doneCreated,done:true},{l:sentViaEmail?t.doneSent:t.doneSaved,done:true},{l:t.factoringAcceptedBadge,done:true},{l:t.donePaid,done:true}]
+      :[{l:t.doneCreated,done:true},{l:sentViaEmail?t.doneSent:t.doneSaved,done:true},{l:t.doneViewed,done:false},{l:t.donePaid,done:false}];
     return(
     <div key="done" style={{maxWidth:540,margin:"0 auto",padding:"40px 24px 60px",textAlign:"center"}}>
       {/* ── card + stamp → files into storage box ── */}
@@ -1694,6 +1816,12 @@ function InvoiceBuilder(){
           </React.Fragment>)}
         </div>
 
+        {/* factoring note */}
+        {factoringAccepted&&<div style={{fontSize:13,color:C.green,marginTop:4,marginBottom:hasReminders?4:28,display:"flex",alignItems:"center",justifyContent:"center",gap:5}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke={C.green} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          {t.factoringFundsIn24h}
+        </div>}
+
         {/* reminders note */}
         {hasReminders&&<div style={{fontSize:13,color:C.green,marginTop:4,marginBottom:28,display:"flex",alignItems:"center",justifyContent:"center",gap:5}}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 017 7c0 3.53-1.4 5.17-2.4 6.65-.58.86-.6 1.85-.6 2.35v0H8v0c0-.5-.02-1.49-.6-2.35C6.4 14.17 5 12.53 5 9a7 7 0 017-7z" stroke={C.green} strokeWidth="1.5"/><path d="M10 21.5a2 2 0 004 0" stroke={C.green} strokeWidth="1.5" strokeLinecap="round"/></svg>
@@ -1732,7 +1860,7 @@ function InvoiceBuilder(){
 
         {/* actions */}
         <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:0}}>
-          <button onClick={()=>{setInvNum(freshInvNum());setPhase("editor");setClient(null);setItems([]);setClientListOpen(true);setEmailTo("");setEmailSubject("");setEmailBody("");setReminderData(null);setCustomizing(false);setSentViaEmail(false);setSavingDraft(false);setSendingEmail(false);setCreatingInvoice(false);}} style={{padding:"14px 32px",borderRadius:24,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS,transition:"transform .15s"}}
+          <button onClick={()=>{setInvNum(freshInvNum());setPhase("editor");setClient(null);setItems([]);setClientListOpen(true);setEmailTo("");setEmailSubject("");setEmailBody("");setReminderData(null);setCustomizing(false);setSentViaEmail(false);setFactoringAccepted(null);setSavingDraft(false);setSendingEmail(false);setCreatingInvoice(false);}} style={{padding:"14px 32px",borderRadius:24,border:"none",background:C.dark,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",fontFamily:SANS,transition:"transform .15s"}}
             onMouseEnter={e=>e.currentTarget.style.transform="scale(1.03)"}
             onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>{t.createAnother}</button>
           <button onClick={()=>setPhase("list")} style={{padding:"14px 28px",borderRadius:24,border:`1px solid ${C.border}`,background:"transparent",color:C.dark,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:SANS,transition:"all .15s"}}
@@ -2059,6 +2187,7 @@ function InvoiceBuilder(){
 
       {phase==="send"&&renderSendScreen()}
       {phase==="reminders"&&renderRemindersScreen()}
+      {phase==="factoring"&&renderFactoringScreen()}
       {phase==="done"&&renderDoneScreen()}
 
       {/* ═══ NEW SALE MODAL ═══ */}
